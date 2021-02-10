@@ -5,4 +5,13 @@
     <string name="help">مساعدة</string>
     <string name="user_profile">الملف الشخصي</string>
     <string name="history">السجلات</string>
+    <string name="login">تسجيل دخول</string>
+    <string name="sign_up">تسجيل حساب</string>
+    <string name="slogan_tv">نرتقي بمساعدة الاخرين . . .</string>
+    <string name="ssn">رقم الهوية</string>
+    <string name="age">العمر</string>
+    <string name="firefighter">حماية مدنية</string>
+    <string name="blood_type">فصيلة الدم</string>
+    <string name="phone_closeperson">رقم شخص مقرب</string>
+    <string name="signup">تسجيل</string>
 </resources>
