@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav"
+    app:startDestination="@id/helpFragment">
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.afares.emergency.fragments.profile.ProfileFragment"
+        android:label="@string/user_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.afares.emergency.fragments.help.HelpFragment"
+        android:label="@string/help"
+        tools:layout="@layout/fragment_help" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.afares.emergency.fragments.history.HistoryFragment"
+        android:label="@string/history"
+        tools:layout="@layout/fragment_history" />
+</navigation>

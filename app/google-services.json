@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1051591022793",
+    "project_id": "emergency-f72cf",
+    "storage_bucket": "emergency-f72cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051591022793:android:af78002b9a33d609319518",
+        "android_client_info": {
+          "package_name": "com.afares.emergency"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1051591022793-ficprg2rkabup1cjfl3to2qv9p801a4m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.afares.emergency",
+            "certificate_hash": "7b81f873f298ce941c7ca31197604ed91b8986fe"
+          }
+        },
+        {
+          "client_id": "1051591022793-shevlvm5uk225d9cin6gd66nd3l50n98.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCR1FdrgKUgEEqA4BPgUFlc7gh4hoaFO0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1051591022793-shevlvm5uk225d9cin6gd66nd3l50n98.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
