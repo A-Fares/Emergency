@@ -22,7 +22,7 @@ class LoginViewModel @Inject constructor(
     private val gmailUserLiveData = MutableLiveData<Resource<User>>()
     private val saveUserLiveData = MutableLiveData<Resource<User>>()
 
-    fun signInWithGoogle(acct: GoogleSignInAccount): LiveData<Resource<User>> {
+   /* fun signInWithGoogle(acct: GoogleSignInAccount): LiveData<Resource<User>> {
 
         repository.signInWithGoogle(acct).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -52,5 +52,5 @@ class LoginViewModel @Inject constructor(
                 saveUserLiveData.postValue(Resource.error(null, it.exception?.message.toString()))
             }
         }
-    }
+    }*/
 }

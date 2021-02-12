@@ -11,10 +11,11 @@ class AuthRepository @Inject constructor(private val firebaseSource: FirebaseSou
 
     fun signInWithGoogle(acct: GoogleSignInAccount) = firebaseSource.signInWithGoogle(acct)
 
-    fun saveUser(user: User) =
+    suspend fun saveUser(user: User) =
         firebaseSource.saveUser(user)
 
-    fun saveSavior(savior: Savior) =
+    suspend fun saveSavior(savior: Savior) =
         firebaseSource.saveSavior(savior)
+
 
 }

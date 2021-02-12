@@ -1,4 +1,83 @@
 package com.afares.emergency.viewmodels
 
-class SignUpViewModel {
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.afares.emergency.data.Resource
+import com.afares.emergency.data.model.Savior
+import com.afares.emergency.data.model.User
+import com.afares.emergency.data.repository.AuthRepository
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+    application: Application,
+    private val repository: AuthRepository,
+    private val firebaseAuth: FirebaseAuth
+) : AndroidViewModel(application) {
+
+    private val gmailUserLiveData = MutableLiveData<Resource<User>>()
+
+
+    fun signInWithGoogle(
+        acct: GoogleSignInAccount,
+        personalPhone: String,
+        userType: String,
+        closePersonPhone: String,
+        age: Int,
+        ssn: Int,
+        bloodType: String
+    ): LiveData<Resource<User>> {
+
+        repository.signInWithGoogle(acct).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                if (firebaseAuth.currentUser!! != null) {
+
+
+                    gmailUserLiveData.postValue(Resource.error(null, "Success"))
+                    gmailUserLiveData.postValue(
+                        Resource.success(
+
+                            User(
+                                firebaseAuth.currentUser!!.uid,
+                                firebaseAuth.currentUser?.displayName!!,
+                                firebaseAuth.currentUser?.email!!,
+                                firebaseAuth.currentUser?.photoUrl.toString(),
+                                userType,
+                                personalPhone,
+                                closePersonPhone,
+                                age,
+                                ssn,
+                                bloodType
+                            )
+                        )
+                    )
+                }
+            } else {
+                gmailUserLiveData.postValue(Resource.error(null, "couldn't sign in user"))
+            }
+
+        }
+        return gmailUserLiveData
+    }
+
+
+    fun saveUser(user: User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.saveUser(user)
+        }
+    }
+
+    fun saveSavior(savior: Savior) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.saveSavior(savior)
+        }
+    }
 }

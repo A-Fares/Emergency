@@ -6,7 +6,7 @@ data class User(
     val email: String,
     val photoUrl: String?,
     val type: String,
-    val phone: String,
+    val phone: String?,
     val closePersonPhone: String,
     val age: Int,
     val ssn: Int,

@@ -14,4 +14,5 @@
     <string name="blood_type">فصيلة الدم</string>
     <string name="phone_closeperson">رقم شخص مقرب</string>
     <string name="signup">تسجيل</string>
+    <string name="phone">رقم الهاتف</string>
 </resources>

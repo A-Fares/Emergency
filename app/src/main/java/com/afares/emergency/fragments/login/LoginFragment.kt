@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.afares.emergency.R
 import com.afares.emergency.databinding.FragmentLoginBinding
 import com.afares.emergency.util.Constants.RC_SIGN_IN
 import com.afares.emergency.viewmodels.LoginViewModel
@@ -33,9 +35,12 @@ class LoginFragment : Fragment() {
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
+        binding.signupBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+        }
 
-        binding.signInBtn.setOnClickListener {
-           signIn()
+        binding.loginBtn.setOnClickListener {
+            signIn()
         }
 
         return binding.root
@@ -47,5 +52,9 @@ class LoginFragment : Fragment() {
     }
 
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // to avoid memory leaks
+        _binding = null
+    }
 }

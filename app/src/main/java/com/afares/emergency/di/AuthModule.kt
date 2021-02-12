@@ -2,7 +2,7 @@ package com.afares.emergency.di
 
 import android.app.Application
 import android.content.Context
-import com.afares.authentication.R
+import com.afares.emergency.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions

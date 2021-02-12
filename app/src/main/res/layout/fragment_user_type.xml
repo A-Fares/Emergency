@@ -1,122 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp"
-    tools:context=".fragments.usertype.UserTypeFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/app_icon"
-        android:layout_width="120dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_help"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/dark" />
+    <data>
 
-    <TextView
-        android:id="@+id/app_name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/lemonada_semibold"
-        android:text="@string/app_name"
-        android:textColor="@color/purple_500"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_icon" />
+    </data>
 
-    <EditText
-        android:id="@+id/ssn_et"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/custom_input"
-        android:ems="10"
-        android:fontFamily="@font/katibeh"
-        android:hint="@string/ssn"
-        android:inputType="numberDecimal"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_name_tv" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightGray"
+        android:padding="24dp"
+        android:paddingHorizontal="40dp">
 
-    <EditText
-        android:id="@+id/age_et"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/custom_input"
-        android:ems="10"
-        android:fontFamily="@font/katibeh"
-        android:hint="@string/age"
-        android:inputType="numberDecimal"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ssn_et" />
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_help"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/dark" />
 
-    <EditText
-        android:id="@+id/blood_type_et"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/custom_input"
-        android:ems="10"
-        android:fontFamily="@font/katibeh"
-        android:hint="@string/blood_type"
-        android:inputType="text"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/age_et" />
+        <TextView
+            android:id="@+id/app_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/lemonada_semibold"
+            android:text="@string/app_name"
+            android:textColor="@color/purple_500"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/app_icon" />
 
-    <EditText
-        android:id="@+id/phone_closePerson_et"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/custom_input"
-        android:ems="10"
-        android:fontFamily="@font/katibeh"
-        android:hint="@string/phone_closeperson"
-        android:inputType="phone"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/blood_type_et" />
+        <Button
+            android:id="@+id/user_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/lightMediumGray"
+            android:drawableEnd="@drawable/ic_user"
+            android:fontFamily="@font/katibeh"
+            android:padding="10dp"
+            android:text="مستخدم"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/app_name_tv" />
+
+        <Button
+            android:id="@+id/paramedic_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/lightMediumGray"
+            android:drawableEnd="@drawable/ic_paramedic"
+            android:fontFamily="@font/katibeh"
+            android:padding="10dp"
+            android:text="مسعف"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="@+id/user_btn"
+            app:layout_constraintStart_toStartOf="@+id/user_btn"
+            app:layout_constraintTop_toBottomOf="@+id/user_btn" />
+
+        <Button
+            android:id="@+id/firefighter_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/lightMediumGray"
+            android:drawableEnd="@drawable/ic_firefighter"
+            android:fontFamily="@font/katibeh"
+            android:padding="10dp"
+            android:text="@string/firefighter"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/paramedic_btn"
+            app:layout_constraintStart_toStartOf="@+id/paramedic_btn"
+            app:layout_constraintTop_toBottomOf="@+id/paramedic_btn"
+            app:layout_constraintVertical_bias="0.0" />
 
 
-    <Button
-        android:id="@+id/signup_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/teal_700"
-        android:fontFamily="@font/katibeh"
-        android:padding="8dp"
-        android:text="@string/signup"
-        android:textSize="26sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_closePerson_et"
-        app:layout_constraintVertical_bias="0.76" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
