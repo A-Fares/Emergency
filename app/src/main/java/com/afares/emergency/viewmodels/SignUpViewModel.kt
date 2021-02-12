@@ -24,9 +24,10 @@ class SignUpViewModel @Inject constructor(
 ) : AndroidViewModel(application) {
 
     private val gmailUserLiveData = MutableLiveData<Resource<User>>()
+    private val gmailSaviorLiveData = MutableLiveData<Resource<Savior>>()
 
 
-    fun signInWithGoogle(
+    fun signUpUserWithGoogle(
         acct: GoogleSignInAccount,
         personalPhone: String,
         userType: String,
@@ -38,11 +39,8 @@ class SignUpViewModel @Inject constructor(
 
         repository.signInWithGoogle(acct).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                if (firebaseAuth.currentUser!! != null) {
 
-
-                    gmailUserLiveData.postValue(Resource.error(null, "Success"))
-                    gmailUserLiveData.postValue(
+                gmailUserLiveData.postValue(
                         Resource.success(
 
                             User(
@@ -58,14 +56,40 @@ class SignUpViewModel @Inject constructor(
                                 bloodType
                             )
                         )
-                    )
-                }
+                )
             } else {
                 gmailUserLiveData.postValue(Resource.error(null, "couldn't sign in user"))
             }
 
         }
         return gmailUserLiveData
+    }
+
+    fun signUpSaviorWithGoogle(
+        acct: GoogleSignInAccount,
+        userType: String
+    ): LiveData<Resource<Savior>> {
+
+        repository.signInWithGoogle(acct).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                gmailSaviorLiveData.postValue(
+                    Resource.success(
+                        Savior(
+                            firebaseAuth.currentUser!!.uid,
+                            firebaseAuth.currentUser?.displayName!!,
+                            firebaseAuth.currentUser?.email!!,
+                            firebaseAuth.currentUser?.photoUrl.toString(),
+                            userType
+                        )
+                    )
+                )
+
+            } else {
+                gmailSaviorLiveData.postValue(Resource.error(null, "couldn't sign in user"))
+            }
+
+        }
+        return gmailSaviorLiveData
     }
 
 

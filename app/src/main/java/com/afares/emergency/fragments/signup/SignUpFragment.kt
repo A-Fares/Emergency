@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.afares.emergency.R
 import com.afares.emergency.data.Status
+import com.afares.emergency.data.model.Savior
 import com.afares.emergency.data.model.User
 import com.afares.emergency.databinding.FragmentSignUpBinding
 import com.afares.emergency.util.Constants.RC_SIGN_IN
@@ -52,20 +53,16 @@ class SignUpFragment : Fragment() {
 
         binding.firefighterBtn.setOnClickListener {
             userType = binding.firefighterBtn.text.toString()
-            /*saveUserInformation(
-                userType, null, null, null, null
-            )*/
-            //  signIn()
+            signIn()
         }
         binding.paramedicBtn.setOnClickListener {
-            /* saveUserInformation(
-                 userType, null, null, null, null
-             )*/
-            //signIn()
+            userType = binding.paramedicBtn.text.toString()
+            signIn()
         }
 
         binding.signupBtn.setOnClickListener {
             binding.apply {
+                userType = userBtn.text.toString().trim()
                 when {
                     TextUtils.isEmpty(ssnEt.text) -> {
                         ssnEt.error = "field must not be empty"
@@ -114,7 +111,11 @@ class SignUpFragment : Fragment() {
             try {
                 val account = task.getResult(ApiException::class.java)!!
 
-                signUpUserWithGoogle(account)
+                if (userType == "مستخدم") {
+                    signUpUserWithGoogle(account)
+                } else {
+                    signUpSaviorWithGoogle(account)
+                }
 
 
             } catch (e: ApiException) {
@@ -131,7 +132,7 @@ class SignUpFragment : Fragment() {
             val age = ageEt.text.toString().toInt()
             val bloodType = bloodTypeEt.text.toString()
             val closePersonPhone = phoneClosePersonEt.text.toString()
-            signupViewModel.signInWithGoogle(
+            signupViewModel.signUpUserWithGoogle(
                 account,
                 personalPhone,
                 userType,
@@ -161,6 +162,43 @@ class SignUpFragment : Fragment() {
         }
     }
 
+    private fun signUpSaviorWithGoogle(account: GoogleSignInAccount) {
+
+        userType = binding.userBtn.text.toString().trim()
+
+        signupViewModel.signUpSaviorWithGoogle(
+            account,
+            userType
+        ).observe(viewLifecycleOwner, {
+            if (it.status == Status.SUCCESS) {
+
+                val savior = Savior(
+                    mAuth.currentUser!!.uid,
+                    mAuth.currentUser?.displayName!!,
+                    mAuth.currentUser?.email!!,
+                    mAuth.currentUser?.photoUrl!!.toString(),
+                    userType
+                )
+                signupViewModel.saveSavior(savior)
+                findNavController().navigate(R.id.action_signUpFragment_to_saviorActivity)
+
+            } else if (it.status == Status.ERROR) {
+                toast(requireContext(), it.message!!)
+            }
+        })
+
+    }
+
+    private fun saveSavior(userType: String) {
+        val savior = Savior(
+            mAuth.currentUser!!.uid,
+            mAuth.currentUser?.displayName!!,
+            mAuth.currentUser?.email!!,
+            mAuth.currentUser?.photoUrl!!.toString(),
+            userType
+        )
+        signupViewModel.saveSavior(savior)
+    }
     /* private fun checkUserInformation() {
          binding.apply {
              userType = userBtn.text.toString().trim()
