@@ -33,7 +33,7 @@ class SignUpViewModel @Inject constructor(
         userType: String,
         closePersonPhone: String,
         age: Int,
-        ssn: Int,
+        ssn: String,
         bloodType: String
     ): LiveData<Resource<User>> {
 

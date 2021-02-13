@@ -126,9 +126,8 @@ class SignUpFragment : Fragment() {
 
     private fun signUpUserWithGoogle(account: GoogleSignInAccount) {
         binding.apply {
-            userType = userBtn.text.toString().trim()
             val personalPhone = personalPhoneEt.text.toString()
-            val ssn = ssnEt.text.toString().toInt()
+            val ssn = ssnEt.text.toString()
             val age = ageEt.text.toString().toInt()
             val bloodType = bloodTypeEt.text.toString()
             val closePersonPhone = phoneClosePersonEt.text.toString()
@@ -164,7 +163,6 @@ class SignUpFragment : Fragment() {
 
     private fun signUpSaviorWithGoogle(account: GoogleSignInAccount) {
 
-        userType = binding.userBtn.text.toString().trim()
 
         signupViewModel.signUpSaviorWithGoogle(
             account,

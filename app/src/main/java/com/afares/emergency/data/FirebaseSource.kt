@@ -27,5 +27,6 @@ class FirebaseSource @Inject constructor(
             .document(savior.uId).set(savior)
 
 
-    fun fetchUser() = fireStore.collection("users").get()
+    suspend fun fetchUserType() =
+        fireStore.collection("users").document(firebaseAuth.currentUser!!.uid).get()
 }

@@ -9,6 +9,6 @@ data class User(
     val phone: String?,
     val closePersonPhone: String,
     val age: Int,
-    val ssn: Int,
+    val ssn: String,
     val bloodType: String
 )
