@@ -26,6 +26,7 @@ class HomeActivity : AppCompatActivity() {
             setOf(
                 R.id.helpFragment,
                 R.id.profileFragment,
+                R.id.medicalHistoryFragment,
                 R.id.historyFragment
             )
         )
