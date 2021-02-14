@@ -10,9 +10,11 @@
     <string name="slogan_tv">نرتقي بمساعدة الاخرين . . .</string>
     <string name="ssn">رقم الهوية</string>
     <string name="age">العمر</string>
-    <string name="firefighter">حماية مدنية</string>
+    <string name="firefighter">دفاع مدنية</string>
     <string name="blood_type">فصيلة الدم</string>
-    <string name="phone_closeperson">رقم شخص مقرب</string>
+    <string name="phone_close_person">رقم شخص مقرب</string>
     <string name="signup">تسجيل</string>
     <string name="phone">رقم الهاتف</string>
+    <string name="paramedic">مسعف</string>
+    <string name="user">مستخدم</string>
 </resources>

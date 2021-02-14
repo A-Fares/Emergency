@@ -64,21 +64,7 @@ class SignUpFragment : Fragment() {
             binding.apply {
                 userType = userBtn.text.toString().trim()
                 when {
-                    TextUtils.isEmpty(ssnEt.text) -> {
-                        ssnEt.error = "field must not be empty"
-                        ssnEt.requestFocus()
-                        return@setOnClickListener
-                    }
-                    TextUtils.isEmpty(ageEt.text) -> {
-                        ageEt.error = "field must not be empty"
-                        ageEt.requestFocus()
-                        return@setOnClickListener
-                    }
-                    TextUtils.isEmpty(bloodTypeEt.text) -> {
-                        bloodTypeEt.error = "field must not be empty"
-                        bloodTypeEt.requestFocus()
-                        return@setOnClickListener
-                    }
+
                     TextUtils.isEmpty(phoneClosePersonEt.text) -> {
                         phoneClosePersonEt.error =
                             "field must not be empty"
@@ -127,29 +113,22 @@ class SignUpFragment : Fragment() {
     private fun signUpUserWithGoogle(account: GoogleSignInAccount) {
         binding.apply {
             val personalPhone = personalPhoneEt.text.toString()
-            val ssn = ssnEt.text.toString()
-            val age = ageEt.text.toString().toInt()
-            val bloodType = bloodTypeEt.text.toString()
             val closePersonPhone = phoneClosePersonEt.text.toString()
             signupViewModel.signUpUserWithGoogle(
                 account,
                 personalPhone,
                 userType,
-                closePersonPhone,
-                age,
-                ssn,
-                bloodType
+                closePersonPhone
             ).observe(viewLifecycleOwner, {
                 if (it.status == Status.SUCCESS) {
 
                     val user = User(
                         mAuth.currentUser!!.uid,
                         mAuth.currentUser?.displayName!!,
-                        mAuth.currentUser?.email!!,
                         mAuth.currentUser?.photoUrl!!.toString(),
                         userType,
                         personalPhone,
-                        closePersonPhone, age, ssn, bloodType
+                        closePersonPhone
                     )
                     signupViewModel.saveUser(user)
                     findNavController().navigate(R.id.action_signUpFragment_to_homeActivity)
@@ -173,7 +152,6 @@ class SignUpFragment : Fragment() {
                 val savior = Savior(
                     mAuth.currentUser!!.uid,
                     mAuth.currentUser?.displayName!!,
-                    mAuth.currentUser?.email!!,
                     mAuth.currentUser?.photoUrl!!.toString(),
                     userType
                 )
@@ -186,77 +164,6 @@ class SignUpFragment : Fragment() {
         })
 
     }
-
-    private fun saveSavior(userType: String) {
-        val savior = Savior(
-            mAuth.currentUser!!.uid,
-            mAuth.currentUser?.displayName!!,
-            mAuth.currentUser?.email!!,
-            mAuth.currentUser?.photoUrl!!.toString(),
-            userType
-        )
-        signupViewModel.saveSavior(savior)
-    }
-    /* private fun checkUserInformation() {
-         binding.apply {
-             userType = userBtn.text.toString().trim()
-             val ssn = ssnEt.text.toString().toInt()
-             val age = ageEt.text.toString().toInt()
-             val bloodType = bloodTypeEt.text.toString()
-             val closePersonPhone = phoneClosePersonEt.text.toString()
-
-             signIn()
-             saveUserInformation(
-                 userType,
-                 closePersonPhone,
-                 age,
-                 ssn,
-                 bloodType
-             )
-         }
-     }*/
-
-    /*private fun saveUserInformation(
-        userType: String,
-        closePersonPhone: String?,
-        age: Int?,
-        ssn: Int?,
-        bloodType: String?
-    ) {
-        val uid = mAuth.currentUser!!.uid
-        val name = mAuth.currentUser?.displayName!!
-        val email = mAuth.currentUser?.email!!
-        val photoUrl = mAuth.currentUser?.photoUrl!!.toString()
-        val phoneNumber = mAuth.currentUser?.phoneNumber!!
-        if (userType == "مستخدم") {
-            if (closePersonPhone != null && age != null && ssn != null && bloodType != null) {
-                val user = User(
-                    uid,
-                    name,
-                    email,
-                    photoUrl,
-                    userType,
-                    phoneNumber,
-                    closePersonPhone,
-                    age,
-                    ssn,
-                    bloodType
-                )
-                signupViewModel.saveUser(user)
-            }
-        } else {
-            val savior = Savior(uid, name, email, photoUrl, userType)
-            signupViewModel.saveSavior(savior)
-        }
-    }*/
-
-    /*private fun checkUserDirection(userType: String) {
-        when (userType) {
-            "مستخدم" -> findNavController().navigate(R.id.action_signUpFragment_to_homeActivity)
-            "مسعف" -> findNavController().navigate(R.id.action_signUpFragment_to_saviorActivity)
-            "حمايةمدنية" -> findNavController().navigate(R.id.action_signUpFragment_to_saviorActivity)
-        }
-    }*/
 
 
     override fun onDestroyView() {

@@ -19,4 +19,9 @@
         android:name="com.afares.emergency.fragments.history.HistoryFragment"
         android:label="@string/history"
         tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/medicalHistoryFragment"
+        android:name="com.afares.emergency.MedicalHistoryFragment"
+        android:label="fragment_medical_history"
+        tools:layout="@layout/fragment_medical_history" />
 </navigation>

@@ -31,10 +31,7 @@ class SignUpViewModel @Inject constructor(
         acct: GoogleSignInAccount,
         personalPhone: String,
         userType: String,
-        closePersonPhone: String,
-        age: Int,
-        ssn: String,
-        bloodType: String
+        closePersonPhone: String
     ): LiveData<Resource<User>> {
 
         repository.signInWithGoogle(acct).addOnCompleteListener { task ->
@@ -46,14 +43,10 @@ class SignUpViewModel @Inject constructor(
                             User(
                                 firebaseAuth.currentUser!!.uid,
                                 firebaseAuth.currentUser?.displayName!!,
-                                firebaseAuth.currentUser?.email!!,
                                 firebaseAuth.currentUser?.photoUrl.toString(),
                                 userType,
                                 personalPhone,
-                                closePersonPhone,
-                                age,
-                                ssn,
-                                bloodType
+                                closePersonPhone
                             )
                         )
                 )
@@ -77,7 +70,6 @@ class SignUpViewModel @Inject constructor(
                         Savior(
                             firebaseAuth.currentUser!!.uid,
                             firebaseAuth.currentUser?.displayName!!,
-                            firebaseAuth.currentUser?.email!!,
                             firebaseAuth.currentUser?.photoUrl.toString(),
                             userType
                         )

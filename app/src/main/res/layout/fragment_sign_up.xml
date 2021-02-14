@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -49,7 +50,7 @@
                 android:layout_marginTop="16dp"
                 android:padding="24dp"
                 android:paddingHorizontal="40dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -66,7 +67,7 @@
                     android:drawableEnd="@drawable/ic_user"
                     android:fontFamily="@font/katibeh"
                     android:padding="16dp"
-                    android:text="مستخدم"
+                    android:text="@string/user"
                     android:textColor="@color/white"
                     android:textSize="30sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +84,7 @@
                     android:drawableEnd="@drawable/ic_paramedic"
                     android:fontFamily="@font/katibeh"
                     android:padding="16dp"
-                    android:text="مسعف"
+                    android:text="@string/paramedic"
                     android:textColor="@color/white"
                     android:textSize="30sp"
                     app:layout_constraintEnd_toEndOf="@+id/user_btn"
@@ -115,18 +116,21 @@
                 android:id="@+id/scrollView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="32dp"
                 android:scrollbars="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/app_name_tv">
+                app:layout_constraintTop_toBottomOf="@+id/app_name_tv"
+                app:layout_constraintVertical_bias="0.51">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/user_info_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="24dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -153,72 +157,21 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
-                        android:id="@+id/ssn_et"
-                        android:layout_width="0dp"
-                        android:layout_height="60dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/custom_input"
-                        android:ems="10"
-                        android:fontFamily="@font/katibeh"
-                        android:hint="@string/ssn"
-                        android:inputType="numberDecimal"
-                        android:paddingStart="24dp"
-                        android:paddingEnd="24dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/personal_phone_et" />
-
-                    <EditText
-                        android:id="@+id/age_et"
-                        android:layout_width="0dp"
-                        android:layout_height="60dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/custom_input"
-                        android:ems="10"
-                        android:fontFamily="@font/katibeh"
-                        android:hint="@string/age"
-                        android:inputType="numberDecimal"
-                        android:paddingStart="24dp"
-                        android:paddingEnd="24dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ssn_et" />
-
-                    <EditText
-                        android:id="@+id/blood_type_et"
-                        android:layout_width="0dp"
-                        android:layout_height="60dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/custom_input"
-                        android:ems="10"
-                        android:fontFamily="@font/katibeh"
-                        android:hint="@string/blood_type"
-                        android:inputType="text"
-                        android:paddingStart="24dp"
-                        android:paddingEnd="24dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/age_et" />
-
-                    <EditText
                         android:id="@+id/phone_closePerson_et"
                         android:layout_width="0dp"
                         android:layout_height="60dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
                         android:background="@drawable/custom_input"
                         android:ems="10"
                         android:fontFamily="@font/katibeh"
-                        android:hint="@string/phone_closeperson"
+                        android:hint="@string/phone_close_person"
                         android:inputType="phone"
                         android:paddingStart="24dp"
                         android:paddingEnd="24dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/blood_type_et" />
+                        app:layout_constraintTop_toBottomOf="@+id/personal_phone_et" />
 
 
                     <Button
@@ -237,8 +190,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/phone_closePerson_et"
-                        app:layout_constraintVertical_bias="0.57" />
+                        app:layout_constraintTop_toBottomOf="@+id/phone_closePerson_et" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
