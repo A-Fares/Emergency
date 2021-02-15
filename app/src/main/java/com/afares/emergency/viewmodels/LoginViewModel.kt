@@ -45,7 +45,7 @@ class LoginViewModel @Inject constructor(
 
     fun fetchUserType(): LiveData<String> {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.fetchUserType().addOnSuccessListener { userTask ->
+            repository.fetchUser().addOnSuccessListener { userTask ->
                 userType.postValue(userTask.getString("type"))
             }
         }

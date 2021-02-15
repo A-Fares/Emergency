@@ -17,5 +17,5 @@ class AuthRepository @Inject constructor(private val firebaseSource: FirebaseSou
     suspend fun saveSavior(savior: Savior) =
         firebaseSource.saveSavior(savior)
 
-    suspend fun fetchUserType() = firebaseSource.fetchUserType()
+    suspend fun fetchUser() = firebaseSource.fetchUser()
 }

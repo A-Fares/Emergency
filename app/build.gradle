@@ -75,9 +75,9 @@ dependencies {
 
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0"
 
     // Firebase Google Auth
     // Import the BoM for the Firebase platform
@@ -87,7 +87,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     // Also declare the dependency for the Google Play services library and specify its version
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
-    implementation 'com.google.firebase:firebase-firestore:22.0.2'
+    implementation 'com.google.firebase:firebase-firestore:22.1.0'
 
 
     //Glide
@@ -95,5 +95,7 @@ dependencies {
     //Circular ImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    // Image Loading library Coil
+    implementation "io.coil-kt:coil:0.13.0"
 
 }

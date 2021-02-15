@@ -19,14 +19,16 @@ class FirebaseSource @Inject constructor(
     )
 
     suspend fun saveUser(user: User) =
-        fireStore.collection("users")
-            .document(user.uId).set(user)
+        user.uId?.let {
+            fireStore.collection("users")
+                .document(it).set(user)
+        }
 
     suspend fun saveSavior(savior: Savior) =
         fireStore.collection("users")
             .document(savior.uId).set(savior)
 
 
-    suspend fun fetchUserType() =
+    suspend fun fetchUser() =
         fireStore.collection("users").document(firebaseAuth.currentUser!!.uid).get()
 }

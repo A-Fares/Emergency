@@ -1,10 +1,10 @@
 package com.afares.emergency.data.model
 
 data class User(
-    val uId: String,
-    val name: String,
+    val uId: String?,
+    val name: String?,
     val photoUrl: String?,
-    val type: String,
+    val type: String?,
     val phone: String?,
-    val closePersonPhone: String
+    val closePersonPhone: String?
 )
