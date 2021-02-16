@@ -1,6 +1,7 @@
 package com.afares.emergency.data.repository
 
 import com.afares.emergency.data.FirebaseSource
+import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.data.model.Savior
 import com.afares.emergency.data.model.User
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -11,11 +12,16 @@ class AuthRepository @Inject constructor(private val firebaseSource: FirebaseSou
 
     fun signInWithGoogle(acct: GoogleSignInAccount) = firebaseSource.signInWithGoogle(acct)
 
-    suspend fun saveUser(user: User) =
+    fun saveUser(user: User) =
         firebaseSource.saveUser(user)
 
-    suspend fun saveSavior(savior: Savior) =
+    fun saveSavior(savior: Savior) =
         firebaseSource.saveSavior(savior)
 
-    suspend fun fetchUser() = firebaseSource.fetchUser()
+    fun fetchUser() = firebaseSource.fetchUser()
+
+    fun addMedicalHistory(medicalHistory: MedicalHistory) =
+        firebaseSource.addMedicalHistory(medicalHistory)
+
+
 }

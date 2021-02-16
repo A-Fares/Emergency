@@ -1,5 +1,6 @@
 package com.afares.emergency.data
 
+import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.data.model.Savior
 import com.afares.emergency.data.model.User
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -18,17 +19,24 @@ class FirebaseSource @Inject constructor(
         GoogleAuthProvider.getCredential(acct.idToken, null)
     )
 
-    suspend fun saveUser(user: User) =
+    fun saveUser(user: User) =
         user.uId?.let {
             fireStore.collection("users")
                 .document(it).set(user)
         }
 
-    suspend fun saveSavior(savior: Savior) =
+    fun saveSavior(savior: Savior) =
         fireStore.collection("users")
             .document(savior.uId).set(savior)
 
 
-    suspend fun fetchUser() =
+    fun addMedicalHistory(medicalHistory: MedicalHistory) =
+        fireStore.collection("Medical History")
+            .add(medicalHistory)
+
+
+    fun fetchUser() =
         fireStore.collection("users").document(firebaseAuth.currentUser!!.uid).get()
+
+
 }
