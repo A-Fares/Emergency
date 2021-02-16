@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/drawable/ic_medical_file.xml" value="0.1638888888888889" />
         <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/drawable/ic_user_placeholder.xml" value="0.11614583333333334" />
+        <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/layout/fragment_help.xml" value="0.1953125" />
+        <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/layout/fragment_medical_history.xml" value="0.2911490683229814" />
         <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/layout/fragment_profile.xml" value="0.2" />
       </map>
     </option>

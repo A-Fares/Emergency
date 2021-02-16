@@ -21,4 +21,25 @@
     <string name="ambulance">اسعاف</string>
     <string name="civil_defense">دفاع مدني</string>
     <string name="request_description">وصف الطلب . . .</string>
+    <string name="diabetic">مريض سكر</string>
+    <string name="heart_patient">مريض قلب</string>
+    <string name="pressure_patient">مريض ضغط</string>
+    <string name="gender">الجنس</string>
+
+    <string-array name="gender">
+        <item> ذكر </item>
+        <item> انثى </item>
+    </string-array>
+
+    <string-array name="blood_type">
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>O+</item>
+        <item>O-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+    </string-array>
+
 </resources>
