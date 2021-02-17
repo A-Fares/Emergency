@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.afares.emergency.data.Resource
 import com.afares.emergency.data.model.MedicalHistory
+import com.afares.emergency.data.model.Request
 import com.afares.emergency.data.model.User
 import com.afares.emergency.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,6 +49,12 @@ class UserViewModel @Inject constructor(
     fun addMedicalHistory(medicalHistory: MedicalHistory) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addMedicalHistory(medicalHistory)
+        }
+    }
+
+    fun addRequest(request: Request) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.addRequest(request)
         }
     }
 

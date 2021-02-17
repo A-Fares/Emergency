@@ -1,6 +1,7 @@
 package com.afares.emergency.data
 
 import com.afares.emergency.data.model.MedicalHistory
+import com.afares.emergency.data.model.Request
 import com.afares.emergency.data.model.Savior
 import com.afares.emergency.data.model.User
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -32,11 +33,14 @@ class FirebaseSource @Inject constructor(
 
     fun addMedicalHistory(medicalHistory: MedicalHistory) =
         fireStore.collection("Medical History")
-            .add(medicalHistory)
+            .document(medicalHistory.uId).set(medicalHistory)
 
 
     fun fetchUser() =
         fireStore.collection("users").document(firebaseAuth.currentUser!!.uid).get()
 
 
+    fun addRequest(request: Request) =
+        fireStore.collection("Requests")
+            .add(request)
 }

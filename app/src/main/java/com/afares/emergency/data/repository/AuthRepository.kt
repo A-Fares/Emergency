@@ -2,6 +2,7 @@ package com.afares.emergency.data.repository
 
 import com.afares.emergency.data.FirebaseSource
 import com.afares.emergency.data.model.MedicalHistory
+import com.afares.emergency.data.model.Request
 import com.afares.emergency.data.model.Savior
 import com.afares.emergency.data.model.User
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -23,5 +24,7 @@ class AuthRepository @Inject constructor(private val firebaseSource: FirebaseSou
     fun addMedicalHistory(medicalHistory: MedicalHistory) =
         firebaseSource.addMedicalHistory(medicalHistory)
 
+    fun addRequest(request: Request) =
+        firebaseSource.addRequest(request)
 
 }
