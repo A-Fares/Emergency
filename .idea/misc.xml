@@ -8,9 +8,12 @@
         <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/layout/activity_home.xml" value="0.10182370820668693" />
         <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/layout/activity_main.xml" value="0.19157608695652173" />
         <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/layout/fragment_help.xml" value="0.1953125" />
+        <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/layout/fragment_history.xml" value="0.18795289855072464" />
         <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/layout/fragment_login.xml" value="0.19157608695652173" />
         <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/layout/fragment_medical_history.xml" value="0.2911490683229814" />
         <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/layout/fragment_profile.xml" value="0.2" />
+        <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/layout/placeholder_row_layout.xml" value="0.18795289855072464" />
+        <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/layout/request_row_layout.xml" value="0.25" />
       </map>
     </option>
   </component>
