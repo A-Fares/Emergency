@@ -1,6 +1,7 @@
 package com.afares.emergency.fragments.medical
 
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -34,24 +35,61 @@ class MedicalHistoryFragment : Fragment() {
 
         binding.saveBtn.setOnClickListener {
 
-            val uId = mAuth.currentUser!!.uid.toString()
+            binding.apply {
+                val uId = mAuth.currentUser!!.uid
+                val diabetic = diabetic.isChecked
+                val heartPatient = heartPatient.isChecked
+                val pressurePatient = pressurePatient.isChecked
+                val age = ageEt.text.toString()
+                val height = heightEt.text.toString()
+                val weight = weightEt.text.toString()
+                val bloodType = bloodTypeSpinner.selectedItem.toString()
+                val gender = GenderSpinner.selectedItem.toString()
 
-            val diabetic = binding.diabetic.isChecked
-            val heartPatient = binding.heartPatient.isChecked
-            val pressurePatient = binding.pressurePatient.isChecked
-            val age = binding.ageEt.text.toString()
-            val height = binding.heightEt.text.toString()
-            val weight = binding.weightEt.text.toString()
-            val bloodType = binding.bloodTypeSpinner.selectedItem.toString()
-            val gender = binding.GenderSpinner.selectedItem.toString()
-
-            val medicalHistory = MedicalHistory(
-                uId, diabetic, heartPatient, pressurePatient, height, weight, age, bloodType, gender
-            )
-            viewModel.addMedicalHistory(medicalHistory)
+                if (validateMedicalHistory(height, weight, age)) {
+                    val medicalHistory = MedicalHistory(
+                        uId,
+                        diabetic,
+                        heartPatient,
+                        pressurePatient,
+                        height,
+                        weight,
+                        age,
+                        bloodType,
+                        gender
+                    )
+                    viewModel.addMedicalHistory(medicalHistory)
+                } else {
+                    return@setOnClickListener
+                }
+            }
         }
 
         return binding.root
+    }
+
+    private fun validateMedicalHistory(height: String, weight: String, age: String): Boolean {
+
+        binding.apply {
+            if (TextUtils.isEmpty(height)) {
+                heightEt.error = "برجاء ادخال الطول "
+                heightEt.requestFocus()
+                return false
+            }
+
+            if (TextUtils.isEmpty(weight)) {
+                weightEt.error = "برجاء ادخال الوزن "
+                weightEt.requestFocus()
+                return false
+            }
+
+            if (TextUtils.isEmpty(age)) {
+                ageEt.error = "برجاء ادخال العمر "
+                ageEt.requestFocus()
+                return false
+            }
+        }
+        return true
     }
 
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -103,7 +102,7 @@
                 android:background="@drawable/custom_input"
                 android:entries="@array/blood_type"
                 android:fontFamily="@font/katibeh"
-                android:padding="20dp"
+                android:paddingHorizontal="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/blood_type_tv" />
 
@@ -128,7 +127,7 @@
                 android:background="@drawable/custom_input"
                 android:entries="@array/gender"
                 android:fontFamily="@font/katibeh"
-                android:padding="20dp"
+                android:padding="12dp"
                 app:layout_constraintEnd_toEndOf="@+id/Gender_tv"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"

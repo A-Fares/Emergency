@@ -1,6 +1,5 @@
 package com.afares.emergency.data.model
 
-import com.google.firebase.auth.FirebaseUser
 
 data class MedicalHistory(
     val uId: String,
