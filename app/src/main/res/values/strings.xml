@@ -18,6 +18,7 @@
     <string name="paramedic">مسعف</string>
     <string name="user">مستخدم</string>
     <string name="medical_history">السجل الطبي</string>
+    <string name="medical_status">الحالة الطبية</string>
     <string name="ambulance">اسعاف</string>
     <string name="civil_defense">دفاع مدني</string>
     <string name="request_description">وصف الطلب . . .</string>
@@ -25,6 +26,9 @@
     <string name="heart_patient">مريض قلب</string>
     <string name="pressure_patient">مريض ضغط</string>
     <string name="gender">الجنس</string>
+    <string name="save">حفظ</string>
+    <string name="height">الطول</string>
+    <string name="weight">الوزن</string>
 
     <string-array name="gender">
         <item> ذكر </item>

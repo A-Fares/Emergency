@@ -7,10 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.afares.emergency.R
 import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.databinding.FragmentMedicalHistoryBinding
-import com.afares.emergency.databinding.FragmentProfileBinding
 import com.afares.emergency.viewmodels.UserViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint

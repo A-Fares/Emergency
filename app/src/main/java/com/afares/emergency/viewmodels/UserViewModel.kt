@@ -4,15 +4,12 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.afares.emergency.data.Resource
 import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.data.model.User
 import com.afares.emergency.data.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

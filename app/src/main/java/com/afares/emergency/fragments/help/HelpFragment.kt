@@ -15,11 +15,9 @@ import androidx.fragment.app.viewModels
 import com.afares.emergency.R
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.databinding.FragmentHelpBinding
-import com.afares.emergency.databinding.FragmentMedicalHistoryBinding
 import com.afares.emergency.util.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import com.afares.emergency.util.TrackingUtility
 import com.afares.emergency.util.showSnackBar
-import com.afares.emergency.util.toast
 import com.afares.emergency.viewmodels.UserViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
