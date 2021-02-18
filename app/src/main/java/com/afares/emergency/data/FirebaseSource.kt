@@ -21,19 +21,22 @@ class FirebaseSource @Inject constructor(
     )
 
     fun saveUser(user: User) =
-        user.uId?.let {
-            fireStore.collection("users")
-                .document(it).set(user)
-        }
+        fireStore.collection("users")
+            .document(firebaseAuth.currentUser!!.uid).set(user)
+
 
     fun saveSavior(savior: Savior) =
         fireStore.collection("users")
-            .document(savior.uId).set(savior)
+            .document(firebaseAuth.currentUser!!.uid).set(savior)
 
 
     fun addMedicalHistory(medicalHistory: MedicalHistory) =
         fireStore.collection("Medical History")
-            .document(medicalHistory.uId).set(medicalHistory)
+            .document(firebaseAuth.currentUser!!.uid).set(medicalHistory)
+
+    fun getMedicalHistory()=
+        fireStore.collection("Medical History")
+            .document(firebaseAuth.currentUser!!.uid).get()
 
 
     fun fetchUser() =

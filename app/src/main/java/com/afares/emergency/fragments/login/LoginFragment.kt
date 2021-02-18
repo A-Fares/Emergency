@@ -20,7 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -83,15 +83,19 @@ class LoginFragment : Fragment() {
 
     private fun checkUserValidation() {
         viewModel.fetchUserType().observe(viewLifecycleOwner, { type ->
-            if (type.isNullOrEmpty()) {
-                showSnackBar(authenticationLayout, "يرجى تسجيل الحساب اولا ")
-                toast(requireContext(), "يرجى تسجيل الحساب اولا ")
-            } else if (type.equals("مستخدم")) {
-                findNavController().navigate(R.id.action_loginFragment_to_homeActivity)
-                activity?.finish();
-            } else {
-                findNavController().navigate(R.id.action_loginFragment_to_saviorActivity)
-                activity?.finish();
+            when {
+                type.isNullOrEmpty() -> {
+                    showSnackBar(binding.loginFragment, "يرجى تسجيل الحساب اولا ")
+                    toast(requireContext(), "يرجى تسجيل الحساب اولا ")
+                }
+                type == "مستخدم" -> {
+                    findNavController().navigate(R.id.action_loginFragment_to_homeActivity)
+                    activity?.finish()
+                }
+                else -> {
+                    findNavController().navigate(R.id.action_loginFragment_to_saviorActivity)
+                    activity?.finish()
+                }
             }
         })
     }

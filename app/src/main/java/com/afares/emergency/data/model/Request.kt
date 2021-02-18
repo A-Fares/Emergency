@@ -6,9 +6,10 @@ import java.util.*
 
 data class Request(
     val uId: String,
+    val type:String,
     val description: String,
     val location: String,
-    @ServerTimestamp
     val status: String,
-    val created: Date
+    @ServerTimestamp
+    val created: Date?
 )

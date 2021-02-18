@@ -8,7 +8,7 @@ import com.afares.emergency.data.model.User
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import javax.inject.Inject
 
-class AuthRepository @Inject constructor(private val firebaseSource: FirebaseSource) {
+class Repository @Inject constructor(private val firebaseSource: FirebaseSource) {
 
 
     fun signInWithGoogle(acct: GoogleSignInAccount) = firebaseSource.signInWithGoogle(acct)
@@ -23,6 +23,9 @@ class AuthRepository @Inject constructor(private val firebaseSource: FirebaseSou
 
     fun addMedicalHistory(medicalHistory: MedicalHistory) =
         firebaseSource.addMedicalHistory(medicalHistory)
+
+    fun getMedicalHistory() =
+        firebaseSource.getMedicalHistory()
 
     fun addRequest(request: Request) =
         firebaseSource.addRequest(request)

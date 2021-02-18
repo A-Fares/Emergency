@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.afares.emergency.data.Resource
 import com.afares.emergency.data.model.User
-import com.afares.emergency.data.repository.AuthRepository
+import com.afares.emergency.data.repository.Repository
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     application: Application,
-    private val repository: AuthRepository,
+    private val repository: Repository,
     private val firebaseAuth: FirebaseAuth
 ) : AndroidViewModel(application) {
 
