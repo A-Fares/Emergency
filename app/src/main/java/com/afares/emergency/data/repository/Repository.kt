@@ -11,23 +11,23 @@ import javax.inject.Inject
 class Repository @Inject constructor(private val firebaseSource: FirebaseSource) {
 
 
-    fun signInWithGoogle(acct: GoogleSignInAccount) = firebaseSource.signInWithGoogle(acct)
+    suspend fun signInWithGoogle(acct: GoogleSignInAccount) = firebaseSource.signInWithGoogle(acct)
 
-    fun saveUser(user: User) =
+    suspend fun saveUser(user: User) =
         firebaseSource.saveUser(user)
 
-    fun saveSavior(savior: Savior) =
+    suspend fun saveSavior(savior: Savior) =
         firebaseSource.saveSavior(savior)
 
-    fun fetchUser() = firebaseSource.fetchUser()
+    suspend fun fetchUser() = firebaseSource.fetchUser()
 
-    fun addMedicalHistory(medicalHistory: MedicalHistory) =
+    suspend fun addMedicalHistory(medicalHistory: MedicalHistory) =
         firebaseSource.addMedicalHistory(medicalHistory)
 
-    fun getMedicalHistory() =
+    suspend fun getMedicalHistory() =
         firebaseSource.getMedicalHistory()
 
-    fun addRequest(request: Request) =
+    suspend fun addRequest(request: Request) =
         firebaseSource.addRequest(request)
 
 }

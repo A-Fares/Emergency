@@ -33,11 +33,11 @@ class SignUpViewModel @Inject constructor(
         userType: String,
         closePersonPhone: String
     ): LiveData<Resource<User>> {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.signInWithGoogle(acct).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
 
-        repository.signInWithGoogle(acct).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-
-                gmailUserLiveData.postValue(
+                    gmailUserLiveData.postValue(
                         Resource.success(
 
                             User(
@@ -49,11 +49,12 @@ class SignUpViewModel @Inject constructor(
                                 closePersonPhone
                             )
                         )
-                )
-            } else {
-                gmailUserLiveData.postValue(Resource.error(null, "couldn't sign in user"))
-            }
+                    )
+                } else {
+                    gmailUserLiveData.postValue(Resource.error(null, "couldn't sign in user"))
+                }
 
+            }
         }
         return gmailUserLiveData
     }
@@ -62,24 +63,25 @@ class SignUpViewModel @Inject constructor(
         acct: GoogleSignInAccount,
         userType: String
     ): LiveData<Resource<Savior>> {
-
-        repository.signInWithGoogle(acct).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                gmailSaviorLiveData.postValue(
-                    Resource.success(
-                        Savior(
-                            firebaseAuth.currentUser!!.uid,
-                            firebaseAuth.currentUser?.displayName!!,
-                            firebaseAuth.currentUser?.photoUrl.toString(),
-                            userType
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.signInWithGoogle(acct).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    gmailSaviorLiveData.postValue(
+                        Resource.success(
+                            Savior(
+                                firebaseAuth.currentUser!!.uid,
+                                firebaseAuth.currentUser?.displayName!!,
+                                firebaseAuth.currentUser?.photoUrl.toString(),
+                                userType
+                            )
                         )
                     )
-                )
 
-            } else {
-                gmailSaviorLiveData.postValue(Resource.error(null, "couldn't sign in user"))
+                } else {
+                    gmailSaviorLiveData.postValue(Resource.error(null, "couldn't sign in user"))
+                }
+
             }
-
         }
         return gmailSaviorLiveData
     }

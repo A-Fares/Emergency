@@ -9,7 +9,6 @@ import com.afares.emergency.data.Resource
 import com.afares.emergency.data.model.User
 import com.afares.emergency.data.repository.Repository
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,8 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     application: Application,
-    private val repository: Repository,
-    private val firebaseAuth: FirebaseAuth
+    private val repository: Repository
 ) : AndroidViewModel(application) {
 
 
@@ -30,15 +28,17 @@ class LoginViewModel @Inject constructor(
     val gmailUserLiveData = MutableLiveData<Resource<User>>()
 
     fun signInWithGoogle(acct: GoogleSignInAccount): LiveData<Resource<User>> {
-        repository.signInWithGoogle(acct).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                gmailUserLiveData.postValue(
-                    Resource.success(null)
-                )
-            } else {
-                gmailUserLiveData.postValue(Resource.error(null, "couldn't sign in user"))
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.signInWithGoogle(acct).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    gmailUserLiveData.postValue(
+                        Resource.success(null)
+                    )
+                } else {
+                    gmailUserLiveData.postValue(Resource.error(null, "couldn't sign in user"))
+                }
 
+            }
         }
         return gmailUserLiveData
     }

@@ -16,34 +16,40 @@ class FirebaseSource @Inject constructor(
 ) {
 
 
-    fun signInWithGoogle(acct: GoogleSignInAccount) = firebaseAuth.signInWithCredential(
+    suspend fun signInWithGoogle(acct: GoogleSignInAccount) = firebaseAuth.signInWithCredential(
         GoogleAuthProvider.getCredential(acct.idToken, null)
     )
 
-    fun saveUser(user: User) =
+    suspend fun saveUser(user: User) =
         fireStore.collection("users")
             .document(firebaseAuth.currentUser!!.uid).set(user)
 
 
-    fun saveSavior(savior: Savior) =
+    suspend fun saveSavior(savior: Savior) =
         fireStore.collection("users")
             .document(firebaseAuth.currentUser!!.uid).set(savior)
 
 
-    fun addMedicalHistory(medicalHistory: MedicalHistory) =
+    suspend fun addMedicalHistory(medicalHistory: MedicalHistory) =
         fireStore.collection("Medical History")
             .document(firebaseAuth.currentUser!!.uid).set(medicalHistory)
 
-    fun getMedicalHistory()=
+    suspend fun getMedicalHistory() =
         fireStore.collection("Medical History")
             .document(firebaseAuth.currentUser!!.uid).get()
 
 
-    fun fetchUser() =
+    suspend fun fetchUser() =
         fireStore.collection("users").document(firebaseAuth.currentUser!!.uid).get()
 
 
-    fun addRequest(request: Request) =
+    suspend fun addRequest(request: Request) =
         fireStore.collection("Requests")
             .add(request)
+
+    suspend fun getRequests() =
+        fireStore.collection("Requests")
+            .get()
+
+
 }
