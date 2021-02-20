@@ -62,7 +62,7 @@ dependencies {
     kapt "androidx.databinding:databinding-common:4.1.2"
 
     //Dagger - Hilt
-    implementation "com.google.dagger:hilt-android:2.31-alpha"
+    implementation "com.google.dagger:hilt-android:2.31.2-alpha"
     kapt "com.google.dagger:hilt-android-compiler:2.31.2-alpha"
 
 
@@ -89,6 +89,8 @@ dependencies {
     // Also declare the dependency for the Google Play services library and specify its version
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.google.firebase:firebase-firestore:22.1.0'
+    // Paging
+    implementation "androidx.paging:paging-runtime-ktx:3.0.0-beta01"
 
 
     //Glide

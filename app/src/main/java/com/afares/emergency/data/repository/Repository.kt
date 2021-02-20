@@ -30,4 +30,7 @@ class Repository @Inject constructor(private val firebaseSource: FirebaseSource)
     suspend fun addRequest(request: Request) =
         firebaseSource.addRequest(request)
 
+     fun queryUserRequests() =
+        firebaseSource.queryUserRequests()
+
 }

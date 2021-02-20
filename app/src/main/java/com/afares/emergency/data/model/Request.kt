@@ -5,11 +5,11 @@ import java.util.*
 
 
 data class Request(
-    val uId: String,
-    val type:String,
-    val description: String,
-    val location: String,
-    val status: String,
+    val uId: String? = null,
+    val type: String? = null,
+    val description: String? = null,
+    val location: String? = null,
+    val status: String? = null,
     @ServerTimestamp
-    val created: Date?
+    val created: Date? = null
 )

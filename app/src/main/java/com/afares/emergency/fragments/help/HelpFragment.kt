@@ -45,6 +45,7 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     lateinit var mAuth: FirebaseAuth
 
 
+
     private lateinit var requestType: String
     private var hasMedicalHistory by Delegates.notNull<Boolean>()
 

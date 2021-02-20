@@ -43,4 +43,10 @@ class ProfileFragment : Fragment() {
     }
 
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // to avoid memory leaks
+        _binding = null
+    }
+
 }

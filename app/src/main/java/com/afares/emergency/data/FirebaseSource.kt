@@ -4,10 +4,15 @@ import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.data.model.Savior
 import com.afares.emergency.data.model.User
+import com.afares.emergency.util.Constants.COLLECTION_MEDICAL_HISTORY
+import com.afares.emergency.util.Constants.COLLECTION_REQUESTS
+import com.afares.emergency.util.Constants.COLLECTION_USERS
+import com.afares.emergency.util.Constants.PAGE_SIZE
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import javax.inject.Inject
 
 class FirebaseSource @Inject constructor(
@@ -21,35 +26,37 @@ class FirebaseSource @Inject constructor(
     )
 
     suspend fun saveUser(user: User) =
-        fireStore.collection("users")
+        fireStore.collection(COLLECTION_USERS)
             .document(firebaseAuth.currentUser!!.uid).set(user)
 
 
     suspend fun saveSavior(savior: Savior) =
-        fireStore.collection("users")
+        fireStore.collection(COLLECTION_USERS)
             .document(firebaseAuth.currentUser!!.uid).set(savior)
 
 
+    suspend fun fetchUser() =
+        fireStore.collection(COLLECTION_USERS).document(firebaseAuth.currentUser!!.uid).get()
+
     suspend fun addMedicalHistory(medicalHistory: MedicalHistory) =
-        fireStore.collection("Medical History")
+        fireStore.collection(COLLECTION_MEDICAL_HISTORY)
             .document(firebaseAuth.currentUser!!.uid).set(medicalHistory)
 
+
     suspend fun getMedicalHistory() =
-        fireStore.collection("Medical History")
+        fireStore.collection(COLLECTION_MEDICAL_HISTORY)
             .document(firebaseAuth.currentUser!!.uid).get()
 
 
-    suspend fun fetchUser() =
-        fireStore.collection("users").document(firebaseAuth.currentUser!!.uid).get()
-
-
     suspend fun addRequest(request: Request) =
-        fireStore.collection("Requests")
+        fireStore.collection(COLLECTION_REQUESTS)
             .add(request)
 
-    suspend fun getRequests() =
-        fireStore.collection("Requests")
-            .get()
+     fun queryUserRequests() =
+        fireStore.collection(COLLECTION_REQUESTS)
+            .whereEqualTo("uid", firebaseAuth.currentUser!!.uid)
+            .orderBy("created", Query.Direction.DESCENDING)
+            .limit(PAGE_SIZE.toLong())
 
 
 }
