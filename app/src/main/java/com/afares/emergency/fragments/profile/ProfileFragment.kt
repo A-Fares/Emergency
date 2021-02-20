@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import coil.load
 import com.afares.emergency.R
+import com.afares.emergency.data.Status
 import com.afares.emergency.databinding.FragmentLoginBinding
 import com.afares.emergency.databinding.FragmentProfileBinding
 import com.afares.emergency.viewmodels.LoginViewModel
@@ -28,14 +29,26 @@ class ProfileFragment : Fragment() {
     ): View? {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
+
+
         viewModel.fetchUser().observe(viewLifecycleOwner, { user ->
-            binding.apply {
-                userName.text = user.data?.name
-                userPhone.text = user.data?.phone
-                closePersonPhone.text = user.data?.closePersonPhone
+            if (user.status == Status.SUCCESS) {
+                binding.apply {
 
-                Glide.with(requireActivity()).load(user.data?.photoUrl).into(userImageView)
+                    userName.text = user.data?.name
+                    userPhone.text = user.data?.phone
+                    closePersonPhone.text = user.data?.closePersonPhone
 
+                    Glide.with(requireActivity()).load(user.data?.photoUrl).into(userImageView)
+                    profileContainer.visibility = View.VISIBLE
+                    shimmerContainer.visibility = View.GONE
+                    shimmerContainer.stopShimmer()
+                }
+            } else {
+                binding.apply {
+                    profileContainer.visibility = View.INVISIBLE
+                    shimmerContainer.visibility = View.VISIBLE
+                }
             }
         })
 
