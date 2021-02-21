@@ -3,9 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/drawable/ic_checkmark.xml" value="0.22552083333333334" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/activity_home.xml" value="0.209375" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/activity_savior.xml" value="0.209375" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_help.xml" value="0.25" />
-        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_history.xml" value="0.10182370820668693" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_history.xml" value="0.13541666666666666" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_medical_history.xml" value="0.43655413271245636" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_profile.xml" value="0.209375" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_request_detailes.xml" value="0.25" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_requests.xml" value="0.209375" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/history_row_layout.xml" value="0.25" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/placeholder_row_layout.xml" value="0.25" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/request_row_layout.xml" value="0.14855072463768115" />
