@@ -27,8 +27,9 @@
     <string name="pressure_patient">مريض ضغط</string>
     <string name="gender">الجنس</string>
     <string name="save">حفظ</string>
-    <string name="height">الطول</string>
-    <string name="weight">الوزن</string>
+    <string name="height">CM الطول</string>
+    <string name="weight"> KG الوزن</string>
+    <string name="request_type">نوع الطلب</string>
 
     <string-array name="gender">
         <item> ذكر </item>

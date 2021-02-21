@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_help.xml" value="0.25" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_history.xml" value="0.10182370820668693" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_medical_history.xml" value="0.43655413271245636" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/history_row_layout.xml" value="0.25" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/placeholder_row_layout.xml" value="0.25" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/request_row_layout.xml" value="0.14855072463768115" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/menu/bottom_nav_menu.xml" value="0.16111111111111112" />
         <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/drawable/ic_medical_file.xml" value="0.1638888888888889" />
         <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/drawable/ic_user_placeholder.xml" value="0.11614583333333334" />
         <entry key="..\:/Android_Project/New_Project/Emergency/app/src/main/res/layout/activity_home.xml" value="0.10182370820668693" />

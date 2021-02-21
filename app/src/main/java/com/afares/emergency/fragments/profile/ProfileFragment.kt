@@ -1,6 +1,7 @@
 package com.afares.emergency.fragments.profile
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,7 @@ class ProfileFragment : Fragment() {
 
         viewModel.fetchUser().observe(viewLifecycleOwner, { user ->
             if (user.status == Status.SUCCESS) {
+                Log.d("HHH", user.status.toString())
                 binding.apply {
 
                     userName.text = user.data?.name

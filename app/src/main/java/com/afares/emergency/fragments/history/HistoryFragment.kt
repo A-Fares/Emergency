@@ -1,6 +1,8 @@
 package com.afares.emergency.fragments.history
 
+import android.opengl.Visibility
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +12,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afares.emergency.R
 import com.afares.emergency.adapters.RequestAdapter
+import com.afares.emergency.data.Status
 import com.afares.emergency.databinding.FragmentHistoryBinding
 import com.afares.emergency.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -30,32 +34,49 @@ class HistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHistoryBinding.inflate(inflater, container, false)
+
+        lifecycleScope.launch {
+            viewModel.getUserRequestsHistory()
+        }
         setupRecyclerView()
         getHistory()
         return binding.root
     }
 
     private fun setupRecyclerView() {
-        showShimmerEffect()
         binding.recyclerview.adapter = mAdapter
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun getHistory() {
-        lifecycleScope.launch {
-            viewModel.flow.collectLatest {
-                mAdapter.submitData(it)
+        viewModel.readRequestsHistory.observe(viewLifecycleOwner, {
+            Log.d("HHH", it.status.toString())
+            if (it.status == Status.LOADING || it.status == Status.ERROR) {
+                binding.apply {
+                    placeholderHistoryRow.startShimmer()
+                    placeholderHistoryRow.visibility = View.VISIBLE
+                }
+            } else if (it.status == Status.SUCCESS) {
+
+                lifecycleScope.launch {
+                    viewModel.flow.collectLatest { dataFlow ->
+                        mAdapter.submitData(dataFlow)
+                    }
+                }
+                binding.apply {
+                    recyclerview.visibility = View.VISIBLE
+                    lifecycleScope.launch{ delay(1000L)
+                    placeholderHistoryRow.visibility=View.GONE
+                    }
+
+                }
+
             }
-        }
+
+        })
+
     }
 
-    private fun showShimmerEffect() {
-        binding.recyclerview.showShimmer()
-    }
-
-    private fun hideShimmerEffect() {
-        binding.recyclerview.hideShimmer()
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

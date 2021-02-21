@@ -34,7 +34,7 @@ class UserViewModel @Inject constructor(
     private val queryRequestsHistory = repository.queryUserRequests()
 
     private val readUserLiveData = MutableLiveData<Resource<User>>()
-    private val readRequestsHistory = MutableLiveData<Resource<Request>>()
+    val readRequestsHistory = MutableLiveData<Resource<Request>>()
     val hasMedicalHistory = MutableLiveData<Boolean>()
 
 
@@ -47,6 +47,19 @@ class UserViewModel @Inject constructor(
     }.flow.cachedIn(viewModelScope)
 
 
+    fun getUserRequestsHistory() {
+        if (hasInternetConnection()) {
+            readRequestsHistory.postValue(Resource.loading(null))
+            try {
+
+                readRequestsHistory.postValue(Resource.success(null))
+            } catch (e: Exception) {
+                readRequestsHistory.postValue(Resource.error(null, "No Requests History"))
+            }
+        } else {
+            readRequestsHistory.postValue(Resource.error(null, "No Internet Connection."))
+        }
+    }
     fun fetchUser(): LiveData<Resource<User>> {
         viewModelScope.launch(Dispatchers.IO) {
             repository.fetchUser().addOnSuccessListener { userData ->

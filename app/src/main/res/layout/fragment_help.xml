@@ -27,7 +27,7 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/katibeh"
                 android:layoutDirection="rtl"
-                android:text="نوع الطلب "
+                android:text="@string/request_type"
                 android:textColor="@color/purple_500"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -46,7 +46,6 @@
                 android:button="@null"
                 android:gravity="end"
                 android:orientation="vertical"
-                android:paddingStart="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -56,25 +55,30 @@
 
                 <RadioButton
                     android:id="@+id/civil_defense_btn"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
+                    android:layout_gravity="end"
+                    android:background="?android:selectableItemBackground"
+                    android:button="@null"
+                    android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
                     android:fontFamily="@font/katibeh"
                     android:layoutDirection="rtl"
                     android:text="@string/civil_defense"
-                    android:textAlignment="textStart"
                     android:textSize="20sp" />
 
                 <RadioButton
                     android:id="@+id/ambulance_btn"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
+                    android:layout_gravity="end"
+                    android:background="?android:selectableItemBackground"
+                    android:button="@null"
+                    android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
                     android:fontFamily="@font/katibeh"
                     android:layoutDirection="rtl"
                     android:text="@string/ambulance"
-                    android:textAlignment="textStart"
                     android:textSize="20sp" />
+
             </RadioGroup>
 
             <EditText
