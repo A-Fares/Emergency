@@ -166,7 +166,7 @@
                     android:id="@+id/bmi_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     android:fontFamily="@font/katibeh"
                     android:text="28.3"
                     android:textColor="@color/black"
@@ -180,20 +180,20 @@
                     android:id="@+id/bmi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="24dp"
                     android:fontFamily="@font/katibeh"
                     android:text="BMI"
                     android:textColor="@color/darkGray"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toTopOf="@+id/heart_patient_imageView"
-                    app:layout_constraintEnd_toEndOf="@+id/heart_patient_imageView"
-                    app:layout_constraintStart_toStartOf="@+id/heart_patient_imageView" />
+                    app:layout_constraintBottom_toBottomOf="@+id/age_textview"
+                    app:layout_constraintEnd_toStartOf="@+id/age_textview"
+                    app:layout_constraintTop_toTopOf="@+id/age_textview" />
 
                 <TextView
                     android:id="@+id/age_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="8dp"
                     android:fontFamily="@font/katibeh"
                     android:text="22"
                     android:textColor="@color/black"
@@ -278,14 +278,14 @@
                     android:id="@+id/age"
                     android:layout_width="wrap_content"
                     android:layout_height="31dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="24dp"
                     android:fontFamily="@font/katibeh"
                     android:text="العمر:"
                     android:textColor="@color/darkGray"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toTopOf="@+id/pressure_patient_imageView"
-                    app:layout_constraintEnd_toEndOf="@+id/pressure_patient_imageView"
-                    app:layout_constraintStart_toStartOf="@+id/pressure_patient_imageView" />
+                    app:layout_constraintBottom_toBottomOf="@+id/gender_textView"
+                    app:layout_constraintEnd_toStartOf="@+id/gender_textView"
+                    app:layout_constraintTop_toTopOf="@+id/gender_textView" />
 
                 <TextView
                     android:id="@+id/gender"
@@ -314,6 +314,32 @@
                     app:layout_constraintBottom_toBottomOf="@+id/gender"
                     app:layout_constraintEnd_toStartOf="@+id/gender"
                     app:layout_constraintTop_toTopOf="@+id/gender" />
+
+                <TextView
+                    android:id="@+id/blood_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:text="فصيلة الدم:"
+                    android:fontFamily="@font/katibeh"
+                    android:textColor="@color/darkGray"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/bmi_textView"
+                    app:layout_constraintEnd_toStartOf="@+id/bmi_textView"
+                    app:layout_constraintTop_toTopOf="@+id/bmi_textView" />
+
+                <TextView
+                    android:id="@+id/blood_type_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="AB+"
+                    android:fontFamily="@font/katibeh"
+                    android:textColor="@color/red"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/blood_type"
+                    app:layout_constraintEnd_toStartOf="@+id/blood_type"
+                    app:layout_constraintTop_toTopOf="@+id/blood_type" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
