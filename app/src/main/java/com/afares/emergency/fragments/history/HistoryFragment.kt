@@ -44,8 +44,8 @@ class HistoryFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        binding.recyclerview.adapter = mAdapter
-        binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerviewHistory.adapter = mAdapter
+        binding.recyclerviewHistory.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun getHistory() {
@@ -64,7 +64,7 @@ class HistoryFragment : Fragment() {
                     }
                 }
                 binding.apply {
-                    recyclerview.visibility = View.VISIBLE
+                    recyclerviewHistory.visibility = View.VISIBLE
                     lifecycleScope.launch{ delay(1000L)
                     placeholderHistoryRow.visibility=View.GONE
                     }
