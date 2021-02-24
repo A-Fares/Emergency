@@ -11,4 +11,9 @@ object Constants {
     const val COLLECTION_REQUESTS = "Requests"
     const val COLLECTION_MEDICAL_HISTORY = "Medical History"
 
+    const val USER_TYPE_KEY = "userType"
+
+    const val AMBULANCE = "اسعاف"
+    const val FIRE_FIGHTER = "دفاع مدني"
+
 }

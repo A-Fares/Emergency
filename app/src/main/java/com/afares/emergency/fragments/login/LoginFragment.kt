@@ -93,7 +93,8 @@ class LoginFragment : Fragment() {
                     activity?.finish()
                 }
                 else -> {
-                    findNavController().navigate(R.id.action_loginFragment_to_saviorActivity)
+                    val action = LoginFragmentDirections.actionLoginFragmentToSaviorActivity(type)
+                    findNavController().navigate(action)
                     activity?.finish()
                 }
             }

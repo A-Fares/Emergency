@@ -61,11 +61,12 @@ class SplashFragment : Fragment() {
     private fun checkUserType() {
         viewModel.fetchUserType().observe(viewLifecycleOwner, { type ->
             if (type != null) {
-                if (type.equals("مستخدم")) {
+                if (type == "مستخدم") {
                     findNavController().navigate(R.id.action_splashFragment_to_homeActivity)
                     activity?.finish();
                 } else {
-                    findNavController().navigate(R.id.action_splashFragment_to_saviorActivity)
+                    val action = SplashFragmentDirections.actionSplashFragmentToSaviorActivity(type)
+                    findNavController().navigate(action)
                     activity?.finish();
                 }
             }

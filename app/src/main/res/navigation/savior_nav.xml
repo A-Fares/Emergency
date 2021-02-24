@@ -9,7 +9,8 @@
         android:id="@+id/requestsFragment"
         android:name="com.afares.emergency.RequestsFragment"
         android:label="الطلبات"
-        tools:layout="@layout/fragment_requests" />
+        tools:layout="@layout/fragment_requests" >
+    </fragment>
     <fragment
         android:id="@+id/requestDetailesFragment"
         android:name="com.afares.emergency.RequestDetailsFragment"

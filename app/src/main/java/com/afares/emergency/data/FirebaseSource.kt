@@ -4,9 +4,11 @@ import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.data.model.Savior
 import com.afares.emergency.data.model.User
+import com.afares.emergency.util.Constants.AMBULANCE
 import com.afares.emergency.util.Constants.COLLECTION_MEDICAL_HISTORY
 import com.afares.emergency.util.Constants.COLLECTION_REQUESTS
 import com.afares.emergency.util.Constants.COLLECTION_USERS
+import com.afares.emergency.util.Constants.FIRE_FIGHTER
 import com.afares.emergency.util.Constants.PAGE_SIZE
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
@@ -52,11 +54,21 @@ class FirebaseSource @Inject constructor(
         fireStore.collection(COLLECTION_REQUESTS)
             .add(request)
 
-     fun queryUserRequests() =
+    fun queryUserRequests() =
         fireStore.collection(COLLECTION_REQUESTS)
             .whereEqualTo("uid", firebaseAuth.currentUser!!.uid)
             .orderBy("created", Query.Direction.DESCENDING)
             .limit(PAGE_SIZE.toLong())
 
+    fun queryAmbulanceRequests() =
+        fireStore.collection(COLLECTION_REQUESTS)
+            .whereEqualTo("type", AMBULANCE)
+            .orderBy("created", Query.Direction.DESCENDING)
+            .limit(PAGE_SIZE.toLong())
 
+    fun queryFireFighterRequests() =
+        fireStore.collection(COLLECTION_REQUESTS)
+            .whereEqualTo("type", FIRE_FIGHTER)
+            .orderBy("created", Query.Direction.DESCENDING)
+            .limit(PAGE_SIZE.toLong())
 }

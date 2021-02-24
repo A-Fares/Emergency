@@ -52,11 +52,11 @@ class SignUpFragment : Fragment() {
         }
 
         binding.firefighterBtn.setOnClickListener {
-            userType = binding.firefighterBtn.text.toString()
+            userType = "دفاع مدني"
             signIn()
         }
         binding.paramedicBtn.setOnClickListener {
-            userType = binding.paramedicBtn.text.toString()
+            userType = "اسعاف"
             signIn()
         }
 
@@ -156,7 +156,8 @@ class SignUpFragment : Fragment() {
                     userType
                 )
                 signupViewModel.saveSavior(savior)
-                findNavController().navigate(R.id.action_signUpFragment_to_saviorActivity)
+                val action = SignUpFragmentDirections.actionSignUpFragmentToSaviorActivity(userType)
+                findNavController().navigate(action)
 
             } else if (it.status == Status.ERROR) {
                 toast(requireContext(), it.message!!)

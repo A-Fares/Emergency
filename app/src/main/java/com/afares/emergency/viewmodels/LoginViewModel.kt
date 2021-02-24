@@ -21,11 +21,10 @@ class LoginViewModel @Inject constructor(
 ) : AndroidViewModel(application) {
 
 
-    val userType = MutableLiveData<String>()
+    private val userType = MutableLiveData<String>()
 
 
-    private
-    val gmailUserLiveData = MutableLiveData<Resource<User>>()
+    private val gmailUserLiveData = MutableLiveData<Resource<User>>()
 
     fun signInWithGoogle(acct: GoogleSignInAccount): LiveData<Resource<User>> {
         viewModelScope.launch(Dispatchers.IO) {

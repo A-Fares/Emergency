@@ -10,7 +10,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.afares.emergency.adapters.FirestorePagingSource
 import com.afares.emergency.data.Resource
@@ -21,7 +20,6 @@ import com.afares.emergency.data.repository.Repository
 import com.afares.emergency.util.Constants.PAGE_SIZE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,35 +29,50 @@ class UserViewModel @Inject constructor(
     private val repository: Repository
 ) : AndroidViewModel(application) {
 
+
     private val queryRequestsHistory = repository.queryUserRequests()
 
+    private val queryAmbulanceRequests = repository.queryAmbulanceRequests()
+    private val queryFireFighterRequests = repository.queryFireFighterRequests()
+
     private val readUserLiveData = MutableLiveData<Resource<User>>()
-    val readRequestsHistory = MutableLiveData<Resource<Request>>()
+    val readRequests = MutableLiveData<Resource<Request>>()
+
     val hasMedicalHistory = MutableLiveData<Boolean>()
 
-
-    val flow = Pager(
-        PagingConfig(
-            pageSize = PAGE_SIZE
-        )
+    val historyRequestsFlow = Pager(
+        PagingConfig(pageSize = PAGE_SIZE)
     ) {
         FirestorePagingSource(queryRequestsHistory)
     }.flow.cachedIn(viewModelScope)
 
 
-    fun getUserRequestsHistory() {
-        if (hasInternetConnection()) {
-            readRequestsHistory.postValue(Resource.loading(null))
-            try {
+    val requestsAmbulanceFlow = Pager(
+        PagingConfig(pageSize = PAGE_SIZE)
+    ) {
+        FirestorePagingSource(queryAmbulanceRequests)
+    }.flow.cachedIn(viewModelScope)
 
-                readRequestsHistory.postValue(Resource.success(null))
+
+    val requestsFireFighterFlow = Pager(
+        PagingConfig(pageSize = PAGE_SIZE)
+    ) {
+        FirestorePagingSource(queryFireFighterRequests)
+    }.flow.cachedIn(viewModelScope)
+
+    fun getRequestsStatus() {
+        if (hasInternetConnection()) {
+            readRequests.postValue(Resource.loading(null))
+            try {
+                readRequests.postValue(Resource.success(null))
             } catch (e: Exception) {
-                readRequestsHistory.postValue(Resource.error(null, "No Requests History"))
+                readRequests.postValue(Resource.error(null, "No Requests History"))
             }
         } else {
-            readRequestsHistory.postValue(Resource.error(null, "No Internet Connection."))
+            readRequests.postValue(Resource.error(null, "No Internet Connection."))
         }
     }
+
     fun fetchUser(): LiveData<Resource<User>> {
         viewModelScope.launch(Dispatchers.IO) {
             repository.fetchUser().addOnSuccessListener { userData ->
