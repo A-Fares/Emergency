@@ -83,11 +83,11 @@ class UserViewModel @Inject constructor(
                 val closePersonPhone = userData.getString("closePersonPhone")
                 val type = userData.getString("type")
 
-                readUserLiveData.postValue(
+              /*  readUserLiveData.postValue(
                     Resource.success(
                         User(uId, name, photoUrl, type, phone, closePersonPhone)
                     )
-                )
+                )*/
             }
         }
         return readUserLiveData

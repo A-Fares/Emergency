@@ -19,83 +19,17 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     application: Application,
-    private val repository: Repository,
-    private val firebaseAuth: FirebaseAuth
+    private val repository: Repository
 ) : AndroidViewModel(application) {
-
-    private val gmailUserLiveData = MutableLiveData<Resource<User>>()
-    private val gmailSaviorLiveData = MutableLiveData<Resource<Savior>>()
-
-
-    fun signUpUserWithGoogle(
-        acct: GoogleSignInAccount,
-        personalPhone: String,
-        userType: String,
-        closePersonPhone: String
-    ): LiveData<Resource<User>> {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.signInWithGoogle(acct).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-
-                    gmailUserLiveData.postValue(
-                        Resource.success(
-
-                            User(
-                                firebaseAuth.currentUser!!.uid,
-                                firebaseAuth.currentUser?.displayName!!,
-                                firebaseAuth.currentUser?.photoUrl.toString(),
-                                userType,
-                                personalPhone,
-                                closePersonPhone
-                            )
-                        )
-                    )
-                } else {
-                    gmailUserLiveData.postValue(Resource.error(null, "couldn't sign in user"))
-                }
-
-            }
-        }
-        return gmailUserLiveData
-    }
-
-    fun signUpSaviorWithGoogle(
-        acct: GoogleSignInAccount,
-        userType: String
-    ): LiveData<Resource<Savior>> {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.signInWithGoogle(acct).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    gmailSaviorLiveData.postValue(
-                        Resource.success(
-                            Savior(
-                                firebaseAuth.currentUser!!.uid,
-                                firebaseAuth.currentUser?.displayName!!,
-                                firebaseAuth.currentUser?.photoUrl.toString(),
-                                userType
-                            )
-                        )
-                    )
-
-                } else {
-                    gmailSaviorLiveData.postValue(Resource.error(null, "couldn't sign in user"))
-                }
-
-            }
-        }
-        return gmailSaviorLiveData
-    }
 
 
     fun saveUser(user: User) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.saveUser(user)
-        }
+        repository.saveUser(user)
     }
 
     fun saveSavior(savior: Savior) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.saveSavior(savior)
-        }
+        repository.saveSavior(savior)
     }
+
+
 }

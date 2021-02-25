@@ -43,7 +43,7 @@ class LoginFragment : Fragment() {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         binding.signupBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_userTypeFragment)
         }
 
         binding.loginBtn.setOnClickListener {

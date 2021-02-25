@@ -30,6 +30,7 @@
     <string name="height">CM الطول</string>
     <string name="weight"> KG الوزن</string>
     <string name="request_type">نوع الطلب</string>
+    <string name="full_name">الاسم بالكامل</string>
 
     <string-array name="gender">
         <item> ذكر </item>

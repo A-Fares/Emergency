@@ -13,10 +13,10 @@ class Repository @Inject constructor(private val firebaseSource: FirebaseSource)
 
     suspend fun signInWithGoogle(acct: GoogleSignInAccount) = firebaseSource.signInWithGoogle(acct)
 
-    suspend fun saveUser(user: User) =
+     fun saveUser(user: User) =
         firebaseSource.saveUser(user)
 
-    suspend fun saveSavior(savior: Savior) =
+     fun saveSavior(savior: Savior) =
         firebaseSource.saveSavior(savior)
 
     suspend fun fetchUser() = firebaseSource.fetchUser()

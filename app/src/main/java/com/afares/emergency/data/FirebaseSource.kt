@@ -27,12 +27,12 @@ class FirebaseSource @Inject constructor(
         GoogleAuthProvider.getCredential(acct.idToken, null)
     )
 
-    suspend fun saveUser(user: User) =
+    fun saveUser(user: User) =
         fireStore.collection(COLLECTION_USERS)
             .document(firebaseAuth.currentUser!!.uid).set(user)
 
 
-    suspend fun saveSavior(savior: Savior) =
+    fun saveSavior(savior: Savior) =
         fireStore.collection(COLLECTION_USERS)
             .document(firebaseAuth.currentUser!!.uid).set(savior)
 
