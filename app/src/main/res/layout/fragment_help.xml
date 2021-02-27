@@ -16,8 +16,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="24dp"
-            tools:context=".fragments.help.HelpFragment">
+            android:padding="24dp">
 
 
             <TextView

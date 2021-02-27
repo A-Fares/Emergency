@@ -105,20 +105,18 @@
                 app:layout_constraintVertical_bias="0.16000003" />
 
             <ImageView
-                android:id="@+id/user_phone_imageView"
+                android:id="@+id/phone_imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_phone"
-                app:layout_constraintEnd_toStartOf="@+id/user_imageView"
-                app:layout_constraintHorizontal_bias="0.69"
-                app:layout_constraintStart_toStartOf="@+id/userName"
-                app:layout_constraintTop_toBottomOf="@+id/userName"
+                app:layout_constraintEnd_toEndOf="@+id/ssn_imageView"
+                app:layout_constraintStart_toStartOf="@+id/ssn_imageView"
+                app:layout_constraintTop_toBottomOf="@+id/ssn_imageView"
                 app:tint="@color/darkGray" />
 
             <TextView
-                android:id="@+id/user_phone_textView"
+                android:id="@+id/phone_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -126,9 +124,9 @@
                 android:text="+201061462749"
                 android:textColor="@color/blue"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/user_phone_imageView"
-                app:layout_constraintEnd_toStartOf="@+id/user_phone_imageView"
-                app:layout_constraintTop_toTopOf="@+id/user_phone_imageView" />
+                app:layout_constraintBottom_toBottomOf="@+id/phone_imageView"
+                app:layout_constraintEnd_toStartOf="@+id/phone_imageView"
+                app:layout_constraintTop_toTopOf="@+id/phone_imageView" />
 
             <ImageView
                 android:id="@+id/close_phone_imageView"
@@ -136,9 +134,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:src="@drawable/ic_close_persone"
-                app:layout_constraintEnd_toEndOf="@+id/user_phone_imageView"
-                app:layout_constraintStart_toStartOf="@+id/user_phone_imageView"
-                app:layout_constraintTop_toBottomOf="@+id/user_phone_imageView"
+                app:layout_constraintEnd_toEndOf="@+id/phone_imageView"
+                app:layout_constraintStart_toStartOf="@+id/phone_imageView"
+                app:layout_constraintTop_toBottomOf="@+id/phone_imageView"
                 app:tint="@color/darkGray" />
 
             <TextView
@@ -320,8 +318,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
-                    android:text="فصيلة الدم:"
                     android:fontFamily="@font/katibeh"
+                    android:text="فصيلة الدم:"
                     android:textColor="@color/darkGray"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="@+id/bmi_textView"
@@ -333,8 +331,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="AB+"
                     android:fontFamily="@font/katibeh"
+                    android:text="AB+"
                     android:textColor="@color/red"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="@+id/blood_type"
@@ -342,6 +340,32 @@
                     app:layout_constraintTop_toTopOf="@+id/blood_type" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/ssn_imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_id_card"
+                app:layout_constraintEnd_toStartOf="@+id/user_imageView"
+                app:layout_constraintHorizontal_bias="0.69"
+                app:layout_constraintStart_toStartOf="@+id/userName"
+                app:layout_constraintTop_toBottomOf="@+id/userName"
+                app:tint="@color/darkGray" />
+
+            <TextView
+                android:id="@+id/ssn_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/katibeh"
+                android:text="29825465566655"
+                android:textColor="@color/dark"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/ssn_imageView"
+                app:layout_constraintEnd_toStartOf="@+id/ssn_imageView"
+                app:layout_constraintTop_toTopOf="@+id/ssn_imageView" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

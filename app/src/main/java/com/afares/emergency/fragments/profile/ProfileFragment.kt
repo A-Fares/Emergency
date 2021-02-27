@@ -37,8 +37,8 @@ class ProfileFragment : Fragment() {
                 binding.apply {
                     userNameTextView.text = user.data?.name
                     userSsnTextView.text = user.data?.ssn
-                    phoneTextView.text = user.data?.phone
-                    closePersonPhoneTextView.text = user.data?.closePersonPhone
+                    userPhoneTextView.text = user.data?.phone
+                    userClosePersonPhoneTextView.text = user.data?.closePersonPhone
                     Glide.with(requireActivity())
                         .load(user.data?.photoUrl)
                         .placeholder(R.drawable.upload_photo)
