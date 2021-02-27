@@ -1,39 +1,63 @@
 package com.afares.emergency.data.repository
 
-import com.afares.emergency.data.FirebaseSource
 import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.data.model.Savior
 import com.afares.emergency.data.model.User
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.afares.emergency.util.Constants
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import javax.inject.Inject
 
-class Repository @Inject constructor(private val firebaseSource: FirebaseSource) {
+class Repository @Inject constructor(
+    private val firebaseAuth: FirebaseAuth,
+    private val fireStore: FirebaseFirestore
+) {
+
+    fun saveUser(user: User) =
+        fireStore.collection(Constants.COLLECTION_USERS)
+            .document(firebaseAuth.currentUser!!.uid).set(user)
 
 
-    suspend fun signInWithGoogle(acct: GoogleSignInAccount) = firebaseSource.signInWithGoogle(acct)
+    fun saveSavior(savior: Savior) =
+        fireStore.collection(Constants.COLLECTION_USERS)
+            .document(firebaseAuth.currentUser!!.uid).set(savior)
 
-     fun saveUser(user: User) =
-        firebaseSource.saveUser(user)
 
-     fun saveSavior(savior: Savior) =
-        firebaseSource.saveSavior(savior)
+    fun fetchUser() =
+        fireStore.collection(Constants.COLLECTION_USERS).document(firebaseAuth.currentUser!!.uid)
+            .get()
 
-    suspend fun fetchUser() = firebaseSource.fetchUser()
+    fun addMedicalHistory(medicalHistory: MedicalHistory) =
+        fireStore.collection(Constants.COLLECTION_MEDICAL_HISTORY)
+            .document(firebaseAuth.currentUser!!.uid).set(medicalHistory)
 
-    suspend fun addMedicalHistory(medicalHistory: MedicalHistory) =
-        firebaseSource.addMedicalHistory(medicalHistory)
 
-    suspend fun getMedicalHistory() =
-        firebaseSource.getMedicalHistory()
+    fun getMedicalHistory() =
+        fireStore.collection(Constants.COLLECTION_MEDICAL_HISTORY)
+            .document(firebaseAuth.currentUser!!.uid).get()
 
-    suspend fun addRequest(request: Request) =
-        firebaseSource.addRequest(request)
+
+    fun addRequest(request: Request) =
+        fireStore.collection(Constants.COLLECTION_REQUESTS)
+            .add(request)
 
     fun queryUserRequests() =
-        firebaseSource.queryUserRequests()
+        fireStore.collection(Constants.COLLECTION_REQUESTS)
+            .whereEqualTo("uid", firebaseAuth.currentUser!!.uid)
+            .orderBy("created", Query.Direction.DESCENDING)
+            .limit(Constants.PAGE_SIZE.toLong())
 
-    fun queryAmbulanceRequests() = firebaseSource.queryAmbulanceRequests()
+    fun queryAmbulanceRequests() =
+        fireStore.collection(Constants.COLLECTION_REQUESTS)
+            .whereEqualTo("type", Constants.AMBULANCE)
+            .orderBy("created", Query.Direction.DESCENDING)
+            .limit(Constants.PAGE_SIZE.toLong())
 
-    fun queryFireFighterRequests() = firebaseSource.queryFireFighterRequests()
+    fun queryFireFighterRequests() =
+        fireStore.collection(Constants.COLLECTION_REQUESTS)
+            .whereEqualTo("type", Constants.FIRE_FIGHTER)
+            .orderBy("created", Query.Direction.DESCENDING)
+            .limit(Constants.PAGE_SIZE.toLong())
 }

@@ -84,14 +84,14 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             } else {
                 when (binding.requestTypeRg.checkedRadioButtonId) {
                     R.id.ambulance_btn -> {
-                        requestType = ambulanceBtn.text.toString()
+                        requestType = "اسعاف"
                         if (!hasMedicalHistory) {
                             confirmMedicalHistory()
                             return false
                         }
                     }
                     R.id.civil_defense_btn -> {
-                        requestType = binding.civilDefenseBtn.text.toString()
+                        requestType = "دفاع مدني"
                     }
                 }
             }

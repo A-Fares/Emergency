@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.afares.emergency.R
-import com.afares.emergency.viewmodels.LoginViewModel
+import com.afares.emergency.viewmodels.AuthViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,12 +19,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SplashFragment : Fragment() {
 
-    private lateinit var userType: String
-    private val viewModel: LoginViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
 
     @Inject
     lateinit var mAuth: FirebaseAuth
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +38,7 @@ class SplashFragment : Fragment() {
 
     private fun delaySplashScreen() {
 
-        val timer = object : CountDownTimer(1500, 100) {
+        val timer = object : CountDownTimer(1200, 100) {
             override fun onTick(millisUntilFinished: Long) {}
 
             override fun onFinish() {
@@ -59,7 +57,7 @@ class SplashFragment : Fragment() {
     }
 
     private fun checkUserType() {
-        viewModel.fetchUserType().observe(viewLifecycleOwner, { type ->
+        authViewModel.fetchUserType().observe(viewLifecycleOwner, { type ->
             if (type != null) {
                 if (type == "مستخدم") {
                     findNavController().navigate(R.id.action_splashFragment_to_homeActivity)

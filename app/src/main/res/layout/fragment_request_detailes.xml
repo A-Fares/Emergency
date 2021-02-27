@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/lightGray"
     android:padding="10dp"
-    tools:context=".RequestDetailsFragment">
+    tools:context=".fragments.requestdetails.RequestDetailsFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/request_container"

@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/requestsFragment"
-        android:name="com.afares.emergency.RequestsFragment"
+        android:name="com.afares.emergency.fragments.requests.RequestsFragment"
         android:label="الطلبات"
         tools:layout="@layout/fragment_requests" >
     </fragment>
     <fragment
         android:id="@+id/requestDetailesFragment"
-        android:name="com.afares.emergency.RequestDetailsFragment"
+        android:name="com.afares.emergency.fragments.requestdetails.RequestDetailsFragment"
         android:label="تفاصيل الطلب"
         tools:layout="@layout/fragment_request_detailes" />
 </navigation>

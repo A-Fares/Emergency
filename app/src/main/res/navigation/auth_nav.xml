@@ -92,7 +92,7 @@
     </activity>
     <fragment
         android:id="@+id/userTypeFragment"
-        android:name="com.afares.emergency.UserTypeFragment"
+        android:name="com.afares.emergency.fragments.usertype.UserTypeFragment"
         android:label="fragment_user_type"
         tools:layout="@layout/fragment_user_type" >
         <action

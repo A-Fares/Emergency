@@ -74,21 +74,20 @@ class UserViewModel @Inject constructor(
     }
 
     fun fetchUser(): LiveData<Resource<User>> {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.fetchUser().addOnSuccessListener { userData ->
-                val uId = userData.getString("uId")
-                val name = userData.getString("name")
-                val photoUrl = userData.getString("photoUrl")
-                val phone = userData.getString("phone")
-                val closePersonPhone = userData.getString("closePersonPhone")
-                val type = userData.getString("type")
+        repository.fetchUser().addOnSuccessListener { userData ->
+            val uId = userData.getString("uId")
+            val name = userData.getString("name")
+            val ssn = userData.getString("ssn")
+            val phone = userData.getString("phone")
+            val closePersonPhone = userData.getString("closePersonPhone")
+            val type = userData.getString("type")
+            val photoUrl = userData.getString("photoUrl")
 
-              /*  readUserLiveData.postValue(
-                    Resource.success(
-                        User(uId, name, photoUrl, type, phone, closePersonPhone)
-                    )
-                )*/
-            }
+            readUserLiveData.postValue(
+                Resource.success(
+                    User(uId, name, ssn, phone, closePersonPhone, type, photoUrl)
+                )
+            )
         }
         return readUserLiveData
     }

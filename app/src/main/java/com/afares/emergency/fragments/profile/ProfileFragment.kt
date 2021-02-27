@@ -7,12 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import coil.load
 import com.afares.emergency.R
 import com.afares.emergency.data.Status
-import com.afares.emergency.databinding.FragmentLoginBinding
 import com.afares.emergency.databinding.FragmentProfileBinding
-import com.afares.emergency.viewmodels.LoginViewModel
 import com.afares.emergency.viewmodels.UserViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +21,9 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
+    private val KEY_VERIFY_IN_PROGRESS = "key_verify_in_progress"
+    private var mVerificationInProgress = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,14 +34,15 @@ class ProfileFragment : Fragment() {
 
         viewModel.fetchUser().observe(viewLifecycleOwner, { user ->
             if (user.status == Status.SUCCESS) {
-                Log.d("HHH", user.status.toString())
                 binding.apply {
-
-                    userName.text = user.data?.name
-                    userPhone.text = user.data?.phone
-                    closePersonPhone.text = user.data?.closePersonPhone
-
-                    Glide.with(requireActivity()).load(user.data?.photoUrl).into(userImageView)
+                    userNameTextView.text = user.data?.name
+                    userSsnTextView.text = user.data?.ssn
+                    phoneTextView.text = user.data?.phone
+                    closePersonPhoneTextView.text = user.data?.closePersonPhone
+                    Glide.with(requireActivity())
+                        .load(user.data?.photoUrl)
+                        .placeholder(R.drawable.upload_photo)
+                        .into(userImageView)
                     profileContainer.visibility = View.VISIBLE
                     shimmerContainer.visibility = View.GONE
                     shimmerContainer.stopShimmer()
@@ -57,6 +58,10 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(KEY_VERIFY_IN_PROGRESS, mVerificationInProgress)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

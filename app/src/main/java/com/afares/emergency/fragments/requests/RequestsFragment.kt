@@ -1,22 +1,17 @@
-package com.afares.emergency
+package com.afares.emergency.fragments.requests
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
-import androidx.navigation.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afares.emergency.adapters.RequestAdapter
 import com.afares.emergency.data.Status
 import com.afares.emergency.databinding.FragmentRequestsBinding
-import com.afares.emergency.util.Constants
 import com.afares.emergency.util.Constants.USER_TYPE_KEY
-import com.afares.emergency.viewmodels.LoginViewModel
 import com.afares.emergency.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
