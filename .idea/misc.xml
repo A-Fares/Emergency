@@ -7,21 +7,24 @@
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/drawable/custom_radio_checked.xml" value="0.22205128205128205" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/drawable/custom_radio_unchecked.xml" value="0.22205128205128205" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/drawable/ic_add_photo.xml" value="0.22205128205128205" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/drawable/ic_alarm.xml" value="0.1" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/drawable/ic_app.xml" value="0.22205128205128205" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/drawable/ic_checkmark.xml" value="0.22552083333333334" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/drawable/ic_firefighter.xml" value="0.22205128205128205" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/drawable/ic_firefighter_truck.xml" value="0.22205128205128205" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/drawable/ic_history.xml" value="0.22552083333333334" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/activity_home.xml" value="0.209375" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/activity_savior.xml" value="0.16" />
-        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_help.xml" value="0.22" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_help.xml" value="0.12" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_history.xml" value="0.13541666666666666" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_login.xml" value="0.22" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_medical_history.xml" value="0.43655413271245636" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_request_detailes.xml" value="0.25" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_requests.xml" value="0.209375" />
-        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_sign_up.xml" value="0.18" />
-        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_user_type.xml" value="0.20516304347826086" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_sign_up.xml" value="0.19384057971014493" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_splash.xml" value="0.22" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_user_type.xml" value="0.22" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/fragment_verivy_otp.xml" value="0.22" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/history_row_layout.xml" value="0.25" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency/app/src/main/res/layout/placeholder_profile_layout.xml" value="0.18" />

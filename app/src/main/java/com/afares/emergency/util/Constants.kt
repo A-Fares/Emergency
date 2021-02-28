@@ -17,6 +17,8 @@ object Constants {
     const val FIRE_FIGHTER = "دفاع مدني"
 
     const val PREFERENCES_NAME = "login_preferences"
-    const val PREFERENCES_LOGIN_STATUS="login_status"
+    const val PREFERENCES_LOGIN_STATUS = "login_status"
+    const val PREFERENCES_USER_TYPE = "user_type"
+    const val DEFAULT_USER_TYPE = "none"
 
 }

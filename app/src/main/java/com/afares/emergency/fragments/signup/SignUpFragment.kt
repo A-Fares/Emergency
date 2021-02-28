@@ -7,20 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.afares.emergency.R
-import com.afares.emergency.data.model.Savior
+import com.afares.emergency.data.NetworkResult
+import com.afares.emergency.data.model.User
 import com.afares.emergency.databinding.FragmentSignUpBinding
 import com.afares.emergency.util.toast
 import com.afares.emergency.viewmodels.AuthViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -44,6 +46,7 @@ class SignUpFragment : Fragment() {
 
     @Inject
     lateinit var mAuth: FirebaseAuth
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,12 +78,11 @@ class SignUpFragment : Fragment() {
                 }
                 verificationId?.let {
                     val credential = PhoneAuthProvider.getCredential(it, code)
-                    signInWithPhoneAuthCredential(credential)
+                    signInWithPhoneAuthCredential(userData(), credential)
                 }
             }
         }
-
-
+        signUp()
         return binding.root
     }
 
@@ -121,10 +123,38 @@ class SignUpFragment : Fragment() {
         }
     }
 
+    private fun signUp() {
+        lifecycleScope.launchWhenStarted {
+            authViewModel.userState.collect {
+                when (it) {
+                    is NetworkResult.Success -> {
+                        binding.progressBar.visibility = View.INVISIBLE
+                        if (it.data?.type == "مستخدم") {
+                            findNavController().navigate(R.id.action_signUpFragment_to_homeActivity)
+                            activity?.finish()
+                        } else {
+                            findNavController().navigate(R.id.action_signUpFragment_to_saviorActivity)
+                            activity?.finish()
+                        }
+                    }
+                    is NetworkResult.Error -> {
+                        binding.progressBar.visibility = View.INVISIBLE
+                        toast(requireContext(), it.message.toString())
+                    }
+                    is NetworkResult.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is NetworkResult.Empty -> {
+                        binding.progressBar.visibility = View.GONE
+                    }
+                }
+            }
+        }
+    }
 
     private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
-            signInWithPhoneAuthCredential(phoneAuthCredential)
+            signInWithPhoneAuthCredential(userData(), phoneAuthCredential)
         }
 
         override fun onVerificationFailed(exception: FirebaseException) {
@@ -140,7 +170,6 @@ class SignUpFragment : Fragment() {
         }
     }
 
-
     private fun sendVerificationCode(phone: String) {
         mAuth.setLanguageCode("ar")
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -152,63 +181,24 @@ class SignUpFragment : Fragment() {
         )
     }
 
-    fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-        mAuth.signInWithCredential(credential).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val userType = args.userType
-                if (userType == "مستخدم") {
-                    saveUser(userType)
-                } else {
-                    saveSavior(userType)
-                }
-            } else {
-                // Show Error
-                if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                    toast(requireContext(), task.exception?.message ?: "Verification Failed")
-                } else {
-                    toast(requireContext(), "Verification Failed")
-                }
-            }
-        }
+    fun signInWithPhoneAuthCredential(user: User, credential: PhoneAuthCredential) {
+        authViewModel.signUpWithPhoneAuthCredential(user, credential)
     }
 
-    private fun saveSavior(userType: String) {
-        binding.apply {
-            val name = nameEt.text.toString()
-            val ssn = ssnEt.text.toString()
-            val personalPhone = personalPhoneEt.text.toString()
-
-            val savior = Savior(
-                mAuth.currentUser!!.uid,
-                name,
-                ssn,
-                personalPhone,
-                userType
-            )
-            authViewModel.saveSavior(savior)
-            findNavController().navigate(R.id.action_signUpFragment_to_saviorActivity)
-
-        }
-    }
-
-    private fun saveUser(userType: String) {
+    private fun userData(): User {
         binding.apply {
             val name = nameEt.text.toString()
             val ssn = ssnEt.text.toString()
             val personalPhone = personalPhoneEt.text.toString()
             val closePersonPhone = phoneClosePersonEt.text.toString()
-
-            val user = com.afares.emergency.data.model.User(
-                mAuth.currentUser!!.uid,
+            return User(
+                null,
                 name,
                 ssn,
                 personalPhone,
                 closePersonPhone,
-                userType, null
+                args.userType, null
             )
-            authViewModel.saveUser(user)
-
-            findNavController().navigate(R.id.action_signUpFragment_to_homeActivity)
         }
     }
 

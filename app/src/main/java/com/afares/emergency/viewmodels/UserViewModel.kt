@@ -75,6 +75,8 @@ class UserViewModel @Inject constructor(
 
     fun fetchUser(): LiveData<Resource<User>> {
         repository.fetchUser().addOnSuccessListener { userData ->
+            val user = userData.toObject(User::class.java)
+
             val uId = userData.getString("uId")
             val name = userData.getString("name")
             val ssn = userData.getString("ssn")

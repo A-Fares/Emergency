@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.afares.emergency.R
+import com.afares.emergency.data.NetworkResult
 import com.afares.emergency.databinding.FragmentLoginBinding
 import com.afares.emergency.util.showSnackBar
 import com.afares.emergency.util.toast
@@ -20,6 +22,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.flow.collect
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -75,17 +78,52 @@ class LoginFragment : Fragment() {
                 }
                 verificationId?.let {
                     val credential = PhoneAuthProvider.getCredential(it, code)
-                    signInWithPhoneAuthCredential(credential)
+                    authViewModel.signInWithPhoneAuthCredential(credential)
                 }
             }
         }
-
+        signIn()
         return binding.root
+    }
+
+    private fun signIn() {
+        lifecycleScope.launchWhenStarted {
+            authViewModel.userState.collect {
+                when (it) {
+                    is NetworkResult.Success -> {
+                        binding.progressBar2.visibility = View.INVISIBLE
+                        when {
+                            it.data?.type.isNullOrEmpty() -> {
+                                showSnackBar(binding.loginFragment, "يرجى تسجيل الحساب اولا ")
+                            }
+                            it.data?.type == "مستخدم" -> {
+                                findNavController().navigate(R.id.action_loginFragment_to_homeActivity)
+                                activity?.finish()
+                            }
+                            else -> {
+                                findNavController().navigate(R.id.action_loginFragment_to_saviorActivity)
+                                activity?.finish()
+                            }
+                        }
+                    }
+                    is NetworkResult.Error -> {
+                        binding.progressBar2.visibility = View.INVISIBLE
+                        toast(requireContext(), it.message.toString())
+                    }
+                    is NetworkResult.Loading -> {
+                        binding.progressBar2.visibility = View.VISIBLE
+                    }
+                    is NetworkResult.Empty -> {
+                        binding.progressBar2.visibility = View.GONE
+                    }
+                }
+            }
+        }
     }
 
     private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
-            signInWithPhoneAuthCredential(phoneAuthCredential)
+            authViewModel.signInWithPhoneAuthCredential(phoneAuthCredential)
         }
 
         override fun onVerificationFailed(exception: FirebaseException) {
@@ -111,41 +149,6 @@ class LoginFragment : Fragment() {
             requireActivity(),
             callbacks
         )
-    }
-
-    fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-        mAuth.signInWithCredential(credential).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                checkUserValidation()
-            } else {
-                // Show Error
-                if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                    toast(requireContext(), task.exception?.message ?: "Verification Failed")
-                } else {
-                    toast(requireContext(), "Verification Failed")
-                }
-            }
-        }
-    }
-
-    private fun checkUserValidation() {
-        authViewModel.fetchUserType().observe(viewLifecycleOwner, { type ->
-            when {
-                type.isNullOrEmpty() -> {
-                    showSnackBar(binding.loginFragment, "يرجى تسجيل الحساب اولا ")
-                    toast(requireContext(), "يرجى تسجيل الحساب اولا ")
-                }
-                type == "مستخدم" -> {
-                    findNavController().navigate(R.id.action_loginFragment_to_homeActivity)
-                    activity?.finish()
-                }
-                else -> {
-                    val action = LoginFragmentDirections.actionLoginFragmentToSaviorActivity(type)
-                    findNavController().navigate(action)
-                    activity?.finish()
-                }
-            }
-        })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

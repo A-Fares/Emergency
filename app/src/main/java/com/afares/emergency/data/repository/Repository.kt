@@ -2,7 +2,6 @@ package com.afares.emergency.data.repository
 
 import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.data.model.Request
-import com.afares.emergency.data.model.Savior
 import com.afares.emergency.data.model.User
 import com.afares.emergency.util.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -18,11 +17,6 @@ class Repository @Inject constructor(
     fun saveUser(user: User) =
         fireStore.collection(Constants.COLLECTION_USERS)
             .document(firebaseAuth.currentUser!!.uid).set(user)
-
-
-    fun saveSavior(savior: Savior) =
-        fireStore.collection(Constants.COLLECTION_USERS)
-            .document(firebaseAuth.currentUser!!.uid).set(savior)
 
 
     fun fetchUser() =

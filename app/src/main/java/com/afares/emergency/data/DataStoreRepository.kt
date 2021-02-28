@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.createDataStore
+import com.afares.emergency.util.Constants.DEFAULT_USER_TYPE
 import com.afares.emergency.util.Constants.PREFERENCES_LOGIN_STATUS
 import com.afares.emergency.util.Constants.PREFERENCES_NAME
+import com.afares.emergency.util.Constants.PREFERENCES_USER_TYPE
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.flow.Flow
@@ -20,19 +22,21 @@ class DataStoreRepository @Inject constructor(@ApplicationContext context: Conte
 
     private object PreferenceKeys {
         val loginStatus = booleanPreferencesKey(PREFERENCES_LOGIN_STATUS)
+        val userType = stringPreferencesKey(PREFERENCES_USER_TYPE)
     }
 
     private val dataStore: DataStore<Preferences> = context.createDataStore(
         name = PREFERENCES_NAME
     )
 
-    suspend fun saveLoginStatus(isLogin: Boolean) {
+    suspend fun saveLoginStatus(isLogin: Boolean, userType: String) {
         dataStore.edit { preference ->
             preference[PreferenceKeys.loginStatus] = isLogin
+            preference[PreferenceKeys.userType] = userType
         }
     }
 
-    val readLoginStatus: Flow<Boolean> = dataStore.data
+    val readLoginStatus: Flow<LoginPreferences> = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
@@ -42,6 +46,14 @@ class DataStoreRepository @Inject constructor(@ApplicationContext context: Conte
         }
         .map { preferences ->
             val isLogin = preferences[PreferenceKeys.loginStatus] ?: false
-            isLogin
+            val userType = preferences[PreferenceKeys.userType] ?: DEFAULT_USER_TYPE
+            LoginPreferences(
+                isLogin, userType
+            )
         }
 }
+
+data class LoginPreferences(
+    val isLogin: Boolean,
+    val userType: String
+)

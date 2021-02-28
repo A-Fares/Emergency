@@ -11,14 +11,16 @@
         android:id="@+id/loginFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/lightGray"
+        android:background="@color/gray"
         android:padding="24dp"
         tools:context=".fragments.login.LoginFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/login_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="24dp"
+            tools:layout_editor_absoluteY="24dp">
 
             <Button
                 android:id="@+id/signup_btn"
@@ -28,46 +30,41 @@
                 android:background="#00FFFFFF"
                 android:fontFamily="@font/katibeh"
                 android:text="@string/sign_up"
-                android:textColor="@color/gray"
+                android:textColor="@color/darkGray"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/login_btn"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/app_icon"
-                app:layout_constraintVertical_bias="0.94" />
+                app:layout_constraintStart_toStartOf="@+id/login_btn"
+                app:layout_constraintTop_toBottomOf="@+id/login_btn"
+                app:layout_constraintVertical_bias="0.89" />
 
             <Button
                 android:id="@+id/login_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"
-                android:backgroundTint="@color/teal_700"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/blue"
                 android:fontFamily="@font/katibeh"
                 android:paddingHorizontal="20dp"
                 android:text="@string/login"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/signup_btn"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.547"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phone_et"
-                app:layout_constraintVertical_bias="0.23000002" />
+                app:layout_constraintTop_toBottomOf="@+id/phone_et" />
 
             <ImageView
                 android:id="@+id/app_icon"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/ic_help"
+                android:src="@mipmap/ic_launcher"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/purple_200" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/slogan_help"
@@ -109,7 +106,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/lightGray"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:layout_editor_absoluteX="24dp"
+            tools:layout_editor_absoluteY="24dp">
 
             <ImageView
                 android:id="@+id/imageView_otp"
@@ -172,6 +171,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/otp_et"
                 app:layout_constraintWidth_percent="0.3" />
+
+            <ProgressBar
+                android:id="@+id/progressBar2"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
