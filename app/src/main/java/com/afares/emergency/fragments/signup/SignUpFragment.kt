@@ -14,6 +14,7 @@ import com.afares.emergency.R
 import com.afares.emergency.data.NetworkResult
 import com.afares.emergency.data.model.User
 import com.afares.emergency.databinding.FragmentSignUpBinding
+import com.afares.emergency.fragments.splash.SplashFragmentDirections
 import com.afares.emergency.util.toast
 import com.afares.emergency.viewmodels.AuthViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -133,7 +134,11 @@ class SignUpFragment : Fragment() {
                             findNavController().navigate(R.id.action_signUpFragment_to_homeActivity)
                             activity?.finish()
                         } else {
-                            findNavController().navigate(R.id.action_signUpFragment_to_saviorActivity)
+                            val action =
+                                SignUpFragmentDirections.actionSignUpFragmentToSaviorActivity(
+                                    args.userType
+                                )
+                            findNavController().navigate(action)
                             activity?.finish()
                         }
                     }

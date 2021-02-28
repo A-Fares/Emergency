@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.afares.emergency.R
 import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.databinding.FragmentMedicalHistoryBinding
 import com.afares.emergency.viewmodels.UserViewModel
@@ -57,6 +59,7 @@ class MedicalHistoryFragment : Fragment() {
                         gender
                     )
                     viewModel.addMedicalHistory(medicalHistory)
+                    findNavController().navigate(R.id.action_medicalHistoryFragment_to_helpFragment)
                 } else {
                     return@setOnClickListener
                 }

@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.afares.emergency.R
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.databinding.FragmentHelpBinding
@@ -65,7 +66,6 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         viewModel.getMedicalHistory()
 
         binding.orderBtn.setOnClickListener {
-
             if (validateRequest()) {
                 requestPermissions()
             } else {
@@ -107,7 +107,9 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun confirmMedicalHistory() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setPositiveButton("تم") { _, _ -> }
+        builder.setPositiveButton("تم") { _, _ ->
+            findNavController().navigate(R.id.action_helpFragment_to_medicalHistoryFragment)
+        }
         builder.setTitle("تنبيه ")
         builder.setMessage("برجاء ملئ السجل الطبي اولا ")
         builder.create().show()
@@ -172,7 +174,7 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     coordinates, "تم الطلب", null
                 )
                 addRequest(request)
-
+                findNavController().navigate(R.id.action_helpFragment_to_historyFragment)
                 /** for handle best route location */
                 /* val intent = Intent()
                  intent.action = Intent.ACTION_VIEW

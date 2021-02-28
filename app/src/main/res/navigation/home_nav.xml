@@ -13,7 +13,15 @@
         android:id="@+id/helpFragment"
         android:name="com.afares.emergency.fragments.help.HelpFragment"
         android:label="@string/help"
-        tools:layout="@layout/fragment_help" />
+        tools:layout="@layout/fragment_help" >
+        <action
+            android:id="@+id/action_helpFragment_to_medicalHistoryFragment"
+            app:destination="@id/medicalHistoryFragment" />
+        <action
+            android:id="@+id/action_helpFragment_to_historyFragment"
+            app:destination="@id/historyFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.afares.emergency.fragments.history.HistoryFragment"
@@ -23,5 +31,11 @@
         android:id="@+id/medicalHistoryFragment"
         android:name="com.afares.emergency.fragments.medical.MedicalHistoryFragment"
         android:label="@string/medical_history"
-        tools:layout="@layout/fragment_medical_history" />
+        tools:layout="@layout/fragment_medical_history" >
+        <action
+            android:id="@+id/action_medicalHistoryFragment_to_helpFragment"
+            app:destination="@id/helpFragment"
+            app:popUpTo="@id/medicalHistoryFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
