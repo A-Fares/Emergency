@@ -10,10 +10,17 @@
         android:name="com.afares.emergency.fragments.requests.RequestsFragment"
         android:label="الطلبات"
         tools:layout="@layout/fragment_requests" >
+        <action
+            android:id="@+id/action_requestsFragment_to_requestDetailesFragment"
+            app:destination="@id/requestDetailesFragment" />
     </fragment>
     <fragment
         android:id="@+id/requestDetailesFragment"
         android:name="com.afares.emergency.fragments.requestdetails.RequestDetailsFragment"
         android:label="تفاصيل الطلب"
-        tools:layout="@layout/fragment_request_detailes" />
+        tools:layout="@layout/fragment_request_detailes" >
+        <argument
+            android:name="currentItem"
+            app:argType="com.afares.emergency.data.model.Request" />
+    </fragment>
 </navigation>

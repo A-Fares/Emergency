@@ -60,10 +60,11 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
 
+        viewModel.getMedicalHistory(mAuth.currentUser!!.uid)
         viewModel.hasMedicalHistory.observe(viewLifecycleOwner, {
             hasMedicalHistory = it
         })
-        viewModel.getMedicalHistory()
+
 
         binding.orderBtn.setOnClickListener {
             if (validateRequest()) {

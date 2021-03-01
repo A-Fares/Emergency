@@ -105,7 +105,6 @@
             android:id="@+id/otp_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/lightGray"
             android:visibility="gone"
             tools:layout_editor_absoluteX="24dp"
             tools:layout_editor_absoluteY="24dp">

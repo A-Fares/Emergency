@@ -32,6 +32,8 @@
     <string name="request_type">نوع الطلب</string>
     <string name="full_name">الاسم بالكامل</string>
 
+    <string name="no_data">لا يوجد طلبات</string>
+
     <string-array name="gender">
         <item> ذكر </item>
         <item> انثى </item>

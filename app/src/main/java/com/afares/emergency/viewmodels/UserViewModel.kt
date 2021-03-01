@@ -12,6 +12,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.afares.emergency.adapters.FirestorePagingSource
+import com.afares.emergency.data.NetworkResult
 import com.afares.emergency.data.Resource
 import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.data.model.Request
@@ -20,8 +21,11 @@ import com.afares.emergency.data.repository.Repository
 import com.afares.emergency.util.Constants.PAGE_SIZE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
@@ -29,14 +33,19 @@ class UserViewModel @Inject constructor(
     private val repository: Repository
 ) : AndroidViewModel(application) {
 
-
     private val queryRequestsHistory = repository.queryUserRequests()
 
-    private val queryAmbulanceRequests = repository.queryAmbulanceRequests()
-    private val queryFireFighterRequests = repository.queryFireFighterRequests()
+    private val _userData = MutableStateFlow<NetworkResult<User>>(NetworkResult.Empty())
+    val userData: StateFlow<NetworkResult<User>> = _userData
 
-    private val readUserLiveData = MutableLiveData<Resource<User>>()
-    val readRequests = MutableLiveData<Resource<Request>>()
+    private val _hasRequests = MutableStateFlow(false)
+    val hasRequests: StateFlow<Boolean> = _hasRequests
+
+    fun checkRequestHistory() {
+        queryRequestsHistory.addSnapshotListener { value, error ->
+            _hasRequests.value = !value!!.isEmpty
+        }
+    }
 
     val hasMedicalHistory = MutableLiveData<Boolean>()
 
@@ -46,52 +55,16 @@ class UserViewModel @Inject constructor(
         FirestorePagingSource(queryRequestsHistory)
     }.flow.cachedIn(viewModelScope)
 
-
-    val requestsAmbulanceFlow = Pager(
-        PagingConfig(pageSize = PAGE_SIZE)
-    ) {
-        FirestorePagingSource(queryAmbulanceRequests)
-    }.flow.cachedIn(viewModelScope)
-
-
-    val requestsFireFighterFlow = Pager(
-        PagingConfig(pageSize = PAGE_SIZE)
-    ) {
-        FirestorePagingSource(queryFireFighterRequests)
-    }.flow.cachedIn(viewModelScope)
-
-    fun getRequestsStatus() {
-        if (hasInternetConnection()) {
-            readRequests.postValue(Resource.loading(null))
-            try {
-                readRequests.postValue(Resource.success(null))
-            } catch (e: Exception) {
-                readRequests.postValue(Resource.error(null, "No Requests History"))
+    fun getUserInfo(userID: String) {
+        _userData.value = NetworkResult.Loading()
+        repository.getUserInfo(userID).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val userData = task.result.toObject(User::class.java)!!
+                _userData.value = NetworkResult.Success(userData)
+            } else {
+                _userData.value = NetworkResult.Error("No Internet Connection.")
             }
-        } else {
-            readRequests.postValue(Resource.error(null, "No Internet Connection."))
         }
-    }
-
-    fun fetchUser(): LiveData<Resource<User>> {
-        repository.fetchUser().addOnSuccessListener { userData ->
-            val user = userData.toObject(User::class.java)
-
-            val uId = userData.getString("uId")
-            val name = userData.getString("name")
-            val ssn = userData.getString("ssn")
-            val phone = userData.getString("phone")
-            val closePersonPhone = userData.getString("closePersonPhone")
-            val type = userData.getString("type")
-            val photoUrl = userData.getString("photoUrl")
-
-            readUserLiveData.postValue(
-                Resource.success(
-                    User(uId, name, ssn, phone, closePersonPhone, type, photoUrl)
-                )
-            )
-        }
-        return readUserLiveData
     }
 
     fun addMedicalHistory(medicalHistory: MedicalHistory) {
@@ -100,11 +73,10 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun getMedicalHistory() {
+    fun getMedicalHistory(userId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getMedicalHistory().addOnSuccessListener { task ->
+            repository.getMedicalHistory(userId).addOnSuccessListener { task ->
                 if (task.exists()) {
-                    //     readMedicalHistory.postValue(task.result.toObject(MedicalHistory::class.java))
                     hasMedicalHistory.postValue(true)
                 } else {
                     hasMedicalHistory.postValue(false)

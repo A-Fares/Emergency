@@ -37,9 +37,6 @@ class LoginFragment : Fragment() {
     private var mVerificationInProgress = false
 
     @Inject
-    lateinit var googleSignInClient: GoogleSignInClient
-
-    @Inject
     lateinit var mAuth: FirebaseAuth
 
     override fun onCreateView(
@@ -101,7 +98,9 @@ class LoginFragment : Fragment() {
                                 activity?.finish()
                             }
                             else -> {
-                                findNavController().navigate(R.id.action_loginFragment_to_saviorActivity)
+                                val action =
+                                    LoginFragmentDirections.actionLoginFragmentToSaviorActivity(it.data?.type!!)
+                                findNavController().navigate(action)
                                 activity?.finish()
                             }
                         }
