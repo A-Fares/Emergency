@@ -1,5 +1,6 @@
 package com.afares.emergency.fragments.requests
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.afares.emergency.R
 import com.afares.emergency.adapters.RequestAdapter
 import com.afares.emergency.data.NetworkResult
 import com.afares.emergency.databinding.FragmentRequestsBinding
@@ -23,7 +29,7 @@ import kotlinx.coroutines.runBlocking
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
-class RequestsFragment : Fragment() {
+class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
 
     private var _binding: FragmentRequestsBinding? = null
@@ -46,6 +52,7 @@ class RequestsFragment : Fragment() {
     ): View? {
         _binding = FragmentRequestsBinding.inflate(inflater, container, false)
 
+        binding.swipeRefreshLayout.setOnRefreshListener(this)
         requestsViewModel.getRequestsStatus()
         setupRecyclerView()
         getRequestsStatus()
@@ -104,6 +111,17 @@ class RequestsFragment : Fragment() {
         super.onDestroyView()
         // to avoid memory leaks
         _binding = null
+    }
+
+    override fun onRefresh() {
+        findNavController().navigate(
+            R.id.requestsFragment,
+            arguments,
+            NavOptions.Builder()
+                .setPopUpTo(R.id.requestsFragment, true)
+                .build()
+        )
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 
 }
