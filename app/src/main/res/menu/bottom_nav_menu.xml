@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/helpFragment"
-        android:icon="@drawable/ic_help"
+        android:icon="@drawable/ic_emergency_alert"
         android:title="@string/help" />
 
     <item

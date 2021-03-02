@@ -11,7 +11,7 @@
         android:id="@+id/helpFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/lightGray">
+        android:background="@color/gray">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:fontFamily="@font/katibeh"
                 android:layoutDirection="rtl"
                 android:text="@string/request_type"
-                android:textColor="@color/sky_blue_500"
+                android:textColor="@color/red"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -40,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_margin="12dp"
+                android:padding="4dp"
                 android:gravity="end"
                 android:orientation="horizontal"
                 android:weightSum="2"
@@ -53,13 +54,13 @@
                     android:layout_width="0dp"
                     android:layout_height="170dp"
                     android:layout_gravity="end"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_margin="16dp"
                     android:layout_weight="1"
                     android:background="@drawable/custom_radio"
                     android:button="@null"
-                    android:drawableBottom="@drawable/ic_firefighter_truck"
-                    android:fontFamily="@font/katibeh"
-                    android:textColor="@color/fui_transparent"
+                    android:drawableBottom="@drawable/firefighter"
+                    android:elevation="5dp"
+                    android:paddingBottom="20dp"
                     android:textSize="20sp" />
 
                 <RadioButton
@@ -67,12 +68,13 @@
                     android:layout_width="0dp"
                     android:layout_height="170dp"
                     android:layout_gravity="end"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_margin="16dp"
                     android:layout_weight="1"
                     android:background="@drawable/custom_radio"
                     android:button="@null"
-                    android:drawableBottom="@drawable/ic_ambulance_2"
-                    android:fontFamily="@font/katibeh"
+                    android:drawableBottom="@drawable/medical"
+                    android:elevation="5dp"
+                    android:paddingBottom="20dp"
                     android:textSize="20sp" />
 
             </RadioGroup>
@@ -103,7 +105,8 @@
                 android:layout_height="80dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="24dp"
-                android:fontFamily="@font/katibeh"
+                android:backgroundTint="@color/blue"
+                android:fontFamily="@font/nahdi"
                 android:paddingHorizontal="50dp"
                 android:text="اطلب"
                 android:textSize="28sp"
