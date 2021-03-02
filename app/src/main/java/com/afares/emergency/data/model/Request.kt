@@ -7,6 +7,7 @@ import java.util.*
 
 @Parcelize
 data class Request(
+    val id: String? = "",
     val uid: String? = "",
     val type: String? = "",
     val description: String? = "",

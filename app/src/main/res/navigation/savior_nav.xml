@@ -22,5 +22,10 @@
         <argument
             android:name="currentItem"
             app:argType="com.afares.emergency.data.model.Request" />
+        <action
+            android:id="@+id/action_requestDetailesFragment_to_requestsFragment"
+            app:destination="@id/requestsFragment"
+            app:popUpTo="@id/requestDetailesFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

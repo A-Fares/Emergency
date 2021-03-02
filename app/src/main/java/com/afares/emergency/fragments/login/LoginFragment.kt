@@ -14,10 +14,8 @@ import com.afares.emergency.databinding.FragmentLoginBinding
 import com.afares.emergency.util.showSnackBar
 import com.afares.emergency.util.toast
 import com.afares.emergency.viewmodels.AuthViewModel
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
@@ -98,9 +96,7 @@ class LoginFragment : Fragment() {
                                 activity?.finish()
                             }
                             else -> {
-                                val action =
-                                    LoginFragmentDirections.actionLoginFragmentToSaviorActivity(it.data?.type!!)
-                                findNavController().navigate(action)
+                                findNavController().navigate(R.id.action_signUpFragment_to_saviorActivity)
                                 activity?.finish()
                             }
                         }

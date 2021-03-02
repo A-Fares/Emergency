@@ -1,6 +1,5 @@
 package com.afares.emergency.fragments.requests
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -17,16 +15,15 @@ import com.afares.emergency.R
 import com.afares.emergency.adapters.RequestAdapter
 import com.afares.emergency.data.NetworkResult
 import com.afares.emergency.databinding.FragmentRequestsBinding
-import com.afares.emergency.util.Constants.USER_TYPE_KEY
 import com.afares.emergency.util.toast
 import com.afares.emergency.viewmodels.RequestsViewModel
 import com.afares.emergency.viewmodels.UserViewModel
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlin.properties.Delegates
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
@@ -36,27 +33,41 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private val binding get() = _binding!!
 
     private val requestsViewModel: RequestsViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
 
     private val mAdapter by lazy { RequestAdapter() }
     private lateinit var userType: String
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val args = arguments
-        userType = args?.getString(USER_TYPE_KEY)!!
-    }
+    @Inject
+    lateinit var mAuth: FirebaseAuth
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRequestsBinding.inflate(inflater, container, false)
-
         binding.swipeRefreshLayout.setOnRefreshListener(this)
+
+        userViewModel.getUserInfo(mAuth.currentUser!!.uid)
+        fetchUserData()
+
         requestsViewModel.getRequestsStatus()
         setupRecyclerView()
-        getRequestsStatus()
         return binding.root
+    }
+
+    private fun fetchUserData() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            userViewModel.userData.collect { userData ->
+                when (userData) {
+                    is NetworkResult.Success -> {
+                        userType = userData.data?.type!!
+                        getRequestsStatus()
+                    }
+                }
+            }
+        }
     }
 
     private fun setupRecyclerView() {

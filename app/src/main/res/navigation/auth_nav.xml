@@ -85,11 +85,7 @@
         android:id="@+id/saviorActivity"
         android:name="com.afares.emergency.SaviorActivity"
         android:label="activity_savior"
-        tools:layout="@layout/activity_savior" >
-        <argument
-            android:name="userType"
-            app:argType="string" />
-    </activity>
+        tools:layout="@layout/activity_savior" />
     <fragment
         android:id="@+id/userTypeFragment"
         android:name="com.afares.emergency.fragments.usertype.UserTypeFragment"

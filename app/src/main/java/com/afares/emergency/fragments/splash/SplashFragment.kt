@@ -1,7 +1,6 @@
 package com.afares.emergency.fragments.splash
 
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
@@ -14,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import com.afares.emergency.R
 import com.afares.emergency.viewmodels.AuthViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -53,11 +51,7 @@ class SplashFragment : Fragment() {
                             activity?.finish();
                         }
                         else -> {
-                            val action =
-                                SplashFragmentDirections.actionSplashFragmentToSaviorActivity(
-                                    userType
-                                )
-                            findNavController().navigate(action)
+                            findNavController().navigate(R.id.action_splashFragment_to_saviorActivity)
                             activity?.finish();
                         }
                     }
@@ -66,40 +60,5 @@ class SplashFragment : Fragment() {
                 }
             })
         }
-    }
-
-    private fun delaySplashScreen() {
-
-        val timer = object : CountDownTimer(1200, 100) {
-            override fun onTick(millisUntilFinished: Long) {}
-
-            override fun onFinish() {
-                checkAuthenticationn(mAuth.currentUser)
-            }
-        }
-        timer.start()
-    }
-
-    private fun checkAuthenticationn(user: FirebaseUser?) {
-        if (user == null) {
-            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
-        } else {
-            checkUserType()
-        }
-    }
-
-    private fun checkUserType() {
-        authViewModel.fetchUserType().observe(viewLifecycleOwner, { type ->
-            if (type != null) {
-                if (type == "مستخدم") {
-                    findNavController().navigate(R.id.action_splashFragment_to_homeActivity)
-                    activity?.finish();
-                } else {
-                    val action = SplashFragmentDirections.actionSplashFragmentToSaviorActivity(type)
-                    findNavController().navigate(action)
-                    activity?.finish();
-                }
-            }
-        })
     }
 }

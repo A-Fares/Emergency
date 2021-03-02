@@ -25,7 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.lang.Math.round
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -47,14 +46,57 @@ class RequestDetailsFragment : Fragment() {
 
         getUserInfo(args.currentItem.uid)
         getUserMedical(args.currentItem.uid)
-
         attachRequestDetails()
+        checkRequestStatus(args.currentItem.status)
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            requestsViewModel.requestStatus.collect { status ->
+                when (status) {
+                    "تم الطلب" -> {
+
+                        binding.acceptBtn.visibility = View.VISIBLE
+
+                    }
+                    "تم الاستلام" -> {
+                        binding.finishBtn.visibility = View.VISIBLE
+                    }
+                    "تم الانتهاء" -> {
+                        binding.apply {
+                            finishBtn.visibility = View.GONE
+                            acceptBtn.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+        }
+        binding.apply {
+            acceptBtn.setOnClickListener {
+                updateRequestStatus(args.currentItem.id!!, "تم الاستلام")
+                acceptBtn.visibility = View.GONE
+                finishBtn.visibility = View.VISIBLE
+            }
+        }
+        binding.finishBtn.setOnClickListener {
+            updateRequestStatus(args.currentItem.id!!, "تم الانتهاء")
+            findNavController().navigate(R.id.action_requestDetailesFragment_to_requestsFragment)
+        }
         attachUserInfo()
         if (args.currentItem.type == "اسعاف") {
             binding.medicalInfoContainer.visibility = View.VISIBLE
             attachMedicalInfo()
         }
         return binding.root
+    }
+
+    private fun checkRequestStatus(requestStatus: String?) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            if (requestStatus != null) {
+                requestsViewModel.checkRequestStatus(requestStatus)
+            }
+        }
+    }
+
+    private fun updateRequestStatus(currentRequest: String, status: String) {
+        requestsViewModel.updateRequestStatus(currentRequest, status)
     }
 
     private fun attachMedicalInfo() {

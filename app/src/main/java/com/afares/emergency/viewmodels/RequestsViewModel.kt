@@ -9,12 +9,12 @@ import com.afares.emergency.adapters.FirestorePagingSource
 import com.afares.emergency.data.NetworkResult
 import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.data.model.Request
-import com.afares.emergency.data.model.User
 import com.afares.emergency.data.repository.Repository
 import com.afares.emergency.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,6 +32,14 @@ class RequestsViewModel @Inject constructor(
     private val _requestState = MutableStateFlow<NetworkResult<Request>>(NetworkResult.Empty())
     val requestState: StateFlow<NetworkResult<Request>> = _requestState
 
+    private val _requestStatus = MutableStateFlow("تم الطلب")
+    val requestStatus: StateFlow<String> = _requestStatus
+
+     fun checkRequestStatus(status: String) {
+        viewModelScope.launch {
+            _requestStatus.emit(status)
+        }
+    }
 
     val requestsAmbulanceFlow = Pager(
         PagingConfig(pageSize = Constants.PAGE_SIZE)
@@ -68,5 +76,8 @@ class RequestsViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateRequestStatus(currentRequest: String, status: String) =
+        repository.updateRequestStatus(currentRequest, status)
 
 }

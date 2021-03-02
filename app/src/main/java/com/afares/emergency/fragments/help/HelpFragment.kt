@@ -19,10 +19,12 @@ import com.afares.emergency.databinding.FragmentHelpBinding
 import com.afares.emergency.util.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import com.afares.emergency.util.TrackingUtility
 import com.afares.emergency.util.showSnackBar
+import com.afares.emergency.viewmodels.RequestsViewModel
 import com.afares.emergency.viewmodels.UserViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_help.*
@@ -45,6 +47,8 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     @Inject
     lateinit var mAuth: FirebaseAuth
 
+    @Inject
+    lateinit var requestsId: DocumentReference
 
 
     private lateinit var requestType: String
@@ -170,6 +174,7 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 val coordinates = "${location!!.latitude},${location.longitude}"
 
                 val request = Request(
+                    requestsId.id,
                     mAuth.currentUser!!.uid, requestType,
                     binding.requestDescriptionEt.text.toString(),
                     coordinates, "تم الطلب", null
