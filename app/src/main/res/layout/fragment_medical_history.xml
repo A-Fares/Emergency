@@ -26,7 +26,7 @@
                 android:layout_marginEnd="8dp"
                 android:fontFamily="@font/katibeh"
                 android:text="@string/medical_status"
-                android:textColor="@color/purple_700"
+                android:textColor="@color/sky_blue_700"
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -92,7 +92,7 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/katibeh"
                 android:text="@string/blood_type"
-                android:textColor="@color/purple_700"
+                android:textColor="@color/sky_blue_700"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/heart_patient" />
@@ -117,7 +117,7 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/katibeh"
                 android:text="@string/gender"
-                android:textColor="@color/purple_700"
+                android:textColor="@color/sky_blue_700"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toStartOf="@+id/blood_type_tv"
                 app:layout_constraintStart_toStartOf="parent"

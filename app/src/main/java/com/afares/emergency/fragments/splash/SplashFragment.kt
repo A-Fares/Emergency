@@ -6,6 +6,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -29,6 +30,7 @@ class SplashFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         val view =
             inflater.inflate(R.layout.fragment_splash, container, false)
 
@@ -48,11 +50,11 @@ class SplashFragment : Fragment() {
                     when (userType) {
                         "مستخدم" -> {
                             findNavController().navigate(R.id.action_splashFragment_to_homeActivity)
-                            activity?.finish();
+                            activity?.finish()
                         }
                         else -> {
                             findNavController().navigate(R.id.action_splashFragment_to_saviorActivity)
-                            activity?.finish();
+                            activity?.finish()
                         }
                     }
                 } else {
@@ -60,5 +62,10 @@ class SplashFragment : Fragment() {
                 }
             })
         }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
     }
 }
