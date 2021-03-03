@@ -1,9 +1,7 @@
 package com.afares.emergency.fragments.requests
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -117,11 +115,15 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.medical_info_menu, menu)
+    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        // to avoid memory leaks
-        _binding = null
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.medicalInfo_search) {
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onRefresh() {
@@ -133,6 +135,12 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 .build()
         )
         binding.swipeRefreshLayout.isRefreshing = false
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // to avoid memory leaks
+        _binding = null
     }
 
 }

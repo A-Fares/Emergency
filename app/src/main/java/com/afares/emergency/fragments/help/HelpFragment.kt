@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.afares.emergency.R
 import com.afares.emergency.data.model.Request
@@ -28,10 +29,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_help.*
 import kotlinx.android.synthetic.main.fragment_help.view.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
-import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -40,7 +41,7 @@ import kotlin.properties.Delegates
 @AndroidEntryPoint
 class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
-    private val viewModel: UserViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
     private var _binding: FragmentHelpBinding? = null
     private val binding get() = _binding!!
 
@@ -52,7 +53,6 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     @Inject
     lateinit var requestsId: DocumentReference
-
 
     private lateinit var requestType: String
     private var hasMedicalHistory by Delegates.notNull<Boolean>()
@@ -66,12 +66,18 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
+        userViewModel.getUserInfo(mAuth.currentUser!!.uid)
 
-        viewModel.getMedicalHistory(mAuth.currentUser!!.uid)
-        viewModel.hasMedicalHistory.observe(viewLifecycleOwner, {
+        viewLifecycleOwner.lifecycleScope.launch {
+            userViewModel.userData.collect { userData ->
+                val userSsn = userData.data?.ssn.toString()
+                checkMedicalHistory(userSsn)
+            }
+        }
+
+        userViewModel.hasMedicalHistory.observe(viewLifecycleOwner, {
             hasMedicalHistory = it
         })
-
 
         binding.orderBtn.setOnClickListener {
             if (validateRequest()) {
@@ -82,6 +88,10 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
 
         return binding.root
+    }
+
+    private fun checkMedicalHistory(userSsn: String) {
+        userViewModel.getMedicalHistory(userSsn)
     }
 
     private fun validateRequest(): Boolean {
@@ -180,7 +190,7 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     requestsId.id,
                     mAuth.currentUser!!.uid, requestType,
                     binding.requestDescriptionEt.text.toString(),
-                    coordinates, "تم الطلب",null
+                    coordinates, "تم الطلب", null
                 )
                 addRequest(request)
                 findNavController().navigate(R.id.action_helpFragment_to_historyFragment)
@@ -193,7 +203,7 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
-    private fun addRequest(request: Request) = viewModel.addRequest(request)
+    private fun addRequest(request: Request) = userViewModel.addRequest(request)
 
     override fun onDestroyView() {
         super.onDestroyView()

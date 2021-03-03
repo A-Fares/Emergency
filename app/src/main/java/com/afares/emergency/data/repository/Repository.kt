@@ -28,9 +28,9 @@ class Repository @Inject constructor(
         fireStore.collection(Constants.COLLECTION_USERS).document(firebaseAuth.currentUser!!.uid)
             .get()
 
-    fun addMedicalHistory(medicalHistory: MedicalHistory) =
+    fun addMedicalHistory(userSsn: String, medicalHistory: MedicalHistory) =
         fireStore.collection(Constants.COLLECTION_MEDICAL_HISTORY)
-            .document(firebaseAuth.currentUser!!.uid).set(medicalHistory)
+            .document(userSsn).set(medicalHistory)
 
 
     fun addRequest(request: Request) =
@@ -58,9 +58,9 @@ class Repository @Inject constructor(
         fireStore.collection(Constants.COLLECTION_USERS)
             .document(userID).get()
 
-    fun getMedicalHistory(userID: String) =
+    fun getMedicalHistory(userSsn: String) =
         fireStore.collection(Constants.COLLECTION_MEDICAL_HISTORY)
-            .document(userID).get()
+            .document(userSsn).get()
 
     fun updateRequestStatus(currentRequest: String, status: String) =
         fireStore.collection(Constants.COLLECTION_REQUESTS)

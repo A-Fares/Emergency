@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.afares.emergency.R
 import com.afares.emergency.data.model.MedicalHistory
@@ -14,14 +15,17 @@ import com.afares.emergency.databinding.FragmentMedicalHistoryBinding
 import com.afares.emergency.viewmodels.UserViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MedicalHistoryFragment : Fragment() {
 
-    private val viewModel: UserViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
     private var _binding: FragmentMedicalHistoryBinding? = null
     private val binding get() = _binding!!
+    private lateinit var userSsn: String
 
     @Inject
     lateinit var mAuth: FirebaseAuth
@@ -32,6 +36,13 @@ class MedicalHistoryFragment : Fragment() {
     ): View? {
         _binding = FragmentMedicalHistoryBinding.inflate(inflater, container, false)
 
+        userViewModel.getUserInfo(mAuth.currentUser!!.uid)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            userViewModel.userData.collect { userData ->
+                userSsn = userData.data?.ssn.toString()
+            }
+        }
 
         binding.saveBtn.setOnClickListener {
 
@@ -58,7 +69,7 @@ class MedicalHistoryFragment : Fragment() {
                         bloodType,
                         gender
                     )
-                    viewModel.addMedicalHistory(medicalHistory)
+                    userViewModel.addMedicalHistory(userSsn, medicalHistory)
                     findNavController().navigate(R.id.action_medicalHistoryFragment_to_helpFragment)
                 } else {
                     return@setOnClickListener

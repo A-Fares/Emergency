@@ -5,7 +5,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -13,7 +12,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.afares.emergency.adapters.FirestorePagingSource
 import com.afares.emergency.data.NetworkResult
-import com.afares.emergency.data.Resource
 import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.data.model.User
@@ -67,15 +65,15 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun addMedicalHistory(medicalHistory: MedicalHistory) {
+    fun addMedicalHistory(userSsn: String, medicalHistory: MedicalHistory) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.addMedicalHistory(medicalHistory)
+            repository.addMedicalHistory(userSsn, medicalHistory)
         }
     }
 
-    fun getMedicalHistory(userId: String) {
+    fun getMedicalHistory(userSsn: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getMedicalHistory(userId).addOnSuccessListener { task ->
+            repository.getMedicalHistory(userSsn).addOnSuccessListener { task ->
                 if (task.exists()) {
                     hasMedicalHistory.postValue(true)
                 } else {

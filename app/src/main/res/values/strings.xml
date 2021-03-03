@@ -33,6 +33,7 @@
     <string name="full_name">الاسم بالكامل</string>
 
     <string name="no_data">لا يوجد طلبات</string>
+    <string name="search">بحث</string>
 
     <string-array name="gender">
         <item> ذكر </item>
