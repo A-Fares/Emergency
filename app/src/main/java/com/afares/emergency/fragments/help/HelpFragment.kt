@@ -19,7 +19,6 @@ import com.afares.emergency.databinding.FragmentHelpBinding
 import com.afares.emergency.util.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import com.afares.emergency.util.TrackingUtility
 import com.afares.emergency.util.showSnackBar
-import com.afares.emergency.viewmodels.RequestsViewModel
 import com.afares.emergency.viewmodels.UserViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -31,8 +30,12 @@ import kotlinx.android.synthetic.main.fragment_help.*
 import kotlinx.android.synthetic.main.fragment_help.view.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
+
 
 @AndroidEntryPoint
 class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
@@ -177,7 +180,7 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     requestsId.id,
                     mAuth.currentUser!!.uid, requestType,
                     binding.requestDescriptionEt.text.toString(),
-                    coordinates, "تم الطلب", null
+                    coordinates, "تم الطلب",null
                 )
                 addRequest(request)
                 findNavController().navigate(R.id.action_helpFragment_to_historyFragment)

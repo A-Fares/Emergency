@@ -1,8 +1,10 @@
 package com.afares.emergency.bindingadapters
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -13,6 +15,8 @@ import coil.load
 import com.afares.emergency.R
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.fragments.requests.RequestsFragmentDirections
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RequestsRowBinding {
 
@@ -42,6 +46,15 @@ class RequestsRowBinding {
                     Log.d("onRecipeClickListener", e.toString())
                 }
             }
+        }
+
+        @SuppressLint("SimpleDateFormat")
+        @BindingAdapter("simpleDateFormat")
+        @JvmStatic
+        fun simpleDateFormat(textView: TextView, createdDate: Date) {
+            val spf = SimpleDateFormat("MMM dd, yyyy")
+            val date: String = spf.format(createdDate)
+            textView.text = date
         }
 
     }

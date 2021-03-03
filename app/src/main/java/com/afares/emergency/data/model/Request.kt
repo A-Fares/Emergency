@@ -3,6 +3,7 @@ package com.afares.emergency.data.model
 import android.os.Parcelable
 import com.google.firebase.firestore.ServerTimestamp
 import kotlinx.android.parcel.Parcelize
+import java.time.LocalDate
 import java.util.*
 
 @Parcelize
