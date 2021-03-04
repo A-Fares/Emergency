@@ -21,7 +21,6 @@ import com.afares.emergency.databinding.FragmentHelpBinding
 import com.afares.emergency.util.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import com.afares.emergency.util.TrackingUtility
 import com.afares.emergency.util.showSnackBar
-import com.afares.emergency.util.toast
 import com.afares.emergency.viewmodels.UserViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -207,10 +206,10 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun getCityName(lat: Double, long: Double): String {
 
-        var geoCoder = Geocoder(requireContext(), Locale.getDefault())
-        var adress = geoCoder.getFromLocation(lat, long, 3)
+        val geoCoder = Geocoder(requireContext(), Locale.getDefault())
+        val address = geoCoder.getFromLocation(lat, long, 3)
 
-        return adress[0].adminArea
+        return address[0].adminArea
     }
 
     private fun addRequest(request: Request) = userViewModel.addRequest(request)

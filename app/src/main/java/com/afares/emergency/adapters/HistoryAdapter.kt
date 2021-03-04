@@ -26,7 +26,6 @@ class HistoryAdapter : PagingDataAdapter<Request, HistoryAdapter.HistoryViewHold
                 return HistoryViewHolder(binding)
             }
         }
-
     }
 
     companion object : DiffUtil.ItemCallback<Request>() {

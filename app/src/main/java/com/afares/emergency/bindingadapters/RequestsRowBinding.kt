@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
@@ -22,12 +23,61 @@ class RequestsRowBinding {
 
     companion object {
 
-        @BindingAdapter("loadImageType")
+        @BindingAdapter("getRequestStatusBackground")
         @JvmStatic
-        fun loadImageType(imageView: ImageView, type: String) {
-            when (type) {
-                "دفاع مدني" -> imageView.setImageResource(R.drawable.ic_firefighter_truck)
-                "اسعاف" -> imageView.setImageResource(R.drawable.ic_ambulance)
+        fun getRequestStatusBackground(view: View, status: String) {
+            when (status) {
+                "تم الطلب" ->
+                    when (view) {
+                        is ImageView -> {
+                            view.setImageResource(R.drawable.ic_done)
+                        }
+                        is TextView -> {
+                            view.text = "تم الطلب"
+                        }
+                        is ConstraintLayout -> {
+                            view.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    view.context,
+                                    R.color.green
+                                )
+                            )
+                        }
+                    }
+                "تم الاستلام" ->
+                    when (view) {
+                        is ImageView -> {
+                            view.setImageResource(R.drawable.ic_loading)
+                        }
+                        is TextView -> {
+                            view.text = "العملية قيد التنفيذ"
+                        }
+                        is ConstraintLayout -> {
+                            view.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    view.context,
+                                    R.color.yellow
+                                )
+                            )
+                        }
+                    }
+                "تم الانتهاء" ->
+                    when (view) {
+                        is ImageView -> {
+                            view.setImageResource(R.drawable.ic_finish)
+                        }
+                        is TextView -> {
+                            view.text = "تمت العملية بنجاح"
+                        }
+                        is ConstraintLayout -> {
+                            view.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    view.context,
+                                    R.color.red_200
+                                )
+                            )
+                        }
+                    }
             }
         }
 
@@ -51,9 +101,9 @@ class RequestsRowBinding {
         @SuppressLint("SimpleDateFormat")
         @BindingAdapter("simpleDateFormat")
         @JvmStatic
-        fun simpleDateFormat(textView: TextView, createdDate: Date) {
+        fun simpleDateFormat(textView: TextView, createdDate: Date?) {
             val spf = SimpleDateFormat("MMM dd, yyyy")
-            val date: String = spf.format(createdDate)
+            val date: String = spf.format(createdDate!!)
             textView.text = date
         }
 
