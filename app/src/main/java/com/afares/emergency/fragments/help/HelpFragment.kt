@@ -3,6 +3,7 @@ package com.afares.emergency.fragments.help
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.location.Geocoder
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.afares.emergency.databinding.FragmentHelpBinding
 import com.afares.emergency.util.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import com.afares.emergency.util.TrackingUtility
 import com.afares.emergency.util.showSnackBar
+import com.afares.emergency.util.toast
 import com.afares.emergency.viewmodels.UserViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -189,19 +191,26 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
                 val request = Request(
                     requestsId.id,
-                    mAuth.currentUser!!.uid, requestType,
+                    mAuth.currentUser!!.uid,
+                    requestType,
                     binding.requestDescriptionEt.text.toString(),
-                    coordinates, "تم الطلب", null
+                    coordinates,
+                    getCityName(location.latitude, location.longitude),
+                    "تم الطلب",
+                    null
                 )
                 addRequest(request)
                 findNavController().navigate(R.id.action_helpFragment_to_historyFragment)
-                /** for handle best route location */
-                /* val intent = Intent()
-                 intent.action = Intent.ACTION_VIEW
-                 intent.data = Uri.parse("google.navigation:q=$coordinates")
-                 startActivity(intent)*/
             }
         }
+    }
+
+    private fun getCityName(lat: Double, long: Double): String {
+
+        var geoCoder = Geocoder(requireContext(), Locale.getDefault())
+        var adress = geoCoder.getFromLocation(lat, long, 3)
+
+        return adress[0].adminArea
     }
 
     private fun addRequest(request: Request) = userViewModel.addRequest(request)

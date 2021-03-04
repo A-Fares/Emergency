@@ -13,6 +13,7 @@ data class Request(
     val type: String? = "",
     val description: String? = "",
     val location: String? = "",
+    val area: String? = "",
     val status: String? = "",
     @ServerTimestamp
     val created: Date? = null
