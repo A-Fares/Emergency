@@ -39,11 +39,15 @@ class UserViewModel @Inject constructor(
     private val _hasRequests = MutableStateFlow(false)
     val hasRequests: StateFlow<Boolean> = _hasRequests
 
+/*    private val _hasMedicalHistory = MutableStateFlow(false)
+    val hasMedicalHistory: StateFlow<Boolean> = _hasMedicalHistory*/
+
     fun checkRequestHistory() {
         queryRequestsHistory.addSnapshotListener { value, error ->
             _hasRequests.value = !value!!.isEmpty
         }
     }
+
 
     val hasMedicalHistory = MutableLiveData<Boolean>()
 
@@ -74,11 +78,7 @@ class UserViewModel @Inject constructor(
     fun getMedicalHistory(userSsn: String) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getMedicalHistory(userSsn).addOnSuccessListener { task ->
-                if (task.exists()) {
-                    hasMedicalHistory.postValue(true)
-                } else {
-                    hasMedicalHistory.postValue(false)
-                }
+                hasMedicalHistory.postValue(task.exists())
             }
         }
     }

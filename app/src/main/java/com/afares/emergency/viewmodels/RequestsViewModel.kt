@@ -54,9 +54,9 @@ class RequestsViewModel @Inject constructor(
         FirestorePagingSource(queryFireFighterRequests)
     }.flow.cachedIn(viewModelScope)
 
-    fun getMedicalHistory(userID: String) {
+    fun getMedicalHistory(userSnn: String) {
         _medicalData.value = NetworkResult.Loading()
-        repository.getMedicalHistory(userID).addOnCompleteListener { task ->
+        repository.getMedicalHistory(userSnn).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val medicalData = task.result.toObject(MedicalHistory::class.java)!!
                 _medicalData.value = NetworkResult.Success(medicalData)

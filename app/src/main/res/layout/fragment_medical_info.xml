@@ -1,30 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp"
-    tools:context=".MedicalInfoFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:background="@drawable/custom_input"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
+
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/medicalInfo_container"
-        android:layout_width="0dp"
-        android:layout_height="300dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightGray"
+        android:padding="24dp"
+        tools:context=".MedicalInfoFragment">
 
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/medicalInfo_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/gray"
+            android:elevation="5dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/bmi_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/nahdi"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/bmi"
+                app:layout_constraintEnd_toStartOf="@+id/bmi"
+                app:layout_constraintTop_toTopOf="@+id/bmi"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/bmi"
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/nahdi"
+                android:text="BMI"
+                android:textColor="@color/blue"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toTopOf="@+id/diabetic_image"
+                app:layout_constraintEnd_toEndOf="@+id/age"
+                app:layout_constraintTop_toBottomOf="@+id/age" />
+
+            <TextView
+                android:id="@+id/age_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/nahdi"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/age"
+                app:layout_constraintEnd_toStartOf="@+id/age"
+                app:layout_constraintTop_toTopOf="@+id/age"
+                tools:text="22" />
+
+            <ImageView
+                android:id="@+id/diabetic_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="32dp"
+                android:src="@drawable/ic_checkmark"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="@color/darkGray" />
+
+            <TextView
+                android:id="@+id/diabetic_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/nahdi"
+                android:text="مريض سكر"
+                android:textColor="@color/darkGray"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/diabetic_image"
+                app:layout_constraintEnd_toStartOf="@+id/diabetic_image"
+                app:layout_constraintTop_toTopOf="@+id/diabetic_image" />
+
+            <ImageView
+                android:id="@+id/pressure_patient_imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/ic_checkmark"
+                app:layout_constraintBottom_toBottomOf="@+id/diabetic_tv"
+                app:layout_constraintEnd_toStartOf="@+id/diabetic_tv"
+                app:layout_constraintTop_toTopOf="@+id/diabetic_tv"
+                app:tint="@color/darkGray" />
+
+            <TextView
+                android:id="@+id/pressure_patient_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/nahdi"
+                android:text="مريض ضغط"
+                android:textColor="@color/darkGray"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/pressure_patient_imageView"
+                app:layout_constraintEnd_toStartOf="@+id/pressure_patient_imageView"
+                app:layout_constraintTop_toTopOf="@+id/pressure_patient_imageView" />
+
+            <ImageView
+                android:id="@+id/heart_patient_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/ic_checkmark"
+                app:layout_constraintBottom_toBottomOf="@+id/pressure_patient_tv"
+                app:layout_constraintEnd_toStartOf="@+id/pressure_patient_tv"
+                app:layout_constraintTop_toTopOf="@+id/pressure_patient_tv"
+                app:tint="@color/darkGray" />
+
+            <TextView
+                android:id="@+id/heart_patient_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/nahdi"
+                android:text="مريض قلب"
+                android:textColor="@color/darkGray"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/heart_patient_image"
+                app:layout_constraintEnd_toStartOf="@+id/heart_patient_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/heart_patient_image" />
+
+            <TextView
+                android:id="@+id/age"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/nahdi"
+                android:text="العمر:"
+                android:textColor="@color/blue"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="@+id/gender"
+                app:layout_constraintTop_toBottomOf="@+id/gender" />
+
+            <TextView
+                android:id="@+id/gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/nahdi"
+                android:text="الجنس:"
+                android:textColor="@color/blue"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/blood_type"
+                app:layout_constraintTop_toBottomOf="@+id/blood_type" />
+
+            <TextView
+                android:id="@+id/gender_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/nahdi"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/gender"
+                app:layout_constraintEnd_toStartOf="@+id/gender"
+                app:layout_constraintTop_toTopOf="@+id/gender" />
+
+            <TextView
+                android:id="@+id/blood_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/nahdi"
+                android:text="فصيلة الدم:"
+                android:textColor="@color/blue"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/blood_type_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/nahdi"
+                android:textColor="@color/red"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/blood_type"
+                app:layout_constraintEnd_toStartOf="@+id/blood_type"
+                app:layout_constraintTop_toTopOf="@+id/blood_type" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/no_data_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:layout_editor_absoluteX="24dp"
+            tools:layout_editor_absoluteY="24dp">
+
+            <TextView
+                android:id="@+id/no_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nahdi"
+                android:text="لا توجد بيانات مسجلة"
+                android:textColor="@color/darkGray"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

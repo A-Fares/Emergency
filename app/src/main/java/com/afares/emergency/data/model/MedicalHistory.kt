@@ -1,6 +1,5 @@
 package com.afares.emergency.data.model
 
-
 data class MedicalHistory(
     val uId: String? = "",
     val diabetic: Boolean = false,

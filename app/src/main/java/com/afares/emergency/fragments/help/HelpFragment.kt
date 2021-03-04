@@ -68,7 +68,7 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             LocationServices.getFusedLocationProviderClient(requireActivity())
         userViewModel.getUserInfo(mAuth.currentUser!!.uid)
 
-        viewLifecycleOwner.lifecycleScope.launch {
+        lifecycleScope.launch {
             userViewModel.userData.collect { userData ->
                 val userSsn = userData.data?.ssn.toString()
                 checkMedicalHistory(userSsn)
@@ -78,6 +78,7 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         userViewModel.hasMedicalHistory.observe(viewLifecycleOwner, {
             hasMedicalHistory = it
         })
+
 
         binding.orderBtn.setOnClickListener {
             if (validateRequest()) {

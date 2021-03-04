@@ -43,9 +43,11 @@ class RequestDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRequestDetailesBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
 
         getUserInfo(args.currentItem.uid)
-        getUserMedical(args.currentItem.uid)
+        attachUserInfo()
+
         attachRequestDetails()
         checkRequestStatus(args.currentItem.status)
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -79,7 +81,7 @@ class RequestDetailsFragment : Fragment() {
             updateRequestStatus(args.currentItem.id!!, "تم الانتهاء")
             findNavController().navigate(R.id.action_requestDetailesFragment_to_requestsFragment)
         }
-        attachUserInfo()
+
         if (args.currentItem.type == "اسعاف") {
             binding.medicalInfoContainer.visibility = View.VISIBLE
             attachMedicalInfo()
@@ -88,7 +90,7 @@ class RequestDetailsFragment : Fragment() {
     }
 
     private fun checkRequestStatus(requestStatus: String?) {
-        viewLifecycleOwner.lifecycleScope.launch {
+        lifecycleScope.launch {
             if (requestStatus != null) {
                 requestsViewModel.checkRequestStatus(requestStatus)
             }
@@ -100,7 +102,7 @@ class RequestDetailsFragment : Fragment() {
     }
 
     private fun attachMedicalInfo() {
-        viewLifecycleOwner.lifecycleScope.launch {
+        lifecycleScope.launch {
             requestsViewModel.medicalData.collect { medicalData ->
                 when (medicalData) {
                     is NetworkResult.Success -> {
@@ -194,6 +196,7 @@ class RequestDetailsFragment : Fragment() {
                             ssnTextView.text = it.data?.ssn
                             phoneTextView.text = it.data?.phone
                             closePhoneTextView.text = it.data?.closePersonPhone
+                            getUserMedical(it.data?.ssn)
                         }
                     }
                     is NetworkResult.Error -> {
@@ -218,10 +221,10 @@ class RequestDetailsFragment : Fragment() {
         }
     }
 
-    private fun getUserMedical(userId: String?) {
+    private fun getUserMedical(userSnn: String?) {
         viewLifecycleOwner.lifecycleScope.launch {
-            if (userId != null) {
-                requestsViewModel.getMedicalHistory(userId)
+            if (userSnn != null) {
+                requestsViewModel.getMedicalHistory(userSnn)
             }
         }
     }

@@ -9,7 +9,7 @@
         android:id="@+id/requestsFragment"
         android:name="com.afares.emergency.fragments.requests.RequestsFragment"
         android:label="الطلبات"
-        tools:layout="@layout/fragment_requests" >
+        tools:layout="@layout/fragment_requests">
         <action
             android:id="@+id/action_requestsFragment_to_requestDetailesFragment"
             app:destination="@id/requestDetailesFragment" />
@@ -21,7 +21,7 @@
         android:id="@+id/requestDetailesFragment"
         android:name="com.afares.emergency.fragments.requestdetails.RequestDetailsFragment"
         android:label="تفاصيل الطلب"
-        tools:layout="@layout/fragment_request_detailes" >
+        tools:layout="@layout/fragment_request_detailes">
         <argument
             android:name="currentItem"
             app:argType="com.afares.emergency.data.model.Request" />
@@ -34,6 +34,14 @@
     <fragment
         android:id="@+id/medicalInfoFragment"
         android:name="com.afares.emergency.MedicalInfoFragment"
-        android:label="fragment_medical_info"
-        tools:layout="@layout/fragment_medical_info" />
+        android:label="السجل المرضي"
+        tools:layout="@layout/fragment_medical_info">
+        <argument
+            android:name="hasMedicalInfo"
+            app:argType="boolean" />
+        <argument
+            android:name="ssn"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>
