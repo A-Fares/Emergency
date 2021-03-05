@@ -34,6 +34,7 @@
 
     <string name="no_data">لا يوجد طلبات</string>
     <string name="search">بحث</string>
+    <string name="sign_out">تسجيل خروج</string>
 
     <string-array name="gender">
         <item> ذكر </item>

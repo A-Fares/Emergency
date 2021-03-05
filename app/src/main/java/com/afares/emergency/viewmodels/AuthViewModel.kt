@@ -6,6 +6,7 @@ import com.afares.emergency.data.DataStoreRepository
 import com.afares.emergency.data.NetworkResult
 import com.afares.emergency.data.model.User
 import com.afares.emergency.data.repository.Repository
+import com.afares.emergency.util.Constants.DEFAULT_USER_TYPE
 import com.afares.emergency.util.toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -79,11 +80,9 @@ class AuthViewModel @Inject constructor(
     }
 
 
-    fun fetchUserType(): LiveData<String> {
-        repository.fetchUser().addOnSuccessListener { userTask ->
-            userType.postValue(userTask.getString("type"))
-        }
-        return userType
+    fun signOut() {
+        saveLoginPreferences(false, DEFAULT_USER_TYPE)
+        repository.signOut()
     }
 
 }

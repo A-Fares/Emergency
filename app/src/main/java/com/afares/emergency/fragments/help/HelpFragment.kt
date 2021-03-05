@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.afares.emergency.R
 import com.afares.emergency.data.model.Request
@@ -199,9 +200,24 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     null
                 )
                 addRequest(request)
-                findNavController().navigate(R.id.action_helpFragment_to_historyFragment)
+                confirmRequestAdded()
             }
         }
+    }
+
+    private fun confirmRequestAdded() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton("تم") { _, _ ->
+            findNavController().navigate(
+                R.id.helpFragment,
+                arguments,
+                NavOptions.Builder()
+                    .setPopUpTo(R.id.helpFragment, true)
+                    .build()
+            )
+        }
+        builder.setMessage("تم اضافة طلبك الان")
+        builder.create().show()
     }
 
     private fun getCityName(lat: Double, long: Double): String {

@@ -96,7 +96,7 @@ class LoginFragment : Fragment() {
                                 activity?.finish()
                             }
                             else -> {
-                                findNavController().navigate(R.id.action_signUpFragment_to_saviorActivity)
+                                findNavController().navigate(R.id.action_loginFragment_to_saviorActivity)
                                 activity?.finish()
                             }
                         }

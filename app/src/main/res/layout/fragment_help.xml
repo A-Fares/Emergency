@@ -11,7 +11,7 @@
         android:id="@+id/helpFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray">
+        android:background="@color/lightGray">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:fontFamily="@font/katibeh"
                 android:layoutDirection="rtl"
                 android:text="@string/request_type"
-                android:textColor="@color/red"
+                android:textColor="@color/blue"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_margin="12dp"
-                android:padding="4dp"
+                android:paddingTop="4dp"
                 android:gravity="end"
                 android:orientation="horizontal"
                 android:weightSum="2"

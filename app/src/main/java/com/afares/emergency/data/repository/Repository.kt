@@ -66,4 +66,6 @@ class Repository @Inject constructor(
         fireStore.collection(Constants.COLLECTION_REQUESTS)
             .document(currentRequest).update("status", status)
 
+    fun signOut() =
+        firebaseAuth.signOut()
 }

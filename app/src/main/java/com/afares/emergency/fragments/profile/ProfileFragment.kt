@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.afares.emergency.R
 import com.afares.emergency.data.NetworkResult
 import com.afares.emergency.data.Status
 import com.afares.emergency.databinding.FragmentProfileBinding
 import com.afares.emergency.util.toast
+import com.afares.emergency.viewmodels.AuthViewModel
 import com.afares.emergency.viewmodels.UserViewModel
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -24,6 +26,7 @@ import javax.inject.Inject
 class ProfileFragment : Fragment() {
 
     private val userViewModel: UserViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
@@ -42,6 +45,12 @@ class ProfileFragment : Fragment() {
         userViewModel.getUserInfo(mAuth.currentUser!!.uid)
 
         fetchUserData()
+
+        binding.signOutBtn.setOnClickListener {
+            authViewModel.signOut()
+            findNavController().navigate(R.id.action_profileFragment_to_mainActivity)
+            activity?.finish()
+        }
         return binding.root
     }
 
