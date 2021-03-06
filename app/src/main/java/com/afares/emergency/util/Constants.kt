@@ -10,6 +10,8 @@ object Constants {
     const val COLLECTION_USERS = "users"
     const val COLLECTION_REQUESTS = "Requests"
     const val COLLECTION_MEDICAL_HISTORY = "Medical History"
+    const val COLLECTION_HOSPITAL = "Hospital"
+    const val COLLECTION_CIVIL_DEFENSE = "Civil Defense Center"
 
     const val USER_TYPE_KEY = "userType"
 

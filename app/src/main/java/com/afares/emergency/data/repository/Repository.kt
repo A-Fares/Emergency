@@ -7,10 +7,7 @@ import com.afares.emergency.util.Constants
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
 import javax.inject.Inject
 
 class Repository @Inject constructor(
@@ -18,6 +15,9 @@ class Repository @Inject constructor(
     private val fireStore: FirebaseFirestore,
     private val requestsId: DocumentReference
 ) {
+
+    fun signOut() =
+        firebaseAuth.signOut()
 
     fun saveUser(user: User) =
         fireStore.collection(Constants.COLLECTION_USERS)
@@ -66,6 +66,12 @@ class Repository @Inject constructor(
         fireStore.collection(Constants.COLLECTION_REQUESTS)
             .document(currentRequest).update("status", status)
 
-    fun signOut() =
-        firebaseAuth.signOut()
+
+    fun queryHospitalData() =
+        fireStore.collection(Constants.COLLECTION_HOSPITAL)
+            .get()
+
+    fun queryCivilDefenseData() =
+        fireStore.collection(Constants.COLLECTION_CIVIL_DEFENSE)
+            .get()
 }

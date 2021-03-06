@@ -2,9 +2,13 @@ package com.afares.emergency.fragments.signup
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +16,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.afares.emergency.R
 import com.afares.emergency.data.NetworkResult
+import com.afares.emergency.data.model.CivilDefense
+import com.afares.emergency.data.model.Hospital
 import com.afares.emergency.data.model.User
 import com.afares.emergency.databinding.FragmentSignUpBinding
 import com.afares.emergency.util.toast
@@ -20,10 +26,13 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {
@@ -36,23 +45,87 @@ class SignUpFragment : Fragment() {
     private var verificationId: String? = null
 
     private val KEY_VERIFY_IN_PROGRESS = "key_verify_in_progress"
-
-
     private var mVerificationInProgress = false
-
 
     @Inject
     lateinit var mAuth: FirebaseAuth
 
+    private lateinit var mySpinner: Spinner
+    private lateinit var adapterSpinnerHospital: ArrayAdapter<Hospital>
+    private lateinit var adapterSpinnerCivilDefense: ArrayAdapter<CivilDefense>
 
+    private lateinit var cityId: String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
+        // queryHospitalName()
+        authViewModel.queryHospitalData()
+        authViewModel.queryCivilDefenseData()
 
-        if (args.userType != "مستخدم") {
+        if (args.userType == "اسعاف") {
             binding.phoneClosePersonEt.visibility = View.GONE
+            binding.hospitalSpinner.visibility = View.VISIBLE
+            binding.progressBarSignUp.visibility = View.VISIBLE
+            /** ----------------------------- Spinner --------------------------*/
+            mySpinner = binding.hospitalSpinner
+
+            authViewModel.hospitalMutableList.observe(viewLifecycleOwner, {
+                binding.progressBarSignUp.visibility = View.GONE
+                adapterSpinnerHospital =
+                    ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it)
+                mySpinner.adapter = adapterSpinnerHospital
+            })
+
+            mySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    // You can define your actions as you want
+                }
+
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    position: Int,
+                    p3: Long
+                ) {
+                    val selectedObject = mySpinner.selectedItem as Hospital
+                    cityId = selectedObject.id
+                }
+            }
+        }
+        if (args.userType == "دفاع مدني") {
+            binding.phoneClosePersonEt.visibility = View.GONE
+            binding.civilDefenseSpinner.visibility = View.VISIBLE
+            binding.progressBarSignUp.visibility = View.VISIBLE
+
+            /** ----------------------------- Spinner --------------------------*/
+            mySpinner = binding.civilDefenseSpinner
+
+            authViewModel.civilDefenseMutableList.observe(viewLifecycleOwner, {
+                binding.progressBarSignUp.visibility = View.GONE
+                adapterSpinnerCivilDefense =
+                    ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it)
+                mySpinner.adapter = adapterSpinnerCivilDefense
+            })
+
+            mySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    // You can define your actions as you want
+                }
+
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    position: Int,
+                    p3: Long
+                ) {
+                    val selectedObject = mySpinner.selectedItem as CivilDefense
+                    cityId = selectedObject.id
+                }
+            }
         }
         binding.signupBtn.setOnClickListener {
             if (validateUser(args.userType)) {
@@ -79,6 +152,10 @@ class SignUpFragment : Fragment() {
                 }
             }
         }
+
+
+
+
         signUp()
         return binding.root
     }
@@ -194,7 +271,7 @@ class SignUpFragment : Fragment() {
                 ssn,
                 personalPhone,
                 closePersonPhone,
-                args.userType, null
+                args.userType, null, cityId
             )
         }
     }
@@ -210,5 +287,6 @@ class SignUpFragment : Fragment() {
         // to avoid memory leaks
         _binding = null
     }
+
 }
 

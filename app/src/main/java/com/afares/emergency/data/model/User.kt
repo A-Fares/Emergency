@@ -7,6 +7,6 @@ data class User(
     val phone: String? = "",
     val closePersonPhone: String? = "",
     val type: String? = "",
-    val photoUrl: String? = ""
-
+    val photoUrl: String? = "",
+    val cityId: String? = ""
 )
