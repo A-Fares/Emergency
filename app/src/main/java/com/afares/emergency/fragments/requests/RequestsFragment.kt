@@ -52,6 +52,8 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         binding.swipeRefreshLayout.setOnRefreshListener(this)
         binding.lifecycleOwner = this
 
+        requestsViewModel.getA()
+
         setHasOptionsMenu(true)
         userViewModel.getUserInfo(mAuth.currentUser!!.uid)
         fetchUserData()

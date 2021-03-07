@@ -42,14 +42,16 @@ class Repository @Inject constructor(
             .orderBy("created", Query.Direction.DESCENDING)
             .limit(Constants.PAGE_SIZE.toLong())
 
-    fun queryAmbulanceRequests() =
+    fun queryAmbulanceRequests(city: String) =
         fireStore.collection(Constants.COLLECTION_REQUESTS)
+            .whereEqualTo("area",city)
             .whereEqualTo("type", Constants.AMBULANCE)
-            .orderBy("created", Query.Direction.DESCENDING)
+            .orderBy("created",Query.Direction.DESCENDING)
             .limit(Constants.PAGE_SIZE.toLong())
 
-    fun queryFireFighterRequests() =
+    fun queryFireFighterRequests(city: String) =
         fireStore.collection(Constants.COLLECTION_REQUESTS)
+            .whereEqualTo("area",city)
             .whereEqualTo("type", Constants.FIRE_FIGHTER)
             .orderBy("created", Query.Direction.DESCENDING)
             .limit(Constants.PAGE_SIZE.toLong())

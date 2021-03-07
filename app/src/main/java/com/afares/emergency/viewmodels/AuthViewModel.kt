@@ -28,8 +28,6 @@ class AuthViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository
 ) : AndroidViewModel(application) {
 
-    private val userType = MutableLiveData<String>()
-
     private val _userState = MutableStateFlow<NetworkResult<User>>(NetworkResult.Empty())
     val userState: StateFlow<NetworkResult<User>> = _userState
 

@@ -1,5 +1,6 @@
 package com.afares.emergency.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -11,6 +12,7 @@ import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.data.repository.Repository
 import com.afares.emergency.util.Constants
+import com.afares.emergency.util.toast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,8 +24,19 @@ class RequestsViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    private val queryAmbulanceRequests = repository.queryAmbulanceRequests()
-    private val queryFireFighterRequests = repository.queryFireFighterRequests()
+    val city: String = "Alexandria Governorate"
+    private val queryAmbulanceRequests = repository.queryAmbulanceRequests(city)
+    private val queryFireFighterRequests = repository.queryFireFighterRequests(city)
+
+    fun getA() {
+        repository.queryAmbulanceRequests(city).get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                Log.d("SSS", "Success")
+            } else {
+                Log.d("SSS", "Failed" + it.exception)
+            }
+        }
+    }
 
     private val _medicalData =
         MutableStateFlow<NetworkResult<MedicalHistory>>(NetworkResult.Empty())
@@ -35,7 +48,7 @@ class RequestsViewModel @Inject constructor(
     private val _requestStatus = MutableStateFlow("تم الطلب")
     val requestStatus: StateFlow<String> = _requestStatus
 
-     fun checkRequestStatus(status: String) {
+    fun checkRequestStatus(status: String) {
         viewModelScope.launch {
             _requestStatus.emit(status)
         }
