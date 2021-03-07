@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.afares.emergency.R
 import com.afares.emergency.data.NetworkResult
+import com.afares.emergency.data.model.Hospital
 import com.afares.emergency.databinding.FragmentRequestDetailesBinding
 import com.afares.emergency.databinding.FragmentRequestsBinding
 import com.afares.emergency.fragments.signup.SignUpFragmentArgs
@@ -44,7 +45,12 @@ class RequestDetailsFragment : Fragment() {
     ): View? {
         _binding = FragmentRequestDetailesBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
-
+        binding.stepView.done(true)
+        val steps = ArrayList<String>()
+        steps.add("تم الطلب")
+        steps.add("تم الاستلام")
+        steps.add("تم الانتهاء")
+        binding.stepView.setSteps(steps)
         getUserInfo(args.currentItem.uid)
         attachUserInfo()
 
@@ -56,15 +62,19 @@ class RequestDetailsFragment : Fragment() {
                     "تم الطلب" -> {
 
                         binding.acceptBtn.visibility = View.VISIBLE
+                        binding.stepView.go(0,false)
 
                     }
                     "تم الاستلام" -> {
                         binding.finishBtn.visibility = View.VISIBLE
+                        binding.acceptBtn.visibility = View.GONE
+                        binding.stepView.go(1,false)
                     }
                     "تم الانتهاء" -> {
                         binding.apply {
                             finishBtn.visibility = View.GONE
                             acceptBtn.visibility = View.GONE
+                            binding.stepView.go(2,false)
                         }
                     }
                 }
@@ -75,6 +85,7 @@ class RequestDetailsFragment : Fragment() {
                 updateRequestStatus(args.currentItem.id!!, "تم الاستلام")
                 acceptBtn.visibility = View.GONE
                 finishBtn.visibility = View.VISIBLE
+                binding.stepView.go(1,true)
             }
         }
         binding.finishBtn.setOnClickListener {
@@ -86,6 +97,7 @@ class RequestDetailsFragment : Fragment() {
             binding.medicalInfoContainer.visibility = View.VISIBLE
             attachMedicalInfo()
         }
+
         return binding.root
     }
 
@@ -157,6 +169,9 @@ class RequestDetailsFragment : Fragment() {
                                     medicalData.data?.weight!!,
                                     medicalData.data.height!!
                                 ).toString()
+                            requestDetailsContainer.visibility=View.VISIBLE
+                            shimmerRequestContainer.stopShimmer()
+                            shimmerRequestContainer.visibility=View.GONE
                         }
                     }
                 }
@@ -176,7 +191,6 @@ class RequestDetailsFragment : Fragment() {
     private fun attachRequestDetails() {
         binding.apply {
             requestTextview.text = args.currentItem.description
-            statusTextView.text = args.currentItem.status
             locationBtn.setOnClickListener {
                 val intent = Intent()
                 intent.action = Intent.ACTION_VIEW

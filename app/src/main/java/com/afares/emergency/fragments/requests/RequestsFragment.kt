@@ -8,15 +8,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.afares.emergency.R
 import com.afares.emergency.adapters.RequestAdapter
 import com.afares.emergency.data.NetworkResult
-import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.databinding.FragmentRequestsBinding
 import com.afares.emergency.util.hideKeyboard
 import com.afares.emergency.util.toast
+import com.afares.emergency.viewmodels.AuthViewModel
 import com.afares.emergency.viewmodels.RequestsViewModel
 import com.afares.emergency.viewmodels.UserViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -25,21 +26,22 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.properties.Delegates
+
 
 @AndroidEntryPoint
-class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
-    SearchView.OnQueryTextListener {
+class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
 
     private var _binding: FragmentRequestsBinding? = null
     private val binding get() = _binding!!
 
+    private val authViewModel: AuthViewModel by viewModels()
     private val requestsViewModel: RequestsViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
 
     private val mAdapter by lazy { RequestAdapter() }
     private lateinit var userType: String
+    private lateinit var searchView: SearchView
 
     @Inject
     lateinit var mAuth: FirebaseAuth
@@ -54,7 +56,29 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
         requestsViewModel.getA()
 
+        searchView = binding.searchView
+        initSearchView()
+
         setHasOptionsMenu(true)
+        val navController = findNavController()
+        binding.toolbar.setupWithNavController(navController)
+
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                // these ids should match the item ids from my_fragment_menu.xml file
+                R.id.medicalInfo_search -> {
+
+                    authViewModel.signOut()
+                    findNavController().navigate(R.id.action_requestsFragment_to_mainActivity2)
+                    activity?.finish()
+
+                    // by returning 'true' we're saying that the event
+                    // is handled and it shouldn't be propagated further
+                    true
+                }
+                else -> false
+            }
+        }
         userViewModel.getUserInfo(mAuth.currentUser!!.uid)
         fetchUserData()
 
@@ -64,6 +88,49 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         setupRecyclerView()
         return binding.root
     }
+
+    private fun initSearchView() {
+        searchView.setIconifiedByDefault(false)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                if (query.isNotEmpty() && query.length == 9) {
+                    checkMedicalHistory(query)
+                    userViewModel.hasMedicalHistory.observe(
+                        viewLifecycleOwner,
+                        { hasMedicalHistory ->
+                            if (hasMedicalHistory) {
+                                val action =
+                                    RequestsFragmentDirections.actionRequestsFragmentToMedicalInfoFragment(
+                                        true,
+                                        query
+                                    )
+                                findNavController().navigate(action)
+                            } else {
+                                val action =
+                                    RequestsFragmentDirections.actionRequestsFragmentToMedicalInfoFragment(
+                                        false,
+                                        null
+                                    )
+                                findNavController().navigate(action)
+                            }
+                        })
+                } else {
+                    toast(requireContext(), "برجاء ادخال بيانات صحيحة")
+                }
+                hideKeyboard()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+    }
+
+    private fun checkMedicalHistory(userSsn: String) {
+        userViewModel.getMedicalHistory(userSsn)
+    }
+
 
     private fun fetchUserData() {
         lifecycleScope.launch {
@@ -103,7 +170,7 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                             }
                         }
                         binding.apply {
-                            recyclerviewRequests.visibility = View.VISIBLE
+                            profileSaviorContainer.visibility = View.VISIBLE
                             placeholderRequestRow.visibility = View.GONE
                         }
                     }
@@ -125,16 +192,6 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.medical_info_menu, menu)
-
-        val search = menu.findItem(R.id.medicalInfo_search)
-        val searchView = search.actionView as? SearchView
-        searchView?.isSubmitButtonEnabled = true
-        searchView?.setOnQueryTextListener(this)
-    }
-
-
     override fun onRefresh() {
         findNavController().navigate(
             R.id.requestsFragment,
@@ -150,41 +207,6 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         super.onDestroyView()
         // to avoid memory leaks
         _binding = null
-    }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        if (query!!.isNotEmpty() && query.length == 9) {
-            checkMedicalHistory(query)
-            userViewModel.hasMedicalHistory.observe(viewLifecycleOwner, { hasMedicalHistory ->
-                if (hasMedicalHistory) {
-                    val action =
-                        RequestsFragmentDirections.actionRequestsFragmentToMedicalInfoFragment(
-                            true,
-                            query
-                        )
-                    findNavController().navigate(action)
-                } else {
-                    val action =
-                        RequestsFragmentDirections.actionRequestsFragmentToMedicalInfoFragment(
-                            false,
-                            null
-                        )
-                    findNavController().navigate(action)
-                }
-            })
-        } else {
-            toast(requireContext(), "برجاء ادخال بيانات صحيحة")
-        }
-        hideKeyboard()
-        return true
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        return true
-    }
-
-    private fun checkMedicalHistory(userSsn: String) {
-        userViewModel.getMedicalHistory(userSsn)
     }
 
 }

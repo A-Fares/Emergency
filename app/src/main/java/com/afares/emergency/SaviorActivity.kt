@@ -13,6 +13,7 @@ class SaviorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_savior)
+        supportActionBar?.hide()
 
         setupActionBarWithNavController(findNavController(R.id.navHostFragment))
     }
