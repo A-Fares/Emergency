@@ -91,7 +91,7 @@ class SignUpFragment : Fragment() {
                     p3: Long
                 ) {
                     val selectedObject = mySpinner.selectedItem as Hospital
-                    cityId = selectedObject.id
+                    cityId = selectedObject.id.toString()
                 }
             }
         }
@@ -123,7 +123,7 @@ class SignUpFragment : Fragment() {
                     p3: Long
                 ) {
                     val selectedObject = mySpinner.selectedItem as CivilDefense
-                    cityId = selectedObject.id
+                    cityId = selectedObject.id.toString()
                 }
             }
         }

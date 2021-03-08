@@ -54,7 +54,6 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         binding.swipeRefreshLayout.setOnRefreshListener(this)
         binding.lifecycleOwner = this
 
-        requestsViewModel.getA()
 
         searchView = binding.searchView
         initSearchView()
@@ -137,7 +136,10 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             userViewModel.userData.collect { userData ->
                 when (userData) {
                     is NetworkResult.Success -> {
-                        userType = userData.data?.type!!
+                        val cityId = userData.data?.cityId!!
+                        requestsViewModel.getHospitalData(cityId)
+                        requestsViewModel.getCivilDefenseData(cityId)
+                        userType = userData.data.type!!
                         getRequestsStatus()
                     }
                 }
@@ -158,14 +160,20 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                         lifecycleScope.launch {
                             when (userType) {
                                 "اسعاف" -> {
-                                    requestsViewModel.requestsAmbulanceFlow.collectLatest { dataFlow ->
-                                        mAdapter.submitData(dataFlow)
-                                    }
+                                    requestsViewModel.requestAmbulance.observe(viewLifecycleOwner,
+                                        { dataFlow ->
+                                            lifecycleScope.launch {
+                                                mAdapter.submitData(dataFlow)
+                                            }
+                                        })
                                 }
                                 "دفاع مدني" -> {
-                                    requestsViewModel.requestsFireFighterFlow.collectLatest { dataFlow ->
-                                        mAdapter.submitData(dataFlow)
-                                    }
+                                    requestsViewModel.requestFireFighter.observe(viewLifecycleOwner,
+                                        { dataFlow ->
+                                            lifecycleScope.launch {
+                                                mAdapter.submitData(dataFlow)
+                                            }
+                                        })
                                 }
                             }
                         }

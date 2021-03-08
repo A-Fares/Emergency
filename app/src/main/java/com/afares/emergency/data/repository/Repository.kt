@@ -44,14 +44,14 @@ class Repository @Inject constructor(
 
     fun queryAmbulanceRequests(city: String) =
         fireStore.collection(Constants.COLLECTION_REQUESTS)
-            .whereEqualTo("area",city)
+            .whereEqualTo("area", city)
             .whereEqualTo("type", Constants.AMBULANCE)
-            .orderBy("created",Query.Direction.DESCENDING)
+            .orderBy("created", Query.Direction.DESCENDING)
             .limit(Constants.PAGE_SIZE.toLong())
 
     fun queryFireFighterRequests(city: String) =
         fireStore.collection(Constants.COLLECTION_REQUESTS)
-            .whereEqualTo("area",city)
+            .whereEqualTo("area", city)
             .whereEqualTo("type", Constants.FIRE_FIGHTER)
             .orderBy("created", Query.Direction.DESCENDING)
             .limit(Constants.PAGE_SIZE.toLong())
@@ -76,4 +76,12 @@ class Repository @Inject constructor(
     fun queryCivilDefenseData() =
         fireStore.collection(Constants.COLLECTION_CIVIL_DEFENSE)
             .get()
+
+    fun getHospitalData(id: String) =
+        fireStore.collection(Constants.COLLECTION_HOSPITAL)
+            .document(id).get()
+
+    fun getCivilDefenseData(id: String) =
+        fireStore.collection(Constants.COLLECTION_CIVIL_DEFENSE)
+            .document(id).get()
 }

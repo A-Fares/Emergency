@@ -1,21 +1,24 @@
 package com.afares.emergency.viewmodels
 
-import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.afares.emergency.adapters.FirestorePagingSource
 import com.afares.emergency.data.NetworkResult
+import com.afares.emergency.data.model.CivilDefense
+import com.afares.emergency.data.model.Hospital
 import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.data.repository.Repository
 import com.afares.emergency.util.Constants
-import com.afares.emergency.util.toast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,16 +27,49 @@ class RequestsViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    val city: String = "Alexandria Governorate"
-    private val queryAmbulanceRequests = repository.queryAmbulanceRequests(city)
-    private val queryFireFighterRequests = repository.queryFireFighterRequests(city)
 
-    fun getA() {
-        repository.queryAmbulanceRequests(city).get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                Log.d("SSS", "Success")
-            } else {
-                Log.d("SSS", "Failed" + it.exception)
+    val requestAmbulance = MutableLiveData<PagingData<Request>>()
+    val requestFireFighter = MutableLiveData<PagingData<Request>>()
+
+    fun getHospitalData(cityId: String) {
+        repository.getHospitalData(cityId).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val hospitalData = task.result.toObject(Hospital::class.java)
+                val city = hospitalData?.city!!
+                val queryAmbulanceRequests = repository.queryAmbulanceRequests(city)
+
+                val requestsAmbulanceFlow = Pager(
+                    PagingConfig(pageSize = Constants.PAGE_SIZE)
+                ) {
+                    FirestorePagingSource(queryAmbulanceRequests)
+                }.flow.cachedIn(viewModelScope)
+
+                viewModelScope.launch {
+                    requestsAmbulanceFlow.collectLatest { dataFlow ->
+                        requestAmbulance.postValue(dataFlow)
+                    }
+                }
+            }
+        }
+    }
+
+    fun getCivilDefenseData(cityId: String) {
+        repository.getCivilDefenseData(cityId).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val civilDefenseData = task.result.toObject(CivilDefense::class.java)
+                val city = civilDefenseData?.city!!
+                val queryFireFighterRequests = repository.queryFireFighterRequests(city)
+                val requestsFireFighterFlow = Pager(
+                    PagingConfig(pageSize = Constants.PAGE_SIZE)
+                ) {
+                    FirestorePagingSource(queryFireFighterRequests)
+                }.flow.cachedIn(viewModelScope)
+
+                viewModelScope.launch {
+                    requestsFireFighterFlow.collectLatest { dataFlow ->
+                        requestFireFighter.postValue(dataFlow)
+                    }
+                }
             }
         }
     }
@@ -54,18 +90,6 @@ class RequestsViewModel @Inject constructor(
         }
     }
 
-    val requestsAmbulanceFlow = Pager(
-        PagingConfig(pageSize = Constants.PAGE_SIZE)
-    ) {
-        FirestorePagingSource(queryAmbulanceRequests)
-    }.flow.cachedIn(viewModelScope)
-
-
-    val requestsFireFighterFlow = Pager(
-        PagingConfig(pageSize = Constants.PAGE_SIZE)
-    ) {
-        FirestorePagingSource(queryFireFighterRequests)
-    }.flow.cachedIn(viewModelScope)
 
     fun getMedicalHistory(userSnn: String) {
         _medicalData.value = NetworkResult.Loading()
