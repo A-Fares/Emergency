@@ -8,13 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.databinding.RequestRowLayoutBinding
 
-class RequestAdapter : PagingDataAdapter<Request, RequestAdapter.RequestViewHolder>(Companion) {
+class RequestAdapter(val clickListener: OnRequestClickListener) :
+    PagingDataAdapter<Request, RequestAdapter.RequestViewHolder>(Companion) {
 
     class RequestViewHolder(private val binding: RequestRowLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(request: Request) {
+        fun bind(clickListener: OnRequestClickListener, request: Request) {
             binding.request = request
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
 
@@ -39,11 +41,14 @@ class RequestAdapter : PagingDataAdapter<Request, RequestAdapter.RequestViewHold
     }
 
     override fun onBindViewHolder(holder: RequestViewHolder, position: Int) {
-        val currentItem = getItem(position) ?: return
-        holder.bind(currentItem)
+        holder.bind(clickListener, getItem(position)!!)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RequestViewHolder {
         return RequestViewHolder.from(parent)
     }
+}
+
+class OnRequestClickListener(val clickListener: (currentItem: Request) -> Unit) {
+    fun onClick(request: Request) = clickListener(request)
 }

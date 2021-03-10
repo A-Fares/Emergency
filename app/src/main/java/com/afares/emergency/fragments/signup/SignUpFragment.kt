@@ -54,7 +54,7 @@ class SignUpFragment : Fragment() {
     private lateinit var adapterSpinnerHospital: ArrayAdapter<Hospital>
     private lateinit var adapterSpinnerCivilDefense: ArrayAdapter<CivilDefense>
 
-    private lateinit var cityId: String
+    private var cityId: String=""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -127,11 +127,12 @@ class SignUpFragment : Fragment() {
                 }
             }
         }
+
         binding.signupBtn.setOnClickListener {
             if (validateUser(args.userType)) {
                 binding.userInfoContainer.visibility = View.GONE
                 binding.verifyOtpContainer.visibility = View.VISIBLE
-                val phone = "+2${binding.personalPhoneEt.text}"
+                val phone = "+966${binding.personalPhoneEt.text}"
                 sendVerificationCode(phone)
             } else {
                 return@setOnClickListener
@@ -176,14 +177,14 @@ class SignUpFragment : Fragment() {
                     ssnEt.requestFocus()
                     return false
                 }
-                personalPhoneEt.text.length != 11 -> {
+                personalPhoneEt.text.length != 9 -> {
                     personalPhoneEt.error =
                         "برجاء ادخال رقم صحيح"
                     personalPhoneEt.requestFocus()
                     return false
                 }
                 userType == "مستخدم" -> {
-                    if (phoneClosePersonEt.text.length != 11
+                    if (phoneClosePersonEt.text.length != 9
                     ) {
                         phoneClosePersonEt.error =
                             "برجاء ادخال رقم صحيح"
@@ -263,8 +264,8 @@ class SignUpFragment : Fragment() {
         binding.apply {
             val name = nameEt.text.toString()
             val ssn = ssnEt.text.toString()
-            val personalPhone = personalPhoneEt.text.toString()
-            val closePersonPhone = phoneClosePersonEt.text.toString()
+            val personalPhone = "+566"+personalPhoneEt.text.toString()
+            val closePersonPhone = "+566"+phoneClosePersonEt.text.toString()
             return User(
                 null,
                 name,

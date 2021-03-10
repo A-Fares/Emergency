@@ -49,7 +49,7 @@ class LoginFragment : Fragment() {
 
         binding.loginBtn.setOnClickListener {
             binding.apply {
-                if (phoneEt.text.length != 11
+                if (phoneEt.text.length != 9
                 ) {
                     phoneEt.error =
                         "برجاء ادخال رقم صحيح"
@@ -58,7 +58,7 @@ class LoginFragment : Fragment() {
                 }
                 loginContainer.visibility = View.GONE
                 otpContainer.visibility = View.VISIBLE
-                val phone = "+2${phoneEt.text}"
+                val phone = "+966${phoneEt.text}"
                 sendVerificationCode(phone)
             }
         }

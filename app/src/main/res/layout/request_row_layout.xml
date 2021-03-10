@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="clickListener"
+            type="com.afares.emergency.adapters.OnRequestClickListener" />
+
+        <variable
             name="request"
             type="com.afares.emergency.data.model.Request" />
     </data>
@@ -14,7 +18,7 @@
         android:id="@+id/requestsRowLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        onRequestClickListener="@{request}"
+        android:onClick="@{()->clickListener.onClick(request)}"
         android:padding="4dp">
 
         <com.google.android.material.card.MaterialCardView
@@ -30,9 +34,9 @@
             app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                getRequestStatusBackground="@{request.status}"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                getRequestStatusBackground="@{request.status}">
+                android:layout_height="match_parent">
 
                 <View
                     android:id="@+id/backgroundView"
@@ -57,6 +61,7 @@
 
                 <TextView
                     android:id="@+id/request_status_tv"
+                    getRequestStatusBackground="@{request.status}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
@@ -64,7 +69,6 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/nahdi"
                     android:maxLines="3"
-                    getRequestStatusBackground="@{request.status}"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -75,17 +79,17 @@
 
                 <TextView
                     android:id="@+id/timestamp_tv"
+                    simpleDateFormat="@{request.created}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/nahdi"
-                    tools:text="May 3, 2910"
-                    simpleDateFormat="@{request.created}"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="May 3, 2910" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

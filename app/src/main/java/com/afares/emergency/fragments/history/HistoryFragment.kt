@@ -43,7 +43,7 @@ class HistoryFragment : Fragment() {
                 hasRequests = value
             }
         }
-        requestsViewModel.getRequestsStatus()
+       requestsViewModel.getRequestsState()
         setupRecyclerView()
         getRequestsStatus()
 

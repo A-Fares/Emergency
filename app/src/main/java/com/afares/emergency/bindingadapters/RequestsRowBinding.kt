@@ -16,6 +16,8 @@ import coil.load
 import com.afares.emergency.R
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.fragments.requests.RequestsFragmentDirections
+import com.afares.emergency.viewmodels.UserViewModel
+import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -81,22 +83,6 @@ class RequestsRowBinding {
             }
         }
 
-
-        @BindingAdapter("onRequestClickListener")
-        @JvmStatic
-        fun onRequestClickListener(requestRowLayout: ConstraintLayout, currentItem: Request) {
-            requestRowLayout.setOnClickListener {
-                try {
-                    val action =
-                        RequestsFragmentDirections.actionRequestsFragmentToRequestDetailesFragment(
-                            currentItem
-                        )
-                    requestRowLayout.findNavController().navigate(action)
-                } catch (e: Exception) {
-                    Log.d("onRecipeClickListener", e.toString())
-                }
-            }
-        }
 
         @SuppressLint("SimpleDateFormat")
         @BindingAdapter("simpleDateFormat")

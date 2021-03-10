@@ -17,7 +17,7 @@
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency-App/app/src/main/res/font/lemonada_semibold.xml" value="0.23958333333333334" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency-App/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency-App/app/src/main/res/layout/activity_savior.xml" value="0.1" />
-        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency-App/app/src/main/res/layout/fragment_help.xml" value="0.33" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency-App/app/src/main/res/layout/fragment_help.xml" value="0.2" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency-App/app/src/main/res/layout/fragment_history.xml" value="0.10182370820668693" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency-App/app/src/main/res/layout/fragment_login.xml" value="0.22" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency-App/app/src/main/res/layout/fragment_medical_history.xml" value="0.22" />
@@ -31,6 +31,7 @@
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency-App/app/src/main/res/layout/history_row_layout.xml" value="0.12590579710144928" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency-App/app/src/main/res/layout/placeholder_profile_layout.xml" value="0.19746376811594202" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency-App/app/src/main/res/layout/placeholder_request_details.xml" value="0.17980072463768115" />
+        <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency-App/app/src/main/res/layout/report_dialog_layout.xml" value="0.22" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency-App/app/src/main/res/layout/request_row_layout.xml" value="0.25" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency-App/app/src/main/res/menu/bottom_nav_menu.xml" value="0.209375" />
         <entry key="..\:/Android_Project/Android_Jetpack_Architecture/Emergency-App/app/src/main/res/menu/medical_info_menu.xml" value="0.20520833333333333" />

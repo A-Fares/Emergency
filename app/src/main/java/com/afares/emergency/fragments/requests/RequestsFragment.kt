@@ -1,17 +1,21 @@
 package com.afares.emergency.fragments.requests
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.afares.emergency.R
+import com.afares.emergency.adapters.OnRequestClickListener
 import com.afares.emergency.adapters.RequestAdapter
 import com.afares.emergency.data.NetworkResult
 import com.afares.emergency.databinding.FragmentRequestsBinding
@@ -23,7 +27,6 @@ import com.afares.emergency.viewmodels.UserViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -39,9 +42,12 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private val requestsViewModel: RequestsViewModel by viewModels()
     private val userViewModel: UserViewModel by viewModels()
 
-    private val mAdapter by lazy { RequestAdapter() }
+
+    private lateinit var mAdapter: RequestAdapter
     private lateinit var userType: String
     private lateinit var searchView: SearchView
+
+    private lateinit var recipientMail: String
 
     @Inject
     lateinit var mAuth: FirebaseAuth
@@ -54,6 +60,9 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         binding.swipeRefreshLayout.setOnRefreshListener(this)
         binding.lifecycleOwner = this
 
+        mAdapter = RequestAdapter(OnRequestClickListener { request ->
+            requestsViewModel.onRequestClicked(request)
+        })
 
         searchView = binding.searchView
         initSearchView()
@@ -62,15 +71,46 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         val navController = findNavController()
         binding.toolbar.setupWithNavController(navController)
 
+        userViewModel.getUserInfo(mAuth.currentUser!!.uid)
+        fetchUserData()
+
+        requestsViewModel.recipientMail.observe(viewLifecycleOwner, {
+            recipientMail = it
+        })
+
+        setupRecyclerView()
+
+        lifecycleScope.launchWhenStarted {
+            requestsViewModel.navigateToRequestInfo.observe(viewLifecycleOwner, { currentRequest ->
+                currentRequest?.let {
+                    val action =
+                        RequestsFragmentDirections.actionRequestsFragmentToRequestDetailesFragment(
+                            currentRequest, recipientMail
+                        )
+                    findNavController().navigate(action)
+                    requestsViewModel.onRequestNavigated()
+                }
+            })
+        }
+
+        signOut()
+        return binding.root
+    }
+
+    private fun signOut() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 // these ids should match the item ids from my_fragment_menu.xml file
                 R.id.medicalInfo_search -> {
-
-                    authViewModel.signOut()
-                    findNavController().navigate(R.id.action_requestsFragment_to_mainActivity2)
-                    activity?.finish()
-
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder.setPositiveButton("نعم") { _, _ ->
+                        authViewModel.signOut()
+                        findNavController().navigate(R.id.action_requestsFragment_to_mainActivity2)
+                        activity?.finish()
+                    }
+                    builder.setNegativeButton("لا") { _, _ -> }
+                    builder.setMessage("هل تريد تسجيل خروجك")
+                    builder.create().show()
                     // by returning 'true' we're saying that the event
                     // is handled and it shouldn't be propagated further
                     true
@@ -78,14 +118,6 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 else -> false
             }
         }
-        userViewModel.getUserInfo(mAuth.currentUser!!.uid)
-        fetchUserData()
-
-
-
-        requestsViewModel.getRequestsStatus()
-        setupRecyclerView()
-        return binding.root
     }
 
     private fun initSearchView() {
@@ -130,17 +162,19 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         userViewModel.getMedicalHistory(userSsn)
     }
 
-
     private fun fetchUserData() {
         lifecycleScope.launch {
             userViewModel.userData.collect { userData ->
                 when (userData) {
                     is NetworkResult.Success -> {
                         val cityId = userData.data?.cityId!!
-                        requestsViewModel.getHospitalData(cityId)
-                        requestsViewModel.getCivilDefenseData(cityId)
                         userType = userData.data.type!!
-                        getRequestsStatus()
+                        if (userType == "اسعاف") {
+                            requestsViewModel.getHospitalData(cityId)
+                        } else if (userType == "دفاع مدني") {
+                            requestsViewModel.getCivilDefenseData(cityId)
+                        }
+                        getRequestsState()
                     }
                 }
             }
@@ -152,51 +186,32 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         binding.recyclerviewRequests.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    private fun getRequestsStatus() {
+    private fun getRequestsState() {
         lifecycleScope.launch {
-            requestsViewModel.requestState.collect {
-                when (it) {
-                    is NetworkResult.Success -> {
-                        lifecycleScope.launch {
-                            when (userType) {
-                                "اسعاف" -> {
-                                    requestsViewModel.requestAmbulance.observe(viewLifecycleOwner,
-                                        { dataFlow ->
-                                            lifecycleScope.launch {
-                                                mAdapter.submitData(dataFlow)
-                                            }
-                                        })
-                                }
-                                "دفاع مدني" -> {
-                                    requestsViewModel.requestFireFighter.observe(viewLifecycleOwner,
-                                        { dataFlow ->
-                                            lifecycleScope.launch {
-                                                mAdapter.submitData(dataFlow)
-                                            }
-                                        })
+            when (userType) {
+                "اسعاف" -> {
+                    requestsViewModel.requestAmbulance.observe(viewLifecycleOwner,
+                        { dataFlow ->
+                            lifecycleScope.launch {
+                                if (dataFlow != null) {
+                                    mAdapter.submitData(dataFlow)
                                 }
                             }
-                        }
-                        binding.apply {
-                            profileSaviorContainer.visibility = View.VISIBLE
-                            placeholderRequestRow.visibility = View.GONE
-                        }
-                    }
-                    is NetworkResult.Error -> {
-                        binding.placeholderRequestRow.visibility = View.GONE
-                        toast(requireContext(), it.message.toString())
-                    }
-                    is NetworkResult.Loading -> {
-                        binding.apply {
-                            placeholderRequestRow.startShimmer()
-                            placeholderRequestRow.visibility = View.VISIBLE
-                        }
-                    }
-                    is NetworkResult.Empty -> {
-                        // No Thing
-                    }
+                        })
+                }
+                "دفاع مدني" -> {
+                    requestsViewModel.requestFireFighter.observe(viewLifecycleOwner,
+                        { dataFlow ->
+                            lifecycleScope.launch {
+                                mAdapter.submitData(dataFlow)
+                            }
+                        })
                 }
             }
+        }
+        binding.apply {
+            profileSaviorContainer.visibility = View.VISIBLE
+            placeholderRequestRow.visibility = View.GONE
         }
     }
 

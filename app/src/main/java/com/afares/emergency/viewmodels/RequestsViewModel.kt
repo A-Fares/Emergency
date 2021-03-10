@@ -28,14 +28,18 @@ class RequestsViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    val requestAmbulance = MutableLiveData<PagingData<Request>>()
+    val requestAmbulance = MutableLiveData<PagingData<Request>?>()
     val requestFireFighter = MutableLiveData<PagingData<Request>>()
+
+    val recipientMail = MutableLiveData<String>()
 
     fun getHospitalData(cityId: String) {
         repository.getHospitalData(cityId).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val hospitalData = task.result.toObject(Hospital::class.java)
                 val city = hospitalData?.city!!
+                val mail = hospitalData.mail!!
+                recipientMail.postValue(mail)
                 val queryAmbulanceRequests = repository.queryAmbulanceRequests(city)
 
                 val requestsAmbulanceFlow = Pager(
@@ -58,6 +62,8 @@ class RequestsViewModel @Inject constructor(
             if (task.isSuccessful) {
                 val civilDefenseData = task.result.toObject(CivilDefense::class.java)
                 val city = civilDefenseData?.city!!
+                val mail = civilDefenseData.mail!!
+                recipientMail.postValue(mail)
                 val queryFireFighterRequests = repository.queryFireFighterRequests(city)
                 val requestsFireFighterFlow = Pager(
                     PagingConfig(pageSize = Constants.PAGE_SIZE)
@@ -89,6 +95,17 @@ class RequestsViewModel @Inject constructor(
             _requestStatus.emit(status)
         }
     }
+    private val _navigateToRequestInfo = MutableLiveData<Request>()
+    val navigateToRequestInfo
+        get() = _navigateToRequestInfo
+
+    fun onRequestClicked(request: Request){
+        _navigateToRequestInfo.value = request
+    }
+
+    fun onRequestNavigated() {
+        _navigateToRequestInfo.value = null
+    }
 
 
     fun getMedicalHistory(userSnn: String) {
@@ -103,7 +120,7 @@ class RequestsViewModel @Inject constructor(
         }
     }
 
-    fun getRequestsStatus() {
+    fun getRequestsState() {
         _requestState.value = NetworkResult.Loading()
         repository.queryUserRequests().get().addOnCompleteListener { task ->
             if (task.isSuccessful) {

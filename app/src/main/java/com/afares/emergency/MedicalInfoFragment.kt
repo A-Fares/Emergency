@@ -46,6 +46,7 @@ class MedicalInfoFragment : Fragment() {
         } else {
             binding.noDataContainer.visibility = View.VISIBLE
         }
+
         return binding.root
     }
 

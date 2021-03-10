@@ -116,4 +116,11 @@ dependencies {
     // Stepper View
     implementation 'com.shuhart.stepview:stepview:1.2.6'
 
+    //material-dialogs
+    implementation 'com.afollestad.material-dialogs:core:3.3.0'
+
+    // Mail Api
+    implementation files('libs/activation.jar')
+    implementation files('libs/additionnal.jar')
+    implementation files('libs/mail.jar')
 }

@@ -1,5 +1,6 @@
 package com.afares.emergency.fragments.profile
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,9 +48,15 @@ class ProfileFragment : Fragment() {
         fetchUserData()
 
         binding.signOutBtn.setOnClickListener {
-            authViewModel.signOut()
-            findNavController().navigate(R.id.action_profileFragment_to_mainActivity)
-            activity?.finish()
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setPositiveButton("نعم") { _, _ ->
+                authViewModel.signOut()
+                findNavController().navigate(R.id.action_profileFragment_to_mainActivity)
+                activity?.finish()
+            }
+            builder.setNegativeButton("لا") { _, _ -> }
+            builder.setMessage("هل تريد تسجيل خروجك")
+            builder.create().show()
         }
         return binding.root
     }
