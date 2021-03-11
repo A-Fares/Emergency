@@ -154,9 +154,6 @@ class SignUpFragment : Fragment() {
             }
         }
 
-
-
-
         signUp()
         return binding.root
     }

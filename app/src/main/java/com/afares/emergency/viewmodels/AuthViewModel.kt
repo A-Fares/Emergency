@@ -11,6 +11,7 @@ import com.afares.emergency.data.model.User
 import com.afares.emergency.data.repository.Repository
 import com.afares.emergency.util.Constants.DEFAULT_USER_TYPE
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,14 +38,26 @@ class AuthViewModel @Inject constructor(
         _userState.value = NetworkResult.Loading()
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val userData = User(
-                    firebaseAuth.currentUser!!.uid,
-                    user.name, user.ssn, user.phone, user.closePersonPhone,
-                    user.type, null, user.cityId
-                )
-                saveLoginPreferences(true, userData.type.toString())
-                saveUser(userData)
-                _userState.value = NetworkResult.Success(userData)
+                val userAuth: FirebaseUser = task.result.user!!
+                val creationTimestamp: Long = userAuth.metadata?.creationTimestamp!!
+                val lastSignInTimestamp: Long = userAuth.metadata?.lastSignInTimestamp!!
+                if (creationTimestamp == lastSignInTimestamp) {
+                    val userData = User(
+                        firebaseAuth.currentUser!!.uid,
+                        user.name, user.ssn, user.phone, user.closePersonPhone,
+                        user.type, null, user.cityId
+                    )
+                    saveLoginPreferences(true, userData.type.toString())
+                    saveUser(userData)
+                    _userState.value = NetworkResult.Success(userData)
+                } else {
+                    repository.fetchUser().addOnSuccessListener { user ->
+                        val userData = user.toObject(User::class.java)!!
+                        _userState.value = NetworkResult.Success(userData)
+                        saveLoginPreferences(true, userData.type.toString())
+                    }
+                }
+
             } else {
                 // Show Error
                 _userState.value = NetworkResult.Error("No Internet Connection.")
@@ -56,12 +69,18 @@ class AuthViewModel @Inject constructor(
         _userState.value = NetworkResult.Loading()
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                repository.fetchUser().addOnSuccessListener { user ->
-                    val userData = user.toObject(User::class.java)!!
-                    _userState.value = NetworkResult.Success(userData)
-                    saveLoginPreferences(true, userData.type.toString())
+                val userAuth: FirebaseUser = task.result.user!!
+                val creationTimestamp: Long = userAuth.metadata?.creationTimestamp!!
+                val lastSignInTimestamp: Long = userAuth.metadata?.lastSignInTimestamp!!
+                if (creationTimestamp == lastSignInTimestamp) {
+                    _userState.value = NetworkResult.Error("يرجى تسجيل الحساب اولا")
+                } else {
+                    repository.fetchUser().addOnSuccessListener { user ->
+                        val userData = user.toObject(User::class.java)!!
+                        _userState.value = NetworkResult.Success(userData)
+                        saveLoginPreferences(true, userData.type.toString())
+                    }
                 }
-
             } else {
                 // Show Error
                 _userState.value = NetworkResult.Error("No Internet Connection.")
