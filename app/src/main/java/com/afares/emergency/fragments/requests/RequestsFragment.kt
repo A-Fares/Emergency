@@ -18,6 +18,7 @@ import com.afares.emergency.R
 import com.afares.emergency.adapters.OnRequestClickListener
 import com.afares.emergency.adapters.RequestAdapter
 import com.afares.emergency.data.NetworkResult
+import com.afares.emergency.data.model.User
 import com.afares.emergency.databinding.FragmentRequestsBinding
 import com.afares.emergency.util.hideKeyboard
 import com.afares.emergency.util.toast
@@ -48,6 +49,7 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var searchView: SearchView
 
     private lateinit var recipientMail: String
+    private lateinit var saviorData: User
 
     @Inject
     lateinit var mAuth: FirebaseAuth
@@ -85,7 +87,7 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 currentRequest?.let {
                     val action =
                         RequestsFragmentDirections.actionRequestsFragmentToRequestDetailesFragment(
-                            currentRequest, recipientMail
+                            currentRequest, recipientMail, saviorData
                         )
                     findNavController().navigate(action)
                     requestsViewModel.onRequestNavigated()
@@ -95,29 +97,6 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
         signOut()
         return binding.root
-    }
-
-    private fun signOut() {
-        binding.toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                // these ids should match the item ids from my_fragment_menu.xml file
-                R.id.medicalInfo_search -> {
-                    val builder = AlertDialog.Builder(requireContext())
-                    builder.setPositiveButton("نعم") { _, _ ->
-                        authViewModel.signOut()
-                        findNavController().navigate(R.id.action_requestsFragment_to_mainActivity2)
-                        activity?.finish()
-                    }
-                    builder.setNegativeButton("لا") { _, _ -> }
-                    builder.setMessage("هل تريد تسجيل خروجك")
-                    builder.create().show()
-                    // by returning 'true' we're saying that the event
-                    // is handled and it shouldn't be propagated further
-                    true
-                }
-                else -> false
-            }
-        }
     }
 
     private fun initSearchView() {
@@ -167,7 +146,8 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             userViewModel.userData.collect { userData ->
                 when (userData) {
                     is NetworkResult.Success -> {
-                        val cityId = userData.data?.cityId!!
+                        saviorData = userData.data!!
+                        val cityId = userData.data.cityId!!
                         userType = userData.data.type!!
                         if (userType == "اسعاف") {
                             requestsViewModel.getHospitalData(cityId)
@@ -224,6 +204,29 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 .build()
         )
         binding.swipeRefreshLayout.isRefreshing = false
+    }
+
+    private fun signOut() {
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                // these ids should match the item ids from my_fragment_menu.xml file
+                R.id.medicalInfo_search -> {
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder.setPositiveButton("نعم") { _, _ ->
+                        authViewModel.signOut()
+                        findNavController().navigate(R.id.action_requestsFragment_to_mainActivity2)
+                        activity?.finish()
+                    }
+                    builder.setNegativeButton("لا") { _, _ -> }
+                    builder.setMessage("هل تريد تسجيل خروجك")
+                    builder.create().show()
+                    // by returning 'true' we're saying that the event
+                    // is handled and it shouldn't be propagated further
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onDestroyView() {

@@ -39,6 +39,9 @@
             android:name="recipientMail"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="saviorData"
+            app:argType="com.afares.emergency.data.model.User" />
     </fragment>
     <fragment
         android:id="@+id/medicalInfoFragment"

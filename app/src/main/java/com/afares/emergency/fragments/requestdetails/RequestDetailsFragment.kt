@@ -1,6 +1,5 @@
 package com.afares.emergency.fragments.requestdetails
 
-import com.afares.emergency.mailapi.MailSender
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -43,7 +42,6 @@ class RequestDetailsFragment : Fragment() {
     private val requestsViewModel: RequestsViewModel by viewModels()
     private val args: RequestDetailsFragmentArgs by navArgs()
 
-
     @Inject
     lateinit var mAuth: FirebaseAuth
     override fun onCreateView(
@@ -53,11 +51,8 @@ class RequestDetailsFragment : Fragment() {
         _binding = FragmentRequestDetailesBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
 
-
-        fetchSaviorData()
         getUserInfo(args.currentItem.uid)
         attachUserInfo()
-
 
         binding.stepView.done(true)
         val steps = ArrayList<String>()
@@ -119,22 +114,6 @@ class RequestDetailsFragment : Fragment() {
         return binding.root
     }
 
-    private fun fetchSaviorData() {
-        lifecycleScope.launch {
-            userViewModel.userData.collect { saviorData ->
-                when (saviorData) {
-                    is NetworkResult.Success -> {
-                        val cityId = saviorData.data?.cityId!!
-                        if (saviorData.data.type == "اسعاف") {
-                            requestsViewModel.getHospitalData(cityId)
-                        } else if (saviorData.data.type == "دفاع مدني") {
-                            requestsViewModel.getCivilDefenseData(cityId)
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     private fun showReportDialog(recipients: String) {
         val dialog = MaterialDialog(requireContext())
@@ -144,8 +123,11 @@ class RequestDetailsFragment : Fragment() {
         val subject = dialog.findViewById<EditText>(R.id.subject_et)
         val body = dialog.findViewById<EditText>(R.id.body_et)
         dialog.findViewById<Button>(R.id.send_btn).setOnClickListener {
+            val saviorInfo = "اسم المساعد: ${args.saviorData.name}\n" +
+                    " رقم الهوية: ${args.saviorData.ssn}\n"
+
             MailBody.subject = subject.text.toString()
-            MailBody.body = body.text.toString()
+            MailBody.body = saviorInfo + "التقرير: ${body.text}"
             MailBody.recipients = recipients
             sendReport()
             dialog.dismiss()
