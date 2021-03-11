@@ -108,20 +108,22 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     userViewModel.hasMedicalHistory.observe(
                         viewLifecycleOwner,
                         { hasMedicalHistory ->
-                            if (hasMedicalHistory) {
+                            if (hasMedicalHistory == true) {
                                 val action =
                                     RequestsFragmentDirections.actionRequestsFragmentToMedicalInfoFragment(
                                         true,
                                         query
                                     )
                                 findNavController().navigate(action)
-                            } else {
+                                userViewModel.onMedicalHistoryNavigated()
+                            } else if (hasMedicalHistory==false) {
                                 val action =
                                     RequestsFragmentDirections.actionRequestsFragmentToMedicalInfoFragment(
                                         false,
                                         null
                                     )
                                 findNavController().navigate(action)
+                                userViewModel.onMedicalHistoryNavigated()
                             }
                         })
                 } else {

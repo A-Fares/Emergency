@@ -78,7 +78,9 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
 
         userViewModel.hasMedicalHistory.observe(viewLifecycleOwner, {
-            hasMedicalHistory = it
+            if (it != null) {
+                hasMedicalHistory = it
+            }
         })
 
 

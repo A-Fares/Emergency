@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.afares.emergency.R
 import com.afares.emergency.data.NetworkResult
-import com.afares.emergency.data.Status
 import com.afares.emergency.databinding.FragmentProfileBinding
 import com.afares.emergency.util.toast
 import com.afares.emergency.viewmodels.AuthViewModel

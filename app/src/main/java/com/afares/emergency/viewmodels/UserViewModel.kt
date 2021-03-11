@@ -49,7 +49,7 @@ class UserViewModel @Inject constructor(
     }
 
 
-    val hasMedicalHistory = MutableLiveData<Boolean>()
+
 
     val historyRequestsFlow = Pager(
         PagingConfig(pageSize = PAGE_SIZE)
@@ -75,10 +75,20 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    private val _hasMedicalHistory = MutableLiveData<Boolean?>()
+    val hasMedicalHistory
+        get() = _hasMedicalHistory
+
+
+    fun onMedicalHistoryNavigated() {
+        _hasMedicalHistory.value = null
+    }
+
+    //val hasMedicalHistory = MutableLiveData<Boolean>()
     fun getMedicalHistory(userSsn: String) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getMedicalHistory(userSsn).addOnSuccessListener { task ->
-                hasMedicalHistory.postValue(task.exists())
+                _hasMedicalHistory.postValue(task.exists())
             }
         }
     }
