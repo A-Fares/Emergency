@@ -13,7 +13,7 @@ object Constants {
     const val COLLECTION_HOSPITAL = "Hospital"
     const val COLLECTION_CIVIL_DEFENSE = "Civil Defense Center"
 
-    const val USER_TYPE_KEY = "userType"
+    const val TOKEN_KEY = "token"
 
     const val AMBULANCE = "اسعاف"
     const val FIRE_FIGHTER = "دفاع مدني"

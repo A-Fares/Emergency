@@ -54,20 +54,31 @@ class SignUpFragment : Fragment() {
     private lateinit var adapterSpinnerHospital: ArrayAdapter<Hospital>
     private lateinit var adapterSpinnerCivilDefense: ArrayAdapter<CivilDefense>
 
-    private var cityId: String=""
+    private var cityId: String = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
-        // queryHospitalName()
+
         authViewModel.queryHospitalData()
         authViewModel.queryCivilDefenseData()
 
+        if (args.userType == "مستخدم") {
+            binding.apply {
+                closePhoneTv.visibility = View.VISIBLE
+                phoneClosePersonEt.visibility = View.VISIBLE
+                code2Tv.visibility = View.VISIBLE
+                flag2ImageView.visibility = View.VISIBLE
+            }
+        }
+
         if (args.userType == "اسعاف") {
-            binding.phoneClosePersonEt.visibility = View.GONE
-            binding.hospitalSpinner.visibility = View.VISIBLE
-            binding.progressBarSignUp.visibility = View.VISIBLE
+            binding.apply {
+                hospitalSpinner.visibility = View.VISIBLE
+                progressBarSignUp.visibility = View.VISIBLE
+            }
+
             /** ----------------------------- Spinner --------------------------*/
             mySpinner = binding.hospitalSpinner
 
@@ -96,7 +107,6 @@ class SignUpFragment : Fragment() {
             }
         }
         if (args.userType == "دفاع مدني") {
-            binding.phoneClosePersonEt.visibility = View.GONE
             binding.civilDefenseSpinner.visibility = View.VISIBLE
             binding.progressBarSignUp.visibility = View.VISIBLE
 
@@ -261,10 +271,10 @@ class SignUpFragment : Fragment() {
         binding.apply {
             val name = nameEt.text.toString()
             val ssn = ssnEt.text.toString()
-            val personalPhone = "+566"+personalPhoneEt.text.toString()
-            val closePersonPhone = "+566"+phoneClosePersonEt.text.toString()
+            val personalPhone = "+566" + personalPhoneEt.text.toString()
+            val closePersonPhone = "+566" + phoneClosePersonEt.text.toString()
             return User(
-                null,
+                null, null,
                 name,
                 ssn,
                 personalPhone,

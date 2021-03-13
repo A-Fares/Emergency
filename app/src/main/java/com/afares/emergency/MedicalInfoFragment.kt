@@ -108,7 +108,7 @@ class MedicalInfoFragment : Fragment() {
                                 ).toString()
                         }
                     }
-                    else -> {
+                    else -> {//No Thing
                     }
                 }
             }

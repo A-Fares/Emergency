@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.firestore.QueryDocumentSnapshot
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,10 +25,12 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     application: Application,
+    private val firebaseMessaging: FirebaseMessaging,
     private val firebaseAuth: FirebaseAuth,
     private val repository: Repository,
     private val dataStoreRepository: DataStoreRepository
 ) : AndroidViewModel(application) {
+
 
     private val _userState = MutableStateFlow<NetworkResult<User>>(NetworkResult.Empty())
     val userState: StateFlow<NetworkResult<User>> = _userState
@@ -43,15 +46,17 @@ class AuthViewModel @Inject constructor(
                 val lastSignInTimestamp: Long = userAuth.metadata?.lastSignInTimestamp!!
                 if (creationTimestamp == lastSignInTimestamp) {
                     val userData = User(
-                        firebaseAuth.currentUser!!.uid,
+                        firebaseAuth.currentUser!!.uid, null,
                         user.name, user.ssn, user.phone, user.closePersonPhone,
                         user.type, null, user.cityId
                     )
-                    saveLoginPreferences(true, userData.type.toString())
                     saveUser(userData)
+                    retrieveAndStoreToken()
+                    saveLoginPreferences(true, userData.type.toString())
                     _userState.value = NetworkResult.Success(userData)
                 } else {
                     repository.fetchUser().addOnSuccessListener { user ->
+                        retrieveAndStoreToken()
                         val userData = user.toObject(User::class.java)!!
                         _userState.value = NetworkResult.Success(userData)
                         saveLoginPreferences(true, userData.type.toString())
@@ -61,6 +66,14 @@ class AuthViewModel @Inject constructor(
             } else {
                 // Show Error
                 _userState.value = NetworkResult.Error("No Internet Connection.")
+            }
+        }
+    }
+
+    private fun retrieveAndStoreToken() {
+        firebaseMessaging.token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                repository.saveToken(task.result)
             }
         }
     }
@@ -76,6 +89,7 @@ class AuthViewModel @Inject constructor(
                     _userState.value = NetworkResult.Error("يرجى تسجيل الحساب اولا")
                 } else {
                     repository.fetchUser().addOnSuccessListener { user ->
+                        retrieveAndStoreToken()
                         val userData = user.toObject(User::class.java)!!
                         _userState.value = NetworkResult.Success(userData)
                         saveLoginPreferences(true, userData.type.toString())
@@ -148,6 +162,7 @@ class AuthViewModel @Inject constructor(
 
     fun signOut() {
         saveLoginPreferences(false, DEFAULT_USER_TYPE)
+        repository.clearToken()
         repository.signOut()
     }
 
