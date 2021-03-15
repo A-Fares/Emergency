@@ -25,3 +25,27 @@ Rapp/src/main/java/com/afares/emergency/fragments/medical/MedicalHistoryFragment
 Kapp/src/main/java/com/afares/emergency/fragments/profile/ProfileFragment.kt,d\c\dc010c31fa12f29e28b2fd0e49eaec6c4d91be57
 ‰
 Yapp/src/main/java/com/afares/emergency/fragments/requestdetails/RequestDetailsFragment.kt,e\f\ef158fa2bbaee6a2a074eac7f88b97b212519b08
+f
+6app/src/main/java/com/afares/emergency/di/AppModule.kt,7\6\76a82ea2e519a8636466a122f91b9bb3257272e8
+r
+Bapp/src/main/java/com/afares/emergency/viewmodels/AuthViewModel.kt,7\c\7ccac57f353f839900c9367de8e627b3b6024e50
+@
+app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
+h
+8app/src/main/java/com/afares/emergency/util/Constants.kt,e\e\ee59733665481cef3d106aebe4bf460fa2964f8d
+S
+#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
+t
+Dapp/src/main/java/com/afares/emergency/data/repository/Repository.kt,6\c\6c5342e8cca9169e646895cca61dfb0bffb43753
+i
+9app/src/main/java/com/afares/emergency/data/model/User.kt,f\1\f1b4d88cb87f2feb239216cc9a7efec620379399
+y
+Iapp/src/main/java/com/afares/emergency/fragments/signup/SignUpFragment.kt,b\5\b578a06796e24e9b68eec96cc071a4d4c6859333
+}
+Mapp/src/main/java/com/afares/emergency/data/repository/DataStoreRepository.kt,4\1\414762afe2d9c597e988ee34ae2480d26ed4f44f
+h
+8app/src/main/java/com/afares/emergency/SaviorActivity.kt,8\d\8da68174b9d59bcf61bb5b66e11e1c2104546447
+t
+Dapp/src/main/java/com/afares/emergency/MyFirebaseMessagingService.kt,9\9\99c061fccf48ac50cc25fc3e9a1adf7dd992dc47
+P
+ app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e

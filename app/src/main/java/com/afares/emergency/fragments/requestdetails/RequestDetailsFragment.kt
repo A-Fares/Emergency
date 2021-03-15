@@ -19,6 +19,9 @@ import com.afares.emergency.R
 import com.afares.emergency.data.NetworkResult
 import com.afares.emergency.databinding.FragmentRequestDetailesBinding
 import com.afares.emergency.mailapi.MailBody
+import com.afares.emergency.util.Constants.FINISHED
+import com.afares.emergency.util.Constants.LOADING
+import com.afares.emergency.util.Constants.REQUESTED
 import com.afares.emergency.util.toast
 import com.afares.emergency.viewmodels.RequestsViewModel
 import com.afares.emergency.viewmodels.UserViewModel
@@ -56,9 +59,9 @@ class RequestDetailsFragment : Fragment() {
 
         binding.stepView.done(true)
         val steps = ArrayList<String>()
-        steps.add("تم الطلب")
-        steps.add("تم الاستلام")
-        steps.add("تم الانتهاء")
+        steps.add(REQUESTED)
+        steps.add(LOADING)
+        steps.add(FINISHED)
         binding.stepView.setSteps(steps)
 
 
@@ -67,11 +70,11 @@ class RequestDetailsFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             requestsViewModel.requestStatus.collect { status ->
                 when (status) {
-                    "تم الطلب" -> {
+                    REQUESTED -> {
                         binding.acceptBtn.visibility = View.VISIBLE
                         binding.stepView.go(0, false)
                     }
-                    "تم الاستلام" -> {
+                    LOADING -> {
                         binding.finishBtn.visibility = View.VISIBLE
                         binding.acceptBtn.visibility = View.GONE
                         binding.stepView.go(1, false)
@@ -89,7 +92,7 @@ class RequestDetailsFragment : Fragment() {
 
         binding.apply {
             acceptBtn.setOnClickListener {
-                updateRequestStatus(args.currentItem.id!!, "تم الاستلام")
+                updateRequestStatus(args.currentItem.id!!, LOADING)
                 acceptBtn.visibility = View.GONE
                 finishBtn.visibility = View.VISIBLE
                 binding.stepView.go(1, true)
@@ -97,7 +100,7 @@ class RequestDetailsFragment : Fragment() {
         }
 
         binding.finishBtn.setOnClickListener {
-            updateRequestStatus(args.currentItem.id!!, "تم الانتهاء")
+            updateRequestStatus(args.currentItem.id!!, FINISHED)
             findNavController().navigate(R.id.action_requestDetailesFragment_to_requestsFragment)
         }
 

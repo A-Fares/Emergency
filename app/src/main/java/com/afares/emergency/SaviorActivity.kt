@@ -6,6 +6,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class SaviorActivity : AppCompatActivity() {
 

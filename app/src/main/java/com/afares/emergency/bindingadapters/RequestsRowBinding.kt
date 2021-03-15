@@ -1,23 +1,16 @@
 package com.afares.emergency.bindingadapters
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import androidx.navigation.findNavController
-import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.afares.emergency.R
-import com.afares.emergency.data.model.Request
-import com.afares.emergency.fragments.requests.RequestsFragmentDirections
-import com.afares.emergency.viewmodels.UserViewModel
-import kotlinx.coroutines.flow.collect
+import com.afares.emergency.util.Constants.FINISHED
+import com.afares.emergency.util.Constants.LOADING
+import com.afares.emergency.util.Constants.REQUESTED
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,13 +22,13 @@ class RequestsRowBinding {
         @JvmStatic
         fun getRequestStatusBackground(view: View, status: String) {
             when (status) {
-                "تم الطلب" ->
+                REQUESTED ->
                     when (view) {
                         is ImageView -> {
                             view.setImageResource(R.drawable.ic_done)
                         }
                         is TextView -> {
-                            view.text = "تم الطلب"
+                            view.text = REQUESTED
                         }
                         is ConstraintLayout -> {
                             view.setBackgroundColor(
@@ -46,7 +39,7 @@ class RequestsRowBinding {
                             )
                         }
                     }
-                "تم الاستلام" ->
+                LOADING ->
                     when (view) {
                         is ImageView -> {
                             view.setImageResource(R.drawable.ic_loading)
@@ -63,7 +56,7 @@ class RequestsRowBinding {
                             )
                         }
                     }
-                "تم الانتهاء" ->
+                FINISHED ->
                     when (view) {
                         is ImageView -> {
                             view.setImageResource(R.drawable.ic_finish)

@@ -30,7 +30,7 @@ class HistoryFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val mAdapter by lazy { HistoryAdapter() }
-    var hasRequests by Delegates.notNull<Boolean>()
+    private var hasRequests by Delegates.notNull<Boolean>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

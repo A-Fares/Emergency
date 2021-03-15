@@ -2,7 +2,6 @@ package com.afares.emergency.fragments.signup
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,14 +21,13 @@ import com.afares.emergency.data.model.User
 import com.afares.emergency.databinding.FragmentSignUpBinding
 import com.afares.emergency.util.toast
 import com.afares.emergency.viewmodels.AuthViewModel
+import com.afares.emergency.viewmodels.RequestsViewModel
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -40,6 +38,8 @@ class SignUpFragment : Fragment() {
     private val args by navArgs<SignUpFragmentArgs>()
 
     private val authViewModel: AuthViewModel by viewModels()
+    private val requestsViewModel: RequestsViewModel by viewModels()
+
     private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
     private var verificationId: String? = null
@@ -79,7 +79,7 @@ class SignUpFragment : Fragment() {
                 progressBarSignUp.visibility = View.VISIBLE
             }
 
-            /** ----------------------------- Spinner --------------------------*/
+            /** ----------------------------- Spinner civilDefenseSpinner--------------------------*/
             mySpinner = binding.hospitalSpinner
 
             authViewModel.hospitalMutableList.observe(viewLifecycleOwner, {
@@ -103,6 +103,9 @@ class SignUpFragment : Fragment() {
                 ) {
                     val selectedObject = mySpinner.selectedItem as Hospital
                     cityId = selectedObject.id.toString()
+                    if (cityId!="none"){
+                        requestsViewModel.getHospitalData(cityId)
+                    }
                 }
             }
         }
@@ -110,7 +113,7 @@ class SignUpFragment : Fragment() {
             binding.civilDefenseSpinner.visibility = View.VISIBLE
             binding.progressBarSignUp.visibility = View.VISIBLE
 
-            /** ----------------------------- Spinner --------------------------*/
+            /** ----------------------------- Spinner civilDefenseSpinner--------------------------*/
             mySpinner = binding.civilDefenseSpinner
 
             authViewModel.civilDefenseMutableList.observe(viewLifecycleOwner, {
@@ -134,6 +137,7 @@ class SignUpFragment : Fragment() {
                 ) {
                     val selectedObject = mySpinner.selectedItem as CivilDefense
                     cityId = selectedObject.id.toString()
+                    requestsViewModel.getCivilDefenseData(cityId)
                 }
             }
         }
@@ -274,7 +278,7 @@ class SignUpFragment : Fragment() {
             val personalPhone = "+566" + personalPhoneEt.text.toString()
             val closePersonPhone = "+566" + phoneClosePersonEt.text.toString()
             return User(
-                null, null,
+                null,
                 name,
                 ssn,
                 personalPhone,

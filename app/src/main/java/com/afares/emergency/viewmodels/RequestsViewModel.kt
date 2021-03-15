@@ -15,6 +15,7 @@ import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.data.repository.Repository
 import com.afares.emergency.util.Constants
+import com.afares.emergency.util.Constants.REQUESTED
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,7 +33,6 @@ class RequestsViewModel @Inject constructor(
     val requestFireFighter = MutableLiveData<PagingData<Request>>()
 
     val recipientMail = MutableLiveData<String>()
-
     fun getHospitalData(cityId: String) {
         repository.getHospitalData(cityId).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -65,6 +65,7 @@ class RequestsViewModel @Inject constructor(
                 val mail = civilDefenseData.mail!!
                 recipientMail.postValue(mail)
                 val queryFireFighterRequests = repository.queryFireFighterRequests(city)
+
                 val requestsFireFighterFlow = Pager(
                     PagingConfig(pageSize = Constants.PAGE_SIZE)
                 ) {
@@ -87,7 +88,7 @@ class RequestsViewModel @Inject constructor(
     private val _requestState = MutableStateFlow<NetworkResult<Request>>(NetworkResult.Empty())
     val requestState: StateFlow<NetworkResult<Request>> = _requestState
 
-    private val _requestStatus = MutableStateFlow("تم الطلب")
+    private val _requestStatus = MutableStateFlow(REQUESTED)
     val requestStatus: StateFlow<String> = _requestStatus
 
     fun checkRequestStatus(status: String) {
@@ -95,11 +96,12 @@ class RequestsViewModel @Inject constructor(
             _requestStatus.emit(status)
         }
     }
+
     private val _navigateToRequestInfo = MutableLiveData<Request>()
     val navigateToRequestInfo
         get() = _navigateToRequestInfo
 
-    fun onRequestClicked(request: Request){
+    fun onRequestClicked(request: Request) {
         _navigateToRequestInfo.value = request
     }
 

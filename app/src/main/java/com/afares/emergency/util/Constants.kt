@@ -13,8 +13,6 @@ object Constants {
     const val COLLECTION_HOSPITAL = "Hospital"
     const val COLLECTION_CIVIL_DEFENSE = "Civil Defense Center"
 
-    const val TOKEN_KEY = "token"
-
     const val AMBULANCE = "اسعاف"
     const val FIRE_FIGHTER = "دفاع مدني"
 
@@ -22,5 +20,15 @@ object Constants {
     const val PREFERENCES_LOGIN_STATUS = "login_status"
     const val PREFERENCES_USER_TYPE = "user_type"
     const val DEFAULT_USER_TYPE = "none"
+
+    // request status
+    const val REQUESTED = "تم الطلب"
+    const val LOADING = "تم الاستلام"
+    const val FINISHED = "تم الانتهاء"
+
+    // user type
+    const val USER = "مستخدم"
+    const val PARAMEDIC = "اسعاف"
+    const val CIVIL_DEFENSE = "دفاع مدني"
 
 }

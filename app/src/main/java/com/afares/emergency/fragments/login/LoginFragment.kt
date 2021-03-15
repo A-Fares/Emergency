@@ -31,7 +31,7 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private var verificationId: String? = null
-    private val KEY_VERIFY_IN_PROGRESS = "key_verify_in_progress"
+    private val keyVerifyInProgress = "key_verify_in_progress"
     private var mVerificationInProgress = false
 
     @Inject
@@ -148,7 +148,7 @@ class LoginFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(KEY_VERIFY_IN_PROGRESS, mVerificationInProgress)
+        outState.putBoolean(keyVerifyInProgress, mVerificationInProgress)
     }
 
     override fun onDestroyView() {

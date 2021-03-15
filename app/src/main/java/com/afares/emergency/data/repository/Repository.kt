@@ -4,10 +4,8 @@ import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.data.model.User
 import com.afares.emergency.util.Constants
-import com.afares.emergency.util.Constants.TOKEN_KEY
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import javax.inject.Inject
@@ -24,17 +22,6 @@ class Repository @Inject constructor(
     fun saveUser(user: User) =
         fireStore.collection(Constants.COLLECTION_USERS)
             .document(firebaseAuth.currentUser!!.uid).set(user)
-
-
-    fun saveToken(token:String)=
-        fireStore.collection(Constants.COLLECTION_USERS)
-            .document(firebaseAuth.currentUser!!.uid)
-            .update(TOKEN_KEY,token)
-
-    fun clearToken()=
-        fireStore.collection(Constants.COLLECTION_USERS)
-            .document(firebaseAuth.currentUser!!.uid)
-            .update(TOKEN_KEY,FieldValue.delete())
 
     fun fetchUser() =
         fireStore.collection(Constants.COLLECTION_USERS).document(firebaseAuth.currentUser!!.uid)

@@ -17,7 +17,7 @@ fun showSnackBar(view: View, message: String) {
         view,
         message,
         Snackbar.LENGTH_SHORT
-    ).setAction("Okay") {}
+    ).setAction("تم") {}
         .show()
 }
 

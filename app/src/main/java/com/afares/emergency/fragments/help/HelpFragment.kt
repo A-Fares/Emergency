@@ -8,6 +8,7 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,9 @@ import androidx.navigation.fragment.findNavController
 import com.afares.emergency.R
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.databinding.FragmentHelpBinding
+import com.afares.emergency.util.Constants.CIVIL_DEFENSE
+import com.afares.emergency.util.Constants.PARAMEDIC
+import com.afares.emergency.util.Constants.REQUESTED
 import com.afares.emergency.util.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import com.afares.emergency.util.TrackingUtility
 import com.afares.emergency.util.showSnackBar
@@ -77,6 +81,9 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             }
         }
 
+
+
+        Log.d("CITY",getCityName(16.8989739,42.6584987) )
         userViewModel.hasMedicalHistory.observe(viewLifecycleOwner, {
             if (it != null) {
                 hasMedicalHistory = it
@@ -107,14 +114,14 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             } else {
                 when (binding.requestTypeRg.checkedRadioButtonId) {
                     R.id.ambulance_btn -> {
-                        requestType = "اسعاف"
+                        requestType = PARAMEDIC
                         if (!hasMedicalHistory) {
                             confirmMedicalHistory()
                             return false
                         }
                     }
                     R.id.civil_defense_btn -> {
-                        requestType = "دفاع مدني"
+                        requestType = CIVIL_DEFENSE
                     }
                 }
             }
@@ -198,10 +205,10 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     binding.requestDescriptionEt.text.toString(),
                     coordinates,
                     getCityName(location.latitude, location.longitude),
-                    "تم الطلب",
+                    REQUESTED,
                     null
                 )
-                addRequest(request)
+                userViewModel.addRequest(request)
                 confirmRequestAdded()
             }
         }
@@ -229,8 +236,6 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         return address[0].adminArea
     }
-
-    private fun addRequest(request: Request) = userViewModel.addRequest(request)
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -2,14 +2,14 @@ package com.afares.emergency.fragments.requests
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +20,8 @@ import com.afares.emergency.adapters.RequestAdapter
 import com.afares.emergency.data.NetworkResult
 import com.afares.emergency.data.model.User
 import com.afares.emergency.databinding.FragmentRequestsBinding
+import com.afares.emergency.util.Constants.CIVIL_DEFENSE
+import com.afares.emergency.util.Constants.PARAMEDIC
 import com.afares.emergency.util.hideKeyboard
 import com.afares.emergency.util.toast
 import com.afares.emergency.viewmodels.AuthViewModel
@@ -50,6 +52,7 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var recipientMail: String
     private lateinit var saviorData: User
+
 
     @Inject
     lateinit var mAuth: FirebaseAuth
@@ -151,9 +154,9 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                         saviorData = userData.data!!
                         val cityId = userData.data.cityId!!
                         userType = userData.data.type!!
-                        if (userType == "اسعاف") {
+                        if (userType == PARAMEDIC) {
                             requestsViewModel.getHospitalData(cityId)
-                        } else if (userType == "دفاع مدني") {
+                        } else if (userType == CIVIL_DEFENSE) {
                             requestsViewModel.getCivilDefenseData(cityId)
                         }
                         getRequestsState()
