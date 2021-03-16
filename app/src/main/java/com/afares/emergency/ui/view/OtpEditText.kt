@@ -1,4 +1,4 @@
-package com.afares.emergency.ui
+package com.afares.emergency.ui.view
 
 
 import android.content.Context

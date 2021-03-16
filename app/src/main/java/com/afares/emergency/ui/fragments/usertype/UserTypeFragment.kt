@@ -1,4 +1,4 @@
-package com.afares.emergency.fragments.usertype
+package com.afares.emergency.ui.fragments.usertype
 
 import android.os.Bundle
 import android.view.LayoutInflater

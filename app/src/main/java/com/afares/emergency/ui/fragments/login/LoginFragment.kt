@@ -1,4 +1,4 @@
-package com.afares.emergency.fragments.login
+package com.afares.emergency.ui.fragments.login
 
 import android.os.Bundle
 import android.view.LayoutInflater

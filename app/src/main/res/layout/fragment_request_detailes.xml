@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                tools:context=".fragments.requestdetails.RequestDetailsFragment">
+                tools:context=".ui.fragments.requestdetails.RequestDetailsFragment">
 
                 <com.shuhart.stepview.StepView
                     android:id="@+id/step_view"

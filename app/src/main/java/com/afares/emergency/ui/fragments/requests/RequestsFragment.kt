@@ -1,4 +1,4 @@
-package com.afares.emergency.fragments.requests
+package com.afares.emergency.ui.fragments.requests
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -119,7 +119,7 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                                     )
                                 findNavController().navigate(action)
                                 userViewModel.onMedicalHistoryNavigated()
-                            } else if (hasMedicalHistory==false) {
+                            } else if (hasMedicalHistory == false) {
                                 val action =
                                     RequestsFragmentDirections.actionRequestsFragmentToMedicalInfoFragment(
                                         false,

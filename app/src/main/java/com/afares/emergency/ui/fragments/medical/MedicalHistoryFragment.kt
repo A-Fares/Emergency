@@ -1,4 +1,4 @@
-package com.afares.emergency.fragments.medical
+package com.afares.emergency.ui.fragments.medical
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog

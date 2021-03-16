@@ -1,4 +1,4 @@
-package com.afares.emergency.fragments.signup
+package com.afares.emergency.ui.fragments.signup
 
 import android.app.Activity
 import android.app.ProgressDialog

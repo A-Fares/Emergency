@@ -1,4 +1,4 @@
-package com.afares.emergency.fragments.splash
+package com.afares.emergency.ui.fragments.splash
 
 import android.os.Bundle
 import android.os.Handler

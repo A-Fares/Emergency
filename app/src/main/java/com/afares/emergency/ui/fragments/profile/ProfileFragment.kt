@@ -1,4 +1,4 @@
-package com.afares.emergency.fragments.profile
+package com.afares.emergency.ui.fragments.profile
 
 import android.app.Activity
 import android.app.AlertDialog

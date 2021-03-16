@@ -1,4 +1,4 @@
-package com.afares.emergency.fragments.help
+package com.afares.emergency.ui.fragments.help
 
 import android.Manifest
 import android.annotation.SuppressLint

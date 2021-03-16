@@ -1,4 +1,4 @@
-package com.afares.emergency.fragments.requestdetails
+package com.afares.emergency.ui.fragments.requestdetails
 
 import android.content.Intent
 import android.net.Uri

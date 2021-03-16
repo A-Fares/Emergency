@@ -1,4 +1,4 @@
-package com.afares.emergency.fragments.history
+package com.afares.emergency.ui.fragments.history
 
 import android.os.Bundle
 import android.view.LayoutInflater

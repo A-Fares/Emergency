@@ -280,7 +280,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/imageView_otp_auth" />
 
 
-                <com.afares.emergency.ui.OtpEditText
+                <com.afares.emergency.ui.view.OtpEditText
                     android:id="@+id/otpEditText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

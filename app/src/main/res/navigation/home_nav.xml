@@ -6,7 +6,7 @@
     app:startDestination="@id/helpFragment">
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.afares.emergency.fragments.profile.ProfileFragment"
+        android:name="com.afares.emergency.ui.fragments.profile.ProfileFragment"
         android:label="@string/user_profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/helpFragment"
-        android:name="com.afares.emergency.fragments.help.HelpFragment"
+        android:name="com.afares.emergency.ui.fragments.help.HelpFragment"
         android:label="@string/help"
         tools:layout="@layout/fragment_help" >
         <action
@@ -28,12 +28,12 @@
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.afares.emergency.fragments.history.HistoryFragment"
+        android:name="com.afares.emergency.ui.fragments.history.HistoryFragment"
         android:label="@string/history"
         tools:layout="@layout/fragment_history" />
     <fragment
         android:id="@+id/medicalHistoryFragment"
-        android:name="com.afares.emergency.fragments.medical.MedicalHistoryFragment"
+        android:name="com.afares.emergency.ui.fragments.medical.MedicalHistoryFragment"
         android:label="@string/medical_history"
         tools:layout="@layout/fragment_medical_history" >
         <action
@@ -44,7 +44,7 @@
     </fragment>
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.afares.emergency.MainActivity"
+        android:name="com.afares.emergency.ui.activity.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
 </navigation>
