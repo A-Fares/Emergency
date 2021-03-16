@@ -1,5 +1,9 @@
 package com.afares.emergency.fragments.signup
 
+import android.app.Activity
+import android.app.ProgressDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -19,13 +23,22 @@ import com.afares.emergency.data.model.CivilDefense
 import com.afares.emergency.data.model.Hospital
 import com.afares.emergency.data.model.User
 import com.afares.emergency.databinding.FragmentSignUpBinding
+import com.afares.emergency.util.Constants
+import com.afares.emergency.util.Constants.CIVIL_DEFENSE
+import com.afares.emergency.util.Constants.PARAMEDIC
+import com.afares.emergency.util.Constants.USER
 import com.afares.emergency.util.toast
 import com.afares.emergency.viewmodels.AuthViewModel
 import com.afares.emergency.viewmodels.RequestsViewModel
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.StorageTask
+import com.google.firebase.storage.UploadTask
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import java.util.concurrent.TimeUnit
@@ -50,6 +63,12 @@ class SignUpFragment : Fragment() {
     @Inject
     lateinit var mAuth: FirebaseAuth
 
+    @Inject
+    lateinit var storage: StorageReference
+
+    private var imageUri: Uri? = null
+    private var imageUrl = ""
+
     private lateinit var mySpinner: Spinner
     private lateinit var adapterSpinnerHospital: ArrayAdapter<Hospital>
     private lateinit var adapterSpinnerCivilDefense: ArrayAdapter<CivilDefense>
@@ -64,7 +83,11 @@ class SignUpFragment : Fragment() {
         authViewModel.queryHospitalData()
         authViewModel.queryCivilDefenseData()
 
-        if (args.userType == "مستخدم") {
+        binding.addUserImage.setOnClickListener {
+            pickImage()
+        }
+
+        if (args.userType == USER) {
             binding.apply {
                 closePhoneTv.visibility = View.VISIBLE
                 phoneClosePersonEt.visibility = View.VISIBLE
@@ -73,7 +96,7 @@ class SignUpFragment : Fragment() {
             }
         }
 
-        if (args.userType == "اسعاف") {
+        if (args.userType == PARAMEDIC) {
             binding.apply {
                 hospitalSpinner.visibility = View.VISIBLE
                 progressBarSignUp.visibility = View.VISIBLE
@@ -103,13 +126,13 @@ class SignUpFragment : Fragment() {
                 ) {
                     val selectedObject = mySpinner.selectedItem as Hospital
                     cityId = selectedObject.id.toString()
-                    if (cityId!="none"){
+                    if (cityId != "none") {
                         requestsViewModel.getHospitalData(cityId)
                     }
                 }
             }
         }
-        if (args.userType == "دفاع مدني") {
+        if (args.userType == CIVIL_DEFENSE) {
             binding.civilDefenseSpinner.visibility = View.VISIBLE
             binding.progressBarSignUp.visibility = View.VISIBLE
 
@@ -137,7 +160,10 @@ class SignUpFragment : Fragment() {
                 ) {
                     val selectedObject = mySpinner.selectedItem as CivilDefense
                     cityId = selectedObject.id.toString()
-                    requestsViewModel.getCivilDefenseData(cityId)
+                    if (cityId != "none") {
+                        requestsViewModel.getCivilDefenseData(cityId)
+                    }
+
                 }
             }
         }
@@ -172,6 +198,49 @@ class SignUpFragment : Fragment() {
         return binding.root
     }
 
+    private fun pickImage() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(intent, Constants.PICK_IMAGE_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constants.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            imageUri = data.data
+            uploadImageToStorage()
+        }
+    }
+
+    private fun uploadImageToStorage() {
+        val progressbar = ProgressDialog(requireContext())
+        progressbar.setMessage("تحميل ....")
+        progressbar.show()
+
+        if (imageUri != null) {
+            val fileRef = storage.child(System.currentTimeMillis().toString() + ".jpg")
+            var uploadTask: StorageTask<*>
+            uploadTask = fileRef.putFile(imageUri!!)
+
+            uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                return@Continuation fileRef.downloadUrl
+            }).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+                    imageUrl = downloadUri.toString()
+                } else {
+                    // Handle failures
+                }
+                progressbar.dismiss()
+            }
+        }
+    }
 
     private fun validateUser(userType: String): Boolean {
         binding.apply {
@@ -182,7 +251,7 @@ class SignUpFragment : Fragment() {
                     nameEt.requestFocus()
                     return false
                 }
-                TextUtils.isEmpty(ssnEt.text) -> {
+                ssnEt.text.length != 10 -> {
                     ssnEt.error =
                         "برجاء كتابة رقم الهوية"
                     ssnEt.requestFocus()
@@ -283,7 +352,7 @@ class SignUpFragment : Fragment() {
                 ssn,
                 personalPhone,
                 closePersonPhone,
-                args.userType, null, cityId
+                args.userType, imageUrl, cityId
             )
         }
     }

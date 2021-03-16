@@ -124,9 +124,6 @@ dependencies {
     implementation files('libs/additionnal.jar')
     implementation files('libs/mail.jar')
 
-    // FCM
-    implementation 'com.google.firebase:firebase-messaging-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-
-    implementation 'com.google.firebase:firebase-messaging:21.0.1'
+    // Firebase Storage
+    implementation 'com.google.firebase:firebase-storage-ktx'
 }

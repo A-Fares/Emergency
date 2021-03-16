@@ -47,7 +47,7 @@ class AuthViewModel @Inject constructor(
                     val userData = User(
                         firebaseAuth.currentUser!!.uid,
                         user.name, user.ssn, user.phone, user.closePersonPhone,
-                        user.type, null, user.cityId
+                        user.type, user.photoUrl, user.cityId
                     )
                     saveUser(userData)
                     saveLoginPreferences(true, userData.type.toString())

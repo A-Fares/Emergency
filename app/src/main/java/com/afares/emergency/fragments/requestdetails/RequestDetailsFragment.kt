@@ -27,6 +27,7 @@ import com.afares.emergency.viewmodels.RequestsViewModel
 import com.afares.emergency.viewmodels.UserViewModel
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -294,6 +295,10 @@ class RequestDetailsFragment : Fragment() {
                         binding.apply {
                             userName.text = it.data?.name
                             ssnTextView.text = it.data?.ssn
+                            Glide.with(requireActivity())
+                                .load(it.data?.photoUrl)
+                                .placeholder(R.drawable.profile_placeholder)
+                                .into(userImageView)
                             phoneTextView.text = it.data?.phone
                             closePhoneTextView.text = it.data?.closePersonPhone
                             getUserMedical(it.data?.ssn)

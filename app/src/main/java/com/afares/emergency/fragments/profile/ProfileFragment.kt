@@ -1,6 +1,10 @@
 package com.afares.emergency.fragments.profile
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.app.ProgressDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +16,17 @@ import androidx.navigation.fragment.findNavController
 import com.afares.emergency.R
 import com.afares.emergency.data.NetworkResult
 import com.afares.emergency.databinding.FragmentProfileBinding
+import com.afares.emergency.util.Constants.PICK_IMAGE_REQUEST
 import com.afares.emergency.util.toast
 import com.afares.emergency.viewmodels.AuthViewModel
 import com.afares.emergency.viewmodels.UserViewModel
 import com.bumptech.glide.Glide
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.StorageTask
+import com.google.firebase.storage.UploadTask
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -36,6 +46,11 @@ class ProfileFragment : Fragment() {
     @Inject
     lateinit var mAuth: FirebaseAuth
 
+    @Inject
+    lateinit var storage: StorageReference
+
+    private var imageUri: Uri? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,6 +60,9 @@ class ProfileFragment : Fragment() {
         userViewModel.getUserInfo(mAuth.currentUser!!.uid)
 
         fetchUserData()
+        binding.addUserImage.setOnClickListener {
+            pickImage()
+        }
 
         binding.signOutBtn.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
@@ -58,6 +76,51 @@ class ProfileFragment : Fragment() {
             builder.create().show()
         }
         return binding.root
+    }
+
+    private fun pickImage() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            imageUri = data.data
+            uploadImageToStorage()
+        }
+    }
+
+    private fun uploadImageToStorage() {
+        val progressbar = ProgressDialog(requireContext())
+        progressbar.setMessage("تحميل ....")
+        progressbar.show()
+
+        if (imageUri != null) {
+            val fileRef = storage.child(System.currentTimeMillis().toString() + ".jpg")
+            var uploadTask: StorageTask<*>
+            uploadTask = fileRef.putFile(imageUri!!)
+
+            uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                return@Continuation fileRef.downloadUrl
+            }).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+                    val url=downloadUri.toString()
+                    userViewModel.updateUserImage(url)
+                } else {
+                    // Handle failures
+                }
+                progressbar.dismiss()
+            }
+        }
     }
 
     private fun fetchUserData() {

@@ -31,4 +31,7 @@ object Constants {
     const val PARAMEDIC = "اسعاف"
     const val CIVIL_DEFENSE = "دفاع مدني"
 
+    const val PICK_IMAGE_REQUEST = 1
+    const val PHOTO_URL = "photoUrl"
+
 }

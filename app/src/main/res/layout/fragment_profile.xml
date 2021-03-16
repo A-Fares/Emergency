@@ -52,6 +52,7 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_marginTop="32dp"
+                android:src="@drawable/profile_placeholder"
                 app:layout_constraintEnd_toEndOf="@+id/header"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/header"
@@ -211,6 +212,15 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
+
+            <ImageButton
+                android:id="@+id/add_userImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/button_add_shape"
+                app:layout_constraintBottom_toBottomOf="@+id/user_imageView"
+                app:layout_constraintEnd_toEndOf="@+id/user_imageView"
+                app:srcCompat="@drawable/ic_add" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -4,6 +4,7 @@ import com.afares.emergency.data.model.MedicalHistory
 import com.afares.emergency.data.model.Request
 import com.afares.emergency.data.model.User
 import com.afares.emergency.util.Constants
+import com.afares.emergency.util.Constants.PHOTO_URL
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -83,4 +84,8 @@ class Repository @Inject constructor(
     fun getCivilDefenseData(id: String) =
         fireStore.collection(Constants.COLLECTION_CIVIL_DEFENSE)
             .document(id).get()
+
+    fun updateUserImage(photoUrl: String) =
+        fireStore.collection(Constants.COLLECTION_USERS).document(firebaseAuth.currentUser!!.uid)
+            .update(PHOTO_URL, photoUrl)
 }

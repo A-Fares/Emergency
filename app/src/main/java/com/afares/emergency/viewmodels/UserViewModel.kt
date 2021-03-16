@@ -93,4 +93,7 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    fun updateUserImage(photoUrl: String) =
+        repository.updateUserImage(photoUrl)
+
 }
