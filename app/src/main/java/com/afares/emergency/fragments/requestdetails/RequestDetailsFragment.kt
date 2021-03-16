@@ -31,7 +31,10 @@ import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -219,11 +222,12 @@ class RequestDetailsFragment : Fragment() {
                                 )
                             }
                             bloodTypeTextView.text = medicalData.data?.bloodType
-                            ageTextview.text = medicalData.data?.age
-                            genderTextView.text = medicalData.data?.gender
+                            getUserAge(medicalData.data?.age!!)
+
+                            genderTextView.text = medicalData.data.gender
                             bmiTextView.text =
                                 computeBmi(
-                                    medicalData.data?.weight!!,
+                                    medicalData.data.weight!!,
                                     medicalData.data.height!!
                                 ).toString()
                             requestDetailsContainer.visibility = View.VISIBLE
@@ -234,6 +238,31 @@ class RequestDetailsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun getUserAge(birthOfDate: String) {
+        val locale = Locale("ar", "SA")
+        val sdf = SimpleDateFormat("yyyy-MM-dd", locale)
+        val date = sdf.parse(birthOfDate)
+        binding.ageTextview.text = calculateAge(date).toString()
+    }
+
+    private fun calculateAge(birthdate: Date?): Int {
+        val birth = Calendar.getInstance()
+        birth.time = birthdate
+        val today = Calendar.getInstance()
+        var yearDifference = (today[Calendar.YEAR]
+                - birth[Calendar.YEAR])
+        if (today[Calendar.MONTH] < birth[Calendar.MONTH]) {
+            yearDifference--
+        } else {
+            if (today[Calendar.MONTH] === birth[Calendar.MONTH]
+                && today[Calendar.DAY_OF_MONTH] < birth[Calendar.DAY_OF_MONTH]
+            ) {
+                yearDifference--
+            }
+        }
+        return yearDifference
     }
 
     private fun computeBmi(weight: String, height: String): Double {
@@ -274,10 +303,10 @@ class RequestDetailsFragment : Fragment() {
                         toast(requireContext(), it.message.toString())
                     }
                     is NetworkResult.Loading -> {
-
+                        // LOADING
                     }
                     is NetworkResult.Empty -> {
-
+                        // NO THING
                     }
                 }
             }

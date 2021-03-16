@@ -8,7 +8,6 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -81,9 +80,6 @@ class HelpFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             }
         }
 
-
-
-        Log.d("CITY",getCityName(16.8989739,42.6584987) )
         userViewModel.hasMedicalHistory.observe(viewLifecycleOwner, {
             if (it != null) {
                 hasMedicalHistory = it
