@@ -88,4 +88,8 @@ class Repository @Inject constructor(
     fun updateUserImage(photoUrl: String) =
         fireStore.collection(Constants.COLLECTION_USERS).document(firebaseAuth.currentUser!!.uid)
             .update(PHOTO_URL, photoUrl)
+
+    fun checkSsnUniqueness(userSsn: String) =
+        fireStore.collection(Constants.COLLECTION_USERS)
+            .whereEqualTo("ssn",userSsn).get()
 }

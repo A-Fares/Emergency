@@ -1,6 +1,7 @@
 package com.afares.emergency.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
@@ -35,6 +36,18 @@ class AuthViewModel @Inject constructor(
     val userState: StateFlow<NetworkResult<User>> = _userState
 
     val readLoginStatus = dataStoreRepository.readLoginStatus.asLiveData()
+
+    /** for retrieve user ssn*/
+
+ /*   private val ssnHasExist = MutableLiveData<Boolean>()
+    fun ssnRegistered(userSSn: String): MutableLiveData<Boolean> {
+        repository.checkSsnUniqueness(userSSn).addOnSuccessListener { task ->
+            val empty = task.isEmpty
+            ssnHasExist.postValue(!empty)
+            Log.d("SSSN", empty.toString())
+        }
+        return ssnHasExist
+    }*/
 
     fun signUpWithPhoneAuthCredential(user: User, credential: PhoneAuthCredential) {
         _userState.value = NetworkResult.Loading()
