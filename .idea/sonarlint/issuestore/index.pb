@@ -59,12 +59,8 @@ X
 ,app/src/main/res/layout/fragment_history.xml,5\b\5b4d822108ea9f774a28bbe8d9e3ef00d9ac2857
 Z
 *app/src/main/res/layout/fragment_login.xml,f\d\fdd3cd19e967c0f22eaa0b7f68fbd15e1a914b42
-a
-1app/src/main/res/layout/fragment_medical_info.xml,2\3\236ba6f3b72a44427a31cd549f104f0d2a7f6c62
 \
 ,app/src/main/res/layout/fragment_profile.xml,b\4\b4466735edf81a3353097aecb75b46205cdee6b6
-e
-5app/src/main/res/layout/fragment_request_detailes.xml,1\8\1822b4150bfe897b291dab47632725070f8e05a6
 [
 +app/src/main/res/layout/fragment_splash.xml,c\2\c2108990ed152bf3b25e1e9e1b88238ca6696534
 x
@@ -101,3 +97,5 @@ Lapp/src/main/java/com/afares/emergency/ui/fragments/splash/SplashFragment.kt,8
 Papp/src/main/java/com/afares/emergency/ui/fragments/usertype/UserTypeFragment.kt,c\6\c60bac85e53a7dff2769140d0ee7942b8e973f4c
 €
 Papp/src/main/java/com/afares/emergency/ui/fragments/requests/RequestsFragment.kt,e\9\e9fd4c10638478404d5c930bf556f504642a2d7c
+H
+app/google-services.json,f\d\fd8d34b142d02ec743a8efefefd2c097961666e9

@@ -255,7 +255,7 @@
                                 android:src="@drawable/ic_checkmark"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:tint="@color/darkGray" />
+                                app:tint="@color/mediumGray" />
 
                             <TextView
                                 android:id="@+id/diabetic_textView"
@@ -279,7 +279,7 @@
                                 app:layout_constraintBottom_toBottomOf="@+id/diabetic_textView"
                                 app:layout_constraintEnd_toStartOf="@+id/diabetic_textView"
                                 app:layout_constraintTop_toTopOf="@+id/diabetic_textView"
-                                app:tint="@color/darkGray" />
+                                app:tint="@color/mediumGray" />
 
                             <TextView
                                 android:id="@+id/pressure_patient_textView"
@@ -303,7 +303,7 @@
                                 app:layout_constraintBottom_toBottomOf="@+id/pressure_patient_textView"
                                 app:layout_constraintEnd_toStartOf="@+id/pressure_patient_textView"
                                 app:layout_constraintTop_toTopOf="@+id/pressure_patient_textView"
-                                app:tint="@color/darkGray" />
+                                app:tint="@color/mediumGray" />
 
                             <TextView
                                 android:id="@+id/heart_patient_textView"
