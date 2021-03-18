@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.afares.emergency.R
+import com.afares.emergency.util.Constants.USER
 import com.afares.emergency.viewmodels.AuthViewModel
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +37,7 @@ class SplashFragment : Fragment() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             checkAuthentication()
-        }, 1800)
+        }, 1100)
 
         return view
     }
@@ -48,7 +49,7 @@ class SplashFragment : Fragment() {
                 val userType = value.userType
                 if (isLogin) {
                     when (userType) {
-                        "مستخدم" -> {
+                        USER -> {
                             findNavController().navigate(R.id.action_splashFragment_to_homeActivity)
                             activity?.finish()
                         }
