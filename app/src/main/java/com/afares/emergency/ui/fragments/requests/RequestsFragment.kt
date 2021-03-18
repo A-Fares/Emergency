@@ -106,7 +106,7 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         searchView.setIconifiedByDefault(false)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                if (query.isNotEmpty() && query.length == 9) {
+                if (query.isNotEmpty() && query.length == 10) {
                     checkMedicalHistory(query)
                     userViewModel.hasMedicalHistory.observe(
                         viewLifecycleOwner,
