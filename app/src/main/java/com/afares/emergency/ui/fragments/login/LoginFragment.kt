@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.afares.emergency.R
 import com.afares.emergency.data.NetworkResult
 import com.afares.emergency.databinding.FragmentLoginBinding
+import com.afares.emergency.util.Constants.USER
 import com.afares.emergency.util.showSnackBar
 import com.afares.emergency.util.toast
 import com.afares.emergency.viewmodels.AuthViewModel
@@ -33,6 +34,7 @@ class LoginFragment : Fragment() {
     private var verificationId: String? = null
     private val keyVerifyInProgress = "key_verify_in_progress"
     private var mVerificationInProgress = false
+    private var phone = ""
 
     @Inject
     lateinit var mAuth: FirebaseAuth
@@ -43,9 +45,6 @@ class LoginFragment : Fragment() {
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        binding.signupBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_userTypeFragment)
-        }
 
         binding.loginBtn.setOnClickListener {
             binding.apply {
@@ -58,7 +57,7 @@ class LoginFragment : Fragment() {
                 }
                 loginContainer.visibility = View.GONE
                 otpContainer.visibility = View.VISIBLE
-                val phone = "+966${phoneEt.text}"
+                phone = "+966${phoneEt.text}"
                 sendVerificationCode(phone)
             }
         }
@@ -86,12 +85,9 @@ class LoginFragment : Fragment() {
             authViewModel.userState.collect {
                 when (it) {
                     is NetworkResult.Success -> {
-                        binding.progressBar2.visibility = View.INVISIBLE
-                        when {
-                            it.data?.type.isNullOrEmpty() -> {
-                                showSnackBar(binding.loginFragment, "يرجى تسجيل الحساب اولا ")
-                            }
-                            it.data?.type == "مستخدم" -> {
+                        binding.progressBar.visibility = View.INVISIBLE
+                        when (it.data?.type) {
+                            USER -> {
                                 findNavController().navigate(R.id.action_loginFragment_to_homeActivity)
                                 activity?.finish()
                             }
@@ -102,14 +98,16 @@ class LoginFragment : Fragment() {
                         }
                     }
                     is NetworkResult.Error -> {
-                        binding.progressBar2.visibility = View.INVISIBLE
-                        toast(requireContext(), it.message.toString())
+                        binding.progressBar.visibility = View.INVISIBLE
+                        val action =
+                            LoginFragmentDirections.actionLoginFragmentToUserTypeFragment(phone)
+                        findNavController().navigate(action)
                     }
                     is NetworkResult.Loading -> {
-                        binding.progressBar2.visibility = View.VISIBLE
+                        binding.progressBar.visibility = View.VISIBLE
                     }
                     is NetworkResult.Empty -> {
-                        binding.progressBar2.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
                     }
                 }
             }

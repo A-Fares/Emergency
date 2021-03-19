@@ -55,10 +55,7 @@ class SignUpFragment : Fragment() {
 
     private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
-    private var verificationId: String? = null
 
-    private val KEY_VERIFY_IN_PROGRESS = "key_verify_in_progress"
-    private var mVerificationInProgress = false
 
     @Inject
     lateinit var mAuth: FirebaseAuth
@@ -88,114 +85,99 @@ class SignUpFragment : Fragment() {
         }
 
         if (args.userType == USER) {
-            binding.apply {
-                closePhoneTv.visibility = View.VISIBLE
-                phoneClosePersonEt.visibility = View.VISIBLE
-                code2Tv.visibility = View.VISIBLE
-                flag2ImageView.visibility = View.VISIBLE
-            }
+            binding.userContainer.visibility = View.VISIBLE
         }
 
         if (args.userType == PARAMEDIC) {
             binding.apply {
-                hospitalSpinner.visibility = View.VISIBLE
+                paramedicContainer.visibility = View.VISIBLE
                 progressBarSignUp.visibility = View.VISIBLE
             }
-
-            /** ----------------------------- Spinner civilDefenseSpinner--------------------------*/
-            mySpinner = binding.hospitalSpinner
-
-            authViewModel.hospitalMutableList.observe(viewLifecycleOwner, {
-                binding.progressBarSignUp.visibility = View.GONE
-                adapterSpinnerHospital =
-                    ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it)
-                mySpinner.adapter = adapterSpinnerHospital
-            })
-
-            mySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    // You can define your actions as you want
-                }
-
-                override fun onItemSelected(
-                    p0: AdapterView<*>?,
-                    p1: View?,
-                    position: Int,
-                    p3: Long
-                ) {
-                    val selectedObject = mySpinner.selectedItem as Hospital
-                    cityId = selectedObject.id.toString()
-                    if (cityId != "none") {
-                        requestsViewModel.getHospitalData(cityId)
-                    }
-                }
-            }
+            initHospitalSpinner()
         }
+
         if (args.userType == CIVIL_DEFENSE) {
-            binding.civilDefenseSpinner.visibility = View.VISIBLE
+            binding.civilDefenceContainer.visibility = View.VISIBLE
             binding.progressBarSignUp.visibility = View.VISIBLE
-
-            /** ----------------------------- Spinner civilDefenseSpinner--------------------------*/
-            mySpinner = binding.civilDefenseSpinner
-
-            authViewModel.civilDefenseMutableList.observe(viewLifecycleOwner, {
-                binding.progressBarSignUp.visibility = View.GONE
-                adapterSpinnerCivilDefense =
-                    ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it)
-                mySpinner.adapter = adapterSpinnerCivilDefense
-            })
-
-            mySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    // You can define your actions as you want
-                }
-
-                override fun onItemSelected(
-                    p0: AdapterView<*>?,
-                    p1: View?,
-                    position: Int,
-                    p3: Long
-                ) {
-                    val selectedObject = mySpinner.selectedItem as CivilDefense
-                    cityId = selectedObject.id.toString()
-                    if (cityId != "none") {
-                        requestsViewModel.getCivilDefenseData(cityId)
-                    }
-
-                }
-            }
+            initCivilDefenceSpinner()
         }
 
         binding.signupBtn.setOnClickListener {
             if (validateUser(args.userType)) {
-                binding.userInfoContainer.visibility = View.GONE
-                binding.verifyOtpContainer.visibility = View.VISIBLE
-                val phone = "+966${binding.personalPhoneEt.text}"
-                sendVerificationCode(phone)
+                /**      hna hb3to ll sf7a bta3to   */
+                signUp()
             } else {
                 return@setOnClickListener
             }
         }
 
-        binding.buttonVerifyOtp.setOnClickListener {
-            binding.apply {
-                val code = otpEditText.text.toString()
-                if (code.length != 6) {
-                    otpEditText.error = "Enter a valid Code!"
-                    otpEditText.requestFocus()
-                    return@setOnClickListener
-                }
-                verificationId?.let {
-                    val credential = PhoneAuthProvider.getCredential(it, code)
-                    signInWithPhoneAuthCredential(userData(), credential)
+
+        return binding.root
+    }
+
+    /** ----------------------------- Spinner Hospital Spinner--------------------------*/
+    private fun initHospitalSpinner() {
+        mySpinner = binding.hospitalSpinner
+
+        authViewModel.hospitalMutableList.observe(viewLifecycleOwner, {
+            binding.progressBarSignUp.visibility = View.GONE
+            adapterSpinnerHospital =
+                ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it)
+            mySpinner.adapter = adapterSpinnerHospital
+        })
+
+        mySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                // You can define your actions as you want
+            }
+
+            override fun onItemSelected(
+                p0: AdapterView<*>?,
+                p1: View?,
+                position: Int,
+                p3: Long
+            ) {
+                val selectedObject = mySpinner.selectedItem as Hospital
+                cityId = selectedObject.id.toString()
+                if (cityId != "none") {
+                    requestsViewModel.getHospitalData(cityId)
                 }
             }
         }
+    }
 
-        signUp()
-        return binding.root
+    /** ----------------------------- Spinner civilDefenseSpinner--------------------------*/
+    private fun initCivilDefenceSpinner() {
+        mySpinner = binding.civilDefenseSpinner
+
+        authViewModel.civilDefenseMutableList.observe(viewLifecycleOwner, {
+            binding.progressBarSignUp.visibility = View.GONE
+            adapterSpinnerCivilDefense =
+                ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, it)
+            mySpinner.adapter = adapterSpinnerCivilDefense
+        })
+
+        mySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                // You can define your actions as you want
+            }
+
+            override fun onItemSelected(
+                p0: AdapterView<*>?,
+                p1: View?,
+                position: Int,
+                p3: Long
+            ) {
+                val selectedObject = mySpinner.selectedItem as CivilDefense
+                cityId = selectedObject.id.toString()
+                if (cityId != "none") {
+                    requestsViewModel.getCivilDefenseData(cityId)
+                }
+
+            }
+        }
     }
 
     private fun pickImage() {
@@ -257,13 +239,7 @@ class SignUpFragment : Fragment() {
                     ssnEt.requestFocus()
                     return false
                 }
-                personalPhoneEt.text.length != 9 -> {
-                    personalPhoneEt.error =
-                        "برجاء ادخال رقم صحيح"
-                    personalPhoneEt.requestFocus()
-                    return false
-                }
-                userType == "مستخدم" -> {
+                userType == USER -> {
                     if (phoneClosePersonEt.text.length != 9
                     ) {
                         phoneClosePersonEt.error =
@@ -279,89 +255,34 @@ class SignUpFragment : Fragment() {
     }
 
     private fun signUp() {
-        lifecycleScope.launchWhenStarted {
-            authViewModel.userState.collect {
-                when (it) {
-                    is NetworkResult.Success -> {
-                        binding.progressBar.visibility = View.INVISIBLE
-                        if (it.data?.type == "مستخدم") {
-                            findNavController().navigate(R.id.action_signUpFragment_to_homeActivity)
-                            activity?.finish()
-                        } else {
-                            findNavController().navigate(R.id.action_signUpFragment_to_saviorActivity)
-                            activity?.finish()
-                        }
-                    }
-                    is NetworkResult.Error -> {
-                        binding.progressBar.visibility = View.INVISIBLE
-                        toast(requireContext(), it.message.toString())
-                    }
-                    is NetworkResult.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                    }
-                    is NetworkResult.Empty -> {
-                        binding.progressBar.visibility = View.GONE
-                    }
-                }
+        authViewModel.saveUser(userData())
+        when (args.userType) {
+            USER -> {
+                findNavController().navigate(R.id.action_signUpFragment_to_homeActivity)
+                activity?.finish()
+            }
+            else -> {
+                findNavController().navigate(R.id.action_signUpFragment_to_saviorActivity)
+                activity?.finish()
             }
         }
-    }
-
-    private val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-        override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
-            signInWithPhoneAuthCredential(userData(), phoneAuthCredential)
-        }
-
-        override fun onVerificationFailed(exception: FirebaseException) {
-            toast(requireContext(), exception.message!!)
-        }
-
-        override fun onCodeSent(
-            verificationId: String,
-            token: PhoneAuthProvider.ForceResendingToken
-        ) {
-            super.onCodeSent(verificationId, token)
-            this@SignUpFragment.verificationId = verificationId
-        }
-    }
-
-    private fun sendVerificationCode(phone: String) {
-        mAuth.setLanguageCode("ar")
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-            phone.trim(),
-            30,
-            TimeUnit.SECONDS,
-            requireActivity(),
-            callbacks
-        )
-    }
-
-    fun signInWithPhoneAuthCredential(user: User, credential: PhoneAuthCredential) {
-        authViewModel.signUpWithPhoneAuthCredential(user, credential)
     }
 
     private fun userData(): User {
         binding.apply {
             val name = nameEt.text.toString()
             val ssn = ssnEt.text.toString()
-            val personalPhone = "+566" + personalPhoneEt.text.toString()
             val closePersonPhone = "+566" + phoneClosePersonEt.text.toString()
             return User(
-                null,
+                mAuth.currentUser!!.uid,
                 name,
                 ssn,
-                personalPhone,
+                args.userPhone,
                 closePersonPhone,
                 args.userType, imageUrl, cityId
             )
         }
     }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean(KEY_VERIFY_IN_PROGRESS, mVerificationInProgress)
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -109,12 +109,13 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private fun saveUser(user: User) {
+    fun saveUser(user: User) {
         repository.saveUser(user)
     }
 
     private var _hospitalMutableList = MutableLiveData<List<Hospital>>()
     var hospitalMutableList: MutableLiveData<List<Hospital>> = _hospitalMutableList
+
     fun queryHospitalData() {
         val hospitalList = ArrayList<Hospital>()
         hospitalList.add(Hospital("none", "-- اختر --"))

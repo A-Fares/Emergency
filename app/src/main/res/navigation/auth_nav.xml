@@ -80,6 +80,9 @@
             app:destination="@id/homeActivity"
             app:popUpTo="@id/signUpFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="userPhone"
+            app:argType="string" />
     </fragment>
     <activity
         android:id="@+id/saviorActivity"
@@ -94,5 +97,8 @@
         <action
             android:id="@+id/action_userTypeFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <argument
+            android:name="userPhone"
+            app:argType="string" />
     </fragment>
 </navigation>

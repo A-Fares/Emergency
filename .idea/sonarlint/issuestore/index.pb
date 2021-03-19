@@ -53,12 +53,8 @@ Y
 )app/src/main/res/layout/activity_main.xml,7\6\76b07e40f24cce093536731477540f12e7da3cb6
 [
 +app/src/main/res/layout/activity_savior.xml,6\6\6654194d7fc750472ff92b790f55e001cee18f36
-X
-(app/src/main/res/navigation/auth_nav.xml,9\9\99a44e5bd93c1a35efeab5dba23c16afa0e79961
 \
 ,app/src/main/res/layout/fragment_history.xml,5\b\5b4d822108ea9f774a28bbe8d9e3ef00d9ac2857
-Z
-*app/src/main/res/layout/fragment_login.xml,f\d\fdd3cd19e967c0f22eaa0b7f68fbd15e1a914b42
 \
 ,app/src/main/res/layout/fragment_profile.xml,b\4\b4466735edf81a3353097aecb75b46205cdee6b6
 [
