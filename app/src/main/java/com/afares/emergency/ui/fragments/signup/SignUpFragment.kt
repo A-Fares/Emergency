@@ -41,8 +41,10 @@ import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 
 @AndroidEntryPoint
@@ -103,9 +105,17 @@ class SignUpFragment : Fragment() {
         }
 
         binding.signupBtn.setOnClickListener {
+
             if (validateUser(args.userType)) {
                 /**      hna hb3to ll sf7a bta3to   */
-                signUp()
+                authViewModel.ssnRegistered(binding.ssnEt.text.toString())
+                    .observe(viewLifecycleOwner, { ssnHasExist ->
+                        if (ssnHasExist) {
+                            toast(requireContext(), "رقم الهوية مسجل من قبل")
+                        } else {
+                            signUp()
+                        }
+                    })
             } else {
                 return@setOnClickListener
             }
@@ -225,6 +235,7 @@ class SignUpFragment : Fragment() {
     }
 
     private fun validateUser(userType: String): Boolean {
+
         binding.apply {
             when {
                 TextUtils.isEmpty(nameEt.text) -> {
@@ -235,7 +246,7 @@ class SignUpFragment : Fragment() {
                 }
                 ssnEt.text.length != 10 -> {
                     ssnEt.error =
-                        "برجاء كتابة رقم الهوية"
+                        "برجاء كتابة رقم الهوية صحيح"
                     ssnEt.requestFocus()
                     return false
                 }

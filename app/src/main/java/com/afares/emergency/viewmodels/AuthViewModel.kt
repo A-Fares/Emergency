@@ -39,46 +39,15 @@ class AuthViewModel @Inject constructor(
 
     /** for retrieve user ssn*/
 
- /*   private val ssnHasExist = MutableLiveData<Boolean>()
+    private val ssnHasExist = MutableLiveData<Boolean>()
     fun ssnRegistered(userSSn: String): MutableLiveData<Boolean> {
         repository.checkSsnUniqueness(userSSn).addOnSuccessListener { task ->
             val empty = task.isEmpty
             ssnHasExist.postValue(!empty)
-            Log.d("SSSN", empty.toString())
         }
         return ssnHasExist
-    }*/
-
-    fun signUpWithPhoneAuthCredential(user: User, credential: PhoneAuthCredential) {
-        _userState.value = NetworkResult.Loading()
-        firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val userAuth: FirebaseUser = task.result.user!!
-                val creationTimestamp: Long = userAuth.metadata?.creationTimestamp!!
-                val lastSignInTimestamp: Long = userAuth.metadata?.lastSignInTimestamp!!
-                if (creationTimestamp == lastSignInTimestamp) {
-                    val userData = User(
-                        firebaseAuth.currentUser!!.uid,
-                        user.name, user.ssn, user.phone, user.closePersonPhone,
-                        user.type, user.photoUrl, user.cityId
-                    )
-                    saveUser(userData)
-                    saveLoginPreferences(true, userData.type.toString())
-                    _userState.value = NetworkResult.Success(userData)
-                } else {
-                    repository.fetchUser().addOnSuccessListener { user ->
-                        val userData = user.toObject(User::class.java)!!
-                        _userState.value = NetworkResult.Success(userData)
-                        saveLoginPreferences(true, userData.type.toString())
-                    }
-                }
-
-            } else {
-                // Show Error
-                _userState.value = NetworkResult.Error("No Internet Connection.")
-            }
-        }
     }
+
 
     fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         _userState.value = NetworkResult.Loading()
@@ -111,6 +80,7 @@ class AuthViewModel @Inject constructor(
 
     fun saveUser(user: User) {
         repository.saveUser(user)
+        saveLoginPreferences(true, user.type.toString())
     }
 
     private var _hospitalMutableList = MutableLiveData<List<Hospital>>()
