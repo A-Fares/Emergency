@@ -49,6 +49,8 @@ class RequestDetailsFragment : Fragment() {
     private val requestsViewModel: RequestsViewModel by viewModels()
     private val args: RequestDetailsFragmentArgs by navArgs()
 
+    private var userInfo = ""
+
     @Inject
     lateinit var mAuth: FirebaseAuth
     override fun onCreateView(
@@ -134,7 +136,7 @@ class RequestDetailsFragment : Fragment() {
                     " رقم الهوية: ${args.saviorData.ssn}\n"
 
             MailBody.subject = subject.text.toString()
-            MailBody.body = saviorInfo + "التقرير: ${body.text}"
+            MailBody.body = saviorInfo + userInfo + "التقرير: ${body.text}"
             MailBody.recipients = recipients
             sendReport()
             dialog.dismiss()
@@ -303,6 +305,10 @@ class RequestDetailsFragment : Fragment() {
                             closePhoneTextView.text = it.data?.closePersonPhone
                             getUserMedical(it.data?.ssn)
                         }
+                        userInfo =
+                            "اسم الحالة: ${it.data?.name}\n" + "رقم الهوية: ${it.data?.ssn}\n" +
+                                    "رقم الهاتف: ${it.data?.phone}\n" +
+                                    "رقم شخص مقرب: ${it.data?.closePersonPhone}\n"
                     }
                     is NetworkResult.Error -> {
                         toast(requireContext(), it.message.toString())
