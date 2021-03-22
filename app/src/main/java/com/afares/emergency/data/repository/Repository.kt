@@ -42,16 +42,16 @@ class Repository @Inject constructor(
             .orderBy("created", Query.Direction.DESCENDING)
             .limit(Constants.PAGE_SIZE.toLong())
 
-    fun queryAmbulanceRequests(city: String) =
+    fun queryAmbulanceRequests(city: List<String>) =
         fireStore.collection(Constants.COLLECTION_REQUESTS)
-            .whereEqualTo("area", city)
+            .whereIn("area", city)
             .whereEqualTo("type", Constants.AMBULANCE)
             .orderBy("created", Query.Direction.DESCENDING)
             .limit(Constants.PAGE_SIZE.toLong())
 
-    fun queryFireFighterRequests(city: String) =
+    fun queryFireFighterRequests(city: List<String>) =
         fireStore.collection(Constants.COLLECTION_REQUESTS)
-            .whereEqualTo("area", city)
+            .whereIn("area", city)
             .whereEqualTo("type", Constants.FIRE_FIGHTER)
             .orderBy("created", Query.Direction.DESCENDING)
             .limit(Constants.PAGE_SIZE.toLong())
@@ -91,5 +91,5 @@ class Repository @Inject constructor(
 
     fun checkSsnUniqueness(userSsn: String) =
         fireStore.collection(Constants.COLLECTION_USERS)
-            .whereEqualTo("ssn",userSsn).get()
+            .whereEqualTo("ssn", userSsn).get()
 }
