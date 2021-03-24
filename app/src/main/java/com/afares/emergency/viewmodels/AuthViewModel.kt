@@ -53,10 +53,8 @@ class AuthViewModel @Inject constructor(
         _userState.value = NetworkResult.Loading()
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val userAuth: FirebaseUser = task.result.user!!
-                val creationTimestamp: Long = userAuth.metadata?.creationTimestamp!!
-                val lastSignInTimestamp: Long = userAuth.metadata?.lastSignInTimestamp!!
-                if (creationTimestamp == lastSignInTimestamp) {
+                val isNew = task.result.additionalUserInfo!!.isNewUser
+                if (isNew) {
                     _userState.value = NetworkResult.Error("يرجى تسجيل الحساب اولا")
                 } else {
                     repository.fetchUser().addOnSuccessListener { user ->

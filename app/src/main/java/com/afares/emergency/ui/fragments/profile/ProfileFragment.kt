@@ -67,9 +67,9 @@ class ProfileFragment : Fragment() {
         binding.signOutBtn.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
             builder.setPositiveButton("نعم") { _, _ ->
-                authViewModel.signOut()
                 findNavController().navigate(R.id.action_profileFragment_to_mainActivity)
                 activity?.finish()
+                authViewModel.signOut()
             }
             builder.setNegativeButton("لا") { _, _ -> }
             builder.setMessage("هل تريد تسجيل خروجك")

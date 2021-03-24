@@ -149,6 +149,7 @@ class LoginFragment : Fragment() {
         outState.putBoolean(keyVerifyInProgress, mVerificationInProgress)
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         // to avoid memory leaks

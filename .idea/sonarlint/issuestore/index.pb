@@ -95,3 +95,5 @@ Papp/src/main/java/com/afares/emergency/ui/fragments/usertype/UserTypeFragment.k
 Papp/src/main/java/com/afares/emergency/ui/fragments/requests/RequestsFragment.kt,e\9\e9fd4c10638478404d5c930bf556f504642a2d7c
 H
 app/google-services.json,f\d\fd8d34b142d02ec743a8efefefd2c097961666e9
+<
+build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
