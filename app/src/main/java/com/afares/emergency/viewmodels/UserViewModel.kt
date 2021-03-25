@@ -36,13 +36,18 @@ class UserViewModel @Inject constructor(
     private val _userData = MutableStateFlow<NetworkResult<User>>(NetworkResult.Empty())
     val userData: StateFlow<NetworkResult<User>> = _userData
 
-    private val _hasRequests = MutableStateFlow(false)
-    val hasRequests: StateFlow<Boolean> = _hasRequests
+    private val _hasRequests = MutableLiveData<Boolean?>()
+    val hasRequests
+        get() = _hasRequests
 
+    fun onRequestsHistoryNavigated() {
+        _hasRequests.value = null
+    }
 
     fun checkRequestHistory() {
-        queryRequestsHistory.addSnapshotListener { value, error ->
-            _hasRequests.value = !value!!.isEmpty
+        queryRequestsHistory.get().addOnSuccessListener {
+            val hasRequest = !it.isEmpty
+            _hasRequests.value = hasRequest
         }
     }
 

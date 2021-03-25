@@ -39,9 +39,11 @@ class HistoryFragment : Fragment() {
 
         viewModel.checkRequestHistory()
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.hasRequests.collectLatest { value ->
-                hasRequests = value
-            }
+            viewModel.hasRequests.observe(viewLifecycleOwner,{
+                if (it != null) {
+                    hasRequests = it
+                }
+            })
         }
        requestsViewModel.getRequestsState()
         setupRecyclerView()
@@ -95,6 +97,7 @@ class HistoryFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.onRequestsHistoryNavigated()
         // to avoid memory leaks
         _binding = null
     }
