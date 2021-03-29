@@ -48,7 +48,6 @@ class AuthViewModel @Inject constructor(
         return ssnHasExist
     }
 
-
     fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         _userState.value = NetworkResult.Loading()
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->
