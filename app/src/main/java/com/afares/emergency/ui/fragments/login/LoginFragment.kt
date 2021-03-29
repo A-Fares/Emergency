@@ -12,6 +12,7 @@ import com.afares.emergency.R
 import com.afares.emergency.data.NetworkResult
 import com.afares.emergency.databinding.FragmentLoginBinding
 import com.afares.emergency.util.Constants.USER
+import com.afares.emergency.util.hideKeyboard
 import com.afares.emergency.util.showSnackBar
 import com.afares.emergency.util.toast
 import com.afares.emergency.viewmodels.AuthViewModel
@@ -60,6 +61,7 @@ class LoginFragment : Fragment() {
                 phone = "+966${phoneEt.text}"
                 sendVerificationCode(phone)
             }
+            hideKeyboard()
         }
 
         binding.buttonVerify.setOnClickListener {
@@ -75,6 +77,7 @@ class LoginFragment : Fragment() {
                     authViewModel.signInWithPhoneAuthCredential(credential)
                 }
             }
+            hideKeyboard()
         }
         signIn()
         return binding.root
