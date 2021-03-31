@@ -114,7 +114,7 @@ class RequestsViewModel @Inject constructor(
         _medicalData.value = NetworkResult.Loading()
         repository.getMedicalHistory(userSnn).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val medicalData = task.result.toObject(MedicalHistory::class.java)!!
+                val medicalData = task.result.toObject(MedicalHistory::class.java)
                 _medicalData.value = NetworkResult.Success(medicalData)
             } else {
                 _medicalData.value = NetworkResult.Error("No Internet Connection.")

@@ -1,9 +1,6 @@
 package com.afares.emergency.viewmodels
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -61,7 +58,7 @@ class UserViewModel @Inject constructor(
         _userData.value = NetworkResult.Loading()
         repository.getUserInfo(userID).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val userData = task.result.toObject(User::class.java)!!
+                val userData = task.result.toObject(User::class.java)
                 _userData.value = NetworkResult.Success(userData)
             } else {
                 _userData.value = NetworkResult.Error("No Internet Connection.")

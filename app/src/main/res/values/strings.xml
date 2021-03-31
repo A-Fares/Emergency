@@ -36,6 +36,7 @@
     <string name="search">بحث</string>
     <string name="sign_out">تسجيل خروج</string>
     <string name="hint_phone">5xxxxxxxx</string>
+    <string name="name">الاسم:</string>
 
     <string-array name="gender">
         <item> ذكر </item>

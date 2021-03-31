@@ -13,6 +13,7 @@ import com.afares.emergency.R
 import com.afares.emergency.data.NetworkResult
 import com.afares.emergency.databinding.FragmentMedicalInfoBinding
 import com.afares.emergency.viewmodels.RequestsViewModel
+import com.afares.emergency.viewmodels.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -26,6 +27,7 @@ class MedicalInfoFragment : Fragment() {
 
     private var _binding: FragmentMedicalInfoBinding? = null
     private val binding get() = _binding!!
+    private val userViewModel: UserViewModel by viewModels()
     private val requestsViewModel: RequestsViewModel by viewModels()
     private val args by navArgs<MedicalInfoFragmentArgs>()
 
@@ -40,6 +42,7 @@ class MedicalInfoFragment : Fragment() {
         if (args.hasMedicalInfo) {
             binding.medicalInfoContainer.visibility = View.VISIBLE
             attachMedicalInfo()
+            attachUserInfo()
         } else {
             binding.noDataContainer.visibility = View.VISIBLE
         }
@@ -95,6 +98,7 @@ class MedicalInfoFragment : Fragment() {
                                     )
                                 )
                             }
+                            getUserInfo(medicalData.data?.uid)
                             bloodTypeTv.text = medicalData.data?.bloodType
                             getUserAge(medicalData.data?.age!!)
                             genderTv.text = medicalData.data.gender
@@ -154,6 +158,28 @@ class MedicalInfoFragment : Fragment() {
         return computedBmi
     }
 
+    private fun getUserInfo(userId: String?) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            if (userId != null) {
+                userViewModel.getUserInfo(userId)
+            }
+        }
+    }
+
+    private fun attachUserInfo() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            userViewModel.userData.collect {
+                when (it) {
+                    is NetworkResult.Success -> {
+                        binding.apply {
+                            nameTv.text = it.data?.name
+                            progressBar2.visibility=View.GONE
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
