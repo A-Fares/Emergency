@@ -113,11 +113,15 @@ class RequestDetailsFragment : Fragment() {
         if (args.currentItem.type == "اسعاف") {
             binding.medicalInfoContainer.visibility = View.VISIBLE
             attachMedicalInfo()
+        }else{
+            binding.apply {
+                requestDetailsContainer.visibility = View.VISIBLE
+                shimmerRequestContainer.stopShimmer()
+                shimmerRequestContainer.visibility = View.GONE
+            }
         }
         binding.reportBtn.setOnClickListener {
-
             showReportDialog(args.recipientMail.toString())
-
         }
 
         return binding.root

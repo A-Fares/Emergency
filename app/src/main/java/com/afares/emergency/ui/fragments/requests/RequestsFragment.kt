@@ -155,8 +155,10 @@ class RequestsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                         val cityId = userData.data.cityId!!
                         userType = userData.data.type!!
                         if (userType == PARAMEDIC) {
+                            binding.userTypeTv.text = "مسعف"
                             requestsViewModel.getHospitalData(cityId)
                         } else if (userType == CIVIL_DEFENSE) {
+                            binding.userTypeTv.text = CIVIL_DEFENSE
                             requestsViewModel.getCivilDefenseData(cityId)
                         }
                         getRequestsState()
